@@ -192,8 +192,9 @@ class DatabaseToken extends Token
 
         $username = $this->username;
         $password = $this->password;
-        $environment = Client::getDefaultEnvironment();
+        $environment = Client::getDefaultEnvironment()->name;
 
+//      Use md5 of the username, password, and environment to create a unique string for the client
 //        $dbToken = ""; // Replace with the actual database retrieval logic
 
         if (empty($dbToken)) {
