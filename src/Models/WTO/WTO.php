@@ -2,11 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WTO;
 
-use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogin;
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard;
 use OxygenSuite\OxygenErgani\Models\Model;
-use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
-use OxygenSuite\OxygenErgani\Storage\InMemoryToken;
 
 class WTO extends Model
 {
@@ -19,28 +15,6 @@ class WTO extends Model
         "f_to_date",
         "Ergazomenoi",
     ];
-
-
-    public function asd()
-    {
-        $auth = new AuthenticationLogin();
-        $token = $auth->handle("u", "p");
-
-        $wrk = new WorkCard($token->accessToken);
-        $wrk->handle(new Card());
-
-
-        ///// /
-
-        TokenManager::setManager(new InMemoryToken("u", "p"));
-
-        $workCard = new WorkCard();
-        $workCard->handle(new Card());
-    }
-
-
-
-
 
     public function getBranchCode(): int|string|null
     {
