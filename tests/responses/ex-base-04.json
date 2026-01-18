@@ -1,0 +1,26 @@
+{
+    "EX_BASE_04": {
+        "Apasxoloumenoi": [
+            {
+                "Afm": "123456789",
+                "Amka": "01011990123456",
+                "Eponymo": "ΠΑΠΑΔΟΠΟΥΛΟΣ",
+                "Onoma": "ΙΩΑΝΝΗΣ",
+                "FromDate": "01/01/2025",
+                "ToDate": null,
+                "Eidikothta": "Υπάλληλος Γραφείου",
+                "Apodoxes": "1200,00"
+            },
+            {
+                "Afm": "987654321",
+                "Amka": "15051985654321",
+                "Eponymo": "ΓΕΩΡΓΙΟΥ",
+                "Onoma": "ΜΑΡΙΑ",
+                "FromDate": "15/03/2025",
+                "ToDate": null,
+                "Eidikothta": "Λογιστής",
+                "Apodoxes": "1500,00"
+            }
+        ]
+    }
+}

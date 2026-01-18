@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition (Trial) 8.1.7.2743 (http://www.liquid-technologies.com)-->
+<xs:schema xmlns="http://www.yeka.gr/WTO" xml:lang="gr" attributeFormDefault="unqualified" targetNamespace="http://www.yeka.gr/WTO" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="ErgazomenosWTOAnalyticType">
+        <xs:sequence>
+			<xs:element name="f_type">
+                <xs:annotation><xs:documentation>ΤΥΠΟΣ ΑΝΑΛΥΤΙΚΗΣ ΕΓΓΡΑΦΗΣ - ΚΩΔΙΚΟΣ</xs:documentation></xs:annotation>
+				 <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="10" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+			</xs:element>
+              <xs:element name="f_from" nillable="false">
+                <xs:annotation><xs:documentation>ΩΡΑ ΑΠΟ (HH24:MM)</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="((([0-1][0-9]|2[0-3]):([0-5][0-9]))|([ ]*))"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_to" nillable="false">
+                <xs:annotation><xs:documentation>ΩΡΑ ΕΩΣ (HH24:MM)</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="((([0-1][0-9]|2[0-3]):([0-5][0-9]))|([ ]*))"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+	<xs:complexType name="ErgazomenosWTOAnalyticsType">
+		<xs:sequence>
+			<xs:element name="ErgazomenosWTOAnalytics" type="ErgazomenosWTOAnalyticType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΣΤΟΙΧΕΙΑ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ErgazomenosWTOType">
+        <xs:sequence>
+            <xs:element name="f_afm" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΑΡΙΘΜΟΣ ΦΟΡΟΛΟΓΙΚΟΥ ΜΗΤΡΩΟΥ (Α.Φ.Μ.)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="([0-9]){9}" />
+                        <xs:length value="9" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_eponymo" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΕΠΩΝΥΜΟ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_onoma" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΟΝΟΜΑ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="30" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element> 
+			<xs:element name="f_day" nillable="false">
+                <xs:annotation><xs:documentation>ΗΜΕΡΑ - (0) ΚΥΡΙΑΚΗ - (1) ΔΕΥΤΕΡΑ - (2) ΤΡΙΤΗ - (3) ΤΕΤΑΡΤΗ - (4) ΠΕΜΠΤΗ - (5) ΠΑΡΑΣΚΕΥΗ - (6) ΣΑΒΒΑΤΟ </xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+						<xs:enumeration value=""/>
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+                        <xs:enumeration value="2"/>
+                        <xs:enumeration value="3"/>
+                        <xs:enumeration value="4"/>
+                        <xs:enumeration value="5"/>
+                        <xs:enumeration value="6"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="ErgazomenosAnalytics" type="ErgazomenosWTOAnalyticsType">
+        		<xs:annotation>
+        			<xs:documentation>ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ ΕΡΓΑΖΟΜΕΝΟΥ</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>    			
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ErgazomenoiWTOType">
+		<xs:sequence>
+			<xs:element name="ErgazomenoiWTO" type="ErgazomenosWTOType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΣΤΟΙΧΕΙΑ ΕΡΓΑΖΟΜΕΝΩΝ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:complexType name="WTOType">
+        <xs:sequence>
+            <xs:element name="f_aa_pararthmatos" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Α/Α ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{1,5}" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_rel_protocol">
+                <xs:annotation>
+                    <xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΑΡΙΘ. ΠΡΩΤ.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_rel_date">
+                <xs:annotation><xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΗΜΕΡΟΜΗΝΙΑ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+           <xs:element name="f_comments" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΑΡΑΤΗΡΗΣΕΙΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			 <xs:element name="f_from_date">
+                <xs:annotation><xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΑΠΟ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			 <xs:element name="f_to_date">
+                <xs:annotation><xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΕΩΣ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Ergazomenoi" type="ErgazomenoiWTOType">
+        		<xs:annotation>
+        			<xs:documentation>ΣΤΟΙΧΕΙΑ ΕΡΓΑΖΟΜΕΝΩΝ</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>           
+           
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="WTOSType">
+		<xs:sequence>
+			<xs:element name="WTO" type="WTOType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΔΗΛΩΣΗ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="WTOS" type="WTOSType">
+		<xs:annotation>
+			<xs:documentation>ΔΗΛΩΣΕΙΣ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

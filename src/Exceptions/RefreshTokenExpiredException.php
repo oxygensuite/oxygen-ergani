@@ -2,6 +2,4 @@
 
 namespace OxygenSuite\OxygenErgani\Exceptions;
 
-class RefreshTokenExpiredException extends ErganiException
-{
-}
+class RefreshTokenExpiredException extends ErganiException {}

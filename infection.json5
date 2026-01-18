@@ -1,0 +1,23 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.27.0/resources/schema.json",
+    "source": {
+        "directories": ["src"]
+    },
+    "tmpDir": ".infection",
+    "logs": {
+        "text": ".infection/infection.log",
+        "summary": ".infection/infection-summary.log"
+    },
+    "mutators": {
+        "@default": true,
+        "MBString": {
+            "ignore": [
+                "OxygenSuite\\OxygenErgani\\Responses\\ParameterCollection::search"
+            ]
+        }
+    },
+    "minMsi": 50,
+    "minCoveredMsi": 70,
+    "testFramework": "phpunit",
+    "testFrameworkOptions": "--colors=always"
+}

@@ -10,9 +10,9 @@ class LookupSubmissions extends Client
     private const URI = 'Lookup/Submissions';
 
     /**
-     * Retrieves all available submissions
+     * Retrieves all available submissions.
      *
-     * @return array
+     * @return array<string, mixed>
      * @throws ErganiException
      */
     public function handle(): array

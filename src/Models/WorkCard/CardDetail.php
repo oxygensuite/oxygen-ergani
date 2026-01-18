@@ -4,10 +4,17 @@ namespace OxygenSuite\OxygenErgani\Models\WorkCard;
 
 use DateTime;
 use OxygenSuite\OxygenErgani\Enums\CardDetailType;
+use OxygenSuite\OxygenErgani\Factories\WorkCard\CardDetailFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
+/**
+ * @method static CardDetailFactory factory(int $count = 1)
+ */
 class CardDetail extends Model
 {
+    use HasFactory;
+    /** @var array<int, string> */
     protected array $expectedOrder = [
         'f_afm',
         'f_eponymo',
@@ -69,7 +76,8 @@ class CardDetail extends Model
     }
 
     /**
-     * @param  DateTime|string  $referenceDate Format: YYYY-MM-DD
+     * @param DateTime|string $referenceDate Format: YYYY-MM-DD
+     *
      * @return $this
      */
     public function setReferenceDate(DateTime|string $referenceDate): static
@@ -87,7 +95,8 @@ class CardDetail extends Model
     }
 
     /**
-     * @param  DateTime|string  $date  Format: YYYY-MM-DD\THH:MM:SS.uP
+     * @param DateTime|string $date Format: YYYY-MM-DD\THH:MM:SS.uP
+     *
      * @return $this
      */
     public function setDate(DateTime|string $date): static

@@ -10,8 +10,25 @@ use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 
 class FileToken extends Token
 {
+    private static ?string $customDirectory = null;
+
+    private ?string $instanceDirectory = null;
     private string $filename;
     private ?AuthenticationToken $token = null;
+
+    /**
+     * @param string                    $username
+     * @param string                    $password
+     * @param array{cache_dir?: string} $options
+     */
+    public function __construct(string $username, string $password, array $options = [])
+    {
+        parent::__construct($username, $password);
+
+        if (isset($options['cache_dir'])) {
+            $this->instanceDirectory = rtrim($options['cache_dir'], '/\\');
+        }
+    }
 
     public function getAccessToken(): ?string
     {
@@ -42,6 +59,7 @@ class FileToken extends Token
         $this->token = $token;
 
         $this->saveToFile();
+
         return $this;
     }
 
@@ -49,6 +67,7 @@ class FileToken extends Token
     {
         $this->token = null;
         $this->deleteFile();
+
         return $this;
     }
 
@@ -64,18 +83,24 @@ class FileToken extends Token
 
     public function generateFilename(): string
     {
-        $env = Client::getDefaultEnvironment()?->name ?? '';
-        return md5($this->username.'-'.$this->password.'-'.$env);
+        $defaultEnv = Client::getDefaultEnvironment();
+        $env = $defaultEnv !== null ? $defaultEnv->name : '';
+
+        return hash('sha256', $this->username . '-' . $this->password . '-' . $env);
     }
 
     public function saveToFile(): void
     {
-        if (!is_dir(self::dir())) {
-            mkdir(self::dir());
+        $directory = $this->getDirectory();
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0700, true);
         }
 
         $token = $this->token;
-        file_put_contents($this->path(), json_encode([
+        $path = $this->path();
+
+        file_put_contents($path, json_encode([
             'token' => [
                 'accessToken' => $token->accessToken ?? null,
                 'accessTokenExpiresAt' => $token->accessTokenExpiresAt?->getTimestamp() ?? null,
@@ -83,17 +108,25 @@ class FileToken extends Token
                 'refreshTokenExpiresAt' => $token->refreshTokenExpiresAt?->getTimestamp() ?? null,
             ],
         ]));
+
+        chmod($path, 0600);
     }
 
     public function readFromFile(): void
     {
-        if (!$this->fileExists()) {
+        if (! $this->fileExists()) {
             return;
         }
 
-        $data = json_decode(file_get_contents($this->path()), true);
+        $contents = file_get_contents($this->path());
+        if ($contents === false) {
+            return;
+        }
+
+        $data = json_decode($contents, true);
         if (empty($data)) {
             $this->deleteFile();
+
             throw new Error('Corrupted token file.');
         }
 
@@ -119,9 +152,40 @@ class FileToken extends Token
         return file_exists($path) && is_file($path);
     }
 
+    /**
+     * Set a custom directory for storing token files.
+     *
+     * For security, it's recommended to set this to a path outside
+     * the web root (e.g., /var/app/storage/tokens).
+     */
+    public static function setDirectory(string $directory): void
+    {
+        self::$customDirectory = rtrim($directory, '/\\');
+    }
+
+    /**
+     * Reset the directory to the default (.cache in package root).
+     *
+     * Primarily used for testing.
+     */
+    public static function resetDirectory(): void
+    {
+        self::$customDirectory = null;
+    }
+
     public static function dir(): string
     {
-        return dirname(__DIR__, 2).'/cache';
+        return self::$customDirectory ?? dirname(__DIR__, 2) . '/.cache';
+    }
+
+    /**
+     * Get the directory for this instance.
+     *
+     * Priority: instance option > static setDirectory() > default
+     */
+    public function getDirectory(): string
+    {
+        return $this->instanceDirectory ?? self::dir();
     }
 
     public function path(): string
@@ -130,17 +194,32 @@ class FileToken extends Token
             $this->filename = $this->generateFilename();
         }
 
-        return self::dir().'/'.$this->filename.'.json';
+        return $this->getDirectory() . '/' . $this->filename . '.json';
     }
 
     /**
-     * Clears all cache tokens.
+     * Clears all cached tokens from the current directory.
      *
-     * @return void
+     * Safety: When using the default directory, only deletes if it ends with
+     * '.cache'. When using a custom directory (via setDirectory), the safety
+     * check is bypassed as the user has explicitly configured the path.
      */
     public static function forgetAllTokens(): void
     {
-        $files = glob(self::dir().'/*.json');
+        $dir = self::dir();
+
+        // Safety check: for default directory, ensure it ends with '.cache'
+        // to prevent accidental deletion of project files during testing.
+        // Custom directories bypass this check as they're explicitly configured.
+        if (self::$customDirectory === null && !str_ends_with($dir, '.cache')) {
+            return;
+        }
+
+        $files = glob($dir . '/*.json');
+        if ($files === false) {
+            return;
+        }
+
         foreach ($files as $file) {
             if (is_file($file)) {
                 unlink($file);
@@ -148,8 +227,13 @@ class FileToken extends Token
         }
     }
 
-    public static function fake(string $username, string $password): FakeFileToken
+    /**
+     * @param string                    $username
+     * @param string                    $password
+     * @param array{cache_dir?: string} $options
+     */
+    public static function fake(string $username, string $password, array $options = []): FakeFileToken
     {
-        return new FakeFileToken($username, $password);
+        return new FakeFileToken($username, $password, $options);
     }
 }

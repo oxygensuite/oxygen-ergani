@@ -15,15 +15,27 @@ class FakeFileToken extends FileToken
     private MockHandler $loginHandler;
     private MockHandler $refreshHandler;
 
+    /**
+     * @param string                    $username
+     * @param string                    $password
+     * @param array{cache_dir?: string} $options
+     */
+    public function __construct(string $username, string $password, array $options = [])
+    {
+        parent::__construct($username, $password, $options);
+    }
+
     public function setLoginHandler(MockHandler $loginHandler): static
     {
         $this->loginHandler = $loginHandler;
+
         return $this;
     }
 
     public function setRefreshHandler(MockHandler $refreshHandler): static
     {
         $this->refreshHandler = $refreshHandler;
+
         return $this;
     }
 

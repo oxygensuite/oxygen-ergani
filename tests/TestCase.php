@@ -12,7 +12,7 @@ class TestCase extends BaseCaseAlias
 {
     protected function readFile(string $filename): string
     {
-        return file_get_contents(__DIR__.'/responses/'.$filename);
+        return file_get_contents(__DIR__ . '/responses/' . $filename);
     }
 
     protected function mockResponse(int $status, ?string $filename = null): MockHandler

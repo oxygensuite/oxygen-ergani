@@ -2,6 +2,4 @@
 
 namespace OxygenSuite\OxygenErgani\Exceptions;
 
-class AuthenticationException extends ErganiException
-{
-}
+class AuthenticationException extends ErganiException {}

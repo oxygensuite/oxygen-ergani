@@ -1,4 +1,3 @@
-/.fleet
 /.idea
 /.vscode
 /.env
@@ -6,4 +5,17 @@
 /.phpunit.cache/test-results
 /storage/private
 /vendor/
-/cache/
+/.cache/*
+!/.cache/.htaccess
+/.phpstan-cache/
+/.infection/
+
+# VitePress
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+
+# Custom
+CLAUDE.md
+.claude/
