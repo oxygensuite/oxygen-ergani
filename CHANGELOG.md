@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Greek float casting with configurable precision (`'greek_float'` for 2 decimals, `'greek_float:1'` for 1 decimal)
 - Configurable cache directory for `FileToken` via constructor options or `FileToken::setDirectory()`
 - `.htaccess` protection for default `.cache/` directory
+- **DateTime support** for all date setter methods - accept both `DateTime` objects and strings, automatically formatted to the expected format
 
 #### Quality Assurance
 - PHPStan level 7 static analysis

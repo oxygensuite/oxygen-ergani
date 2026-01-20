@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Factories\Dismissal\RetirementDismissalDeclarationFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Dismissal\Concerns\HasEmploymentClassification;
@@ -129,10 +130,14 @@ class RetirementDismissalDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(string $date): static
+    public function setHiringDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_proslipsidate', $date);
     }
 
@@ -145,10 +150,14 @@ class RetirementDismissalDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setDismissalDate(string $date): static
+    public function setDismissalDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_apolysisdate', $date);
     }
 }

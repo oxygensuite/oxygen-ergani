@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkingStatus;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Factories\WorkingStatus\WorkingStatusEmployeeFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -72,8 +73,12 @@ class WorkingStatusEmployee extends Model
         return $this->get('f_date');
     }
 
-    public function setDate(string $date): static
+    public function setDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date', $date);
     }
 

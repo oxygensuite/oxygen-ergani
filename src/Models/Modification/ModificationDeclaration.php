@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Modification;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\BasicsAcceptance;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\SettlementType;
@@ -225,10 +226,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodFrom(string $date): static
+    public function setReferencePeriodFrom(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_periodos_anaforas_from', $date);
     }
 
@@ -241,10 +246,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodTo(string $date): static
+    public function setReferencePeriodTo(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_periodos_anaforas_to', $date);
     }
 
@@ -345,10 +354,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermFrom(string $date): static
+    public function setFixedTermFrom(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_apo', $date);
     }
 
@@ -361,10 +374,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermTo(string $date): static
+    public function setFixedTermTo(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_ews', $date);
     }
 
@@ -549,10 +566,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTrialPeriodEndDate(string $date): static
+    public function setTrialPeriodEndDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_trial_date_to', $date);
     }
 

@@ -41,6 +41,14 @@ Employee Departure Scenario
 
 All E5 forms share these fields from the base `Declaration` class:
 
+::: tip DateTime Support
+All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+```php
+$declaration->setBirthDate('15/01/1990');           // String
+$declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
+```
+:::
+
 ### Branch/Location
 
 | Method | API Field | Type | Required | Description |

@@ -13,6 +13,23 @@ All models use the `HasAttributes` trait providing:
 - Ordered array output via `$expectedOrder` property
 - Greek float formatting for decimal values
 
+### DateTime Support
+
+All date setter methods accept both `DateTime` objects and strings:
+
+```php
+use DateTime;
+
+// Both are equivalent:
+$declaration->setBirthDate('15/01/1990');
+$declaration->setBirthDate(new DateTime('1990-01-15'));
+
+// Works with DateTimeImmutable too:
+$declaration->setHiringDate(new DateTimeImmutable('2025-01-20'));
+```
+
+When a `DateTime` is passed, it's automatically formatted to the expected format (usually `DD/MM/YYYY`).
+
 ### Factory Pattern
 
 Models support a factory pattern for testing:

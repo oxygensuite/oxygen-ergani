@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkTime;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\DayOfWeek;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -58,8 +59,12 @@ class WorkTimeEmployee extends Model
         return $this->get('f_date');
     }
 
-    public function setDate(string $date): static
+    public function setDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date', $date);
     }
 

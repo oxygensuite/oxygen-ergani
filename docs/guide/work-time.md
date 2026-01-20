@@ -120,6 +120,14 @@ $workTime = WorkTime::make()
 
 Each `WorkTimeEmployee` represents one employee's schedule.
 
+::: tip DateTime Support
+All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+```php
+$employee->setDate('15/01/2025');           // String
+$employee->setDate(new DateTime('2025-01-15')); // DateTime
+```
+:::
+
 ### Fields Reference
 
 | Method | API Field | Type | Required | Description |

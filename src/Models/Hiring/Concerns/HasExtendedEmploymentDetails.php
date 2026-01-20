@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Hiring\Concerns;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\SpecialCase;
 
@@ -22,10 +23,14 @@ trait HasExtendedEmploymentDetails
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(string $date): static
+    public function setHiringDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_proslipsidate', $date);
     }
 
@@ -106,10 +111,14 @@ trait HasExtendedEmploymentDetails
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermFrom(string $date): static
+    public function setFixedTermFrom(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_apo', $date);
     }
 
@@ -122,10 +131,14 @@ trait HasExtendedEmploymentDetails
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermTo(string $date): static
+    public function setFixedTermTo(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_ews', $date);
     }
 

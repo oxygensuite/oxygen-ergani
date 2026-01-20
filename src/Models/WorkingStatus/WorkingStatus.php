@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkingStatus;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Factories\WorkingStatus\WorkingStatusFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -51,8 +52,12 @@ class WorkingStatus extends Model
         return $this->get('f_rel_date');
     }
 
-    public function setRelatedDate(string $relatedDate): static
+    public function setRelatedDate(DateTime|string $relatedDate): static
     {
+        if ($relatedDate instanceof DateTime) {
+            $relatedDate = $relatedDate->format('d/m/Y');
+        }
+
         return $this->set('f_rel_date', $relatedDate);
     }
 

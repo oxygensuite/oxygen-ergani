@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal\Concerns;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\LoanType;
 
 /**
@@ -46,10 +47,14 @@ trait HasLoanDetails
     /**
      * Set the loan start date.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setLoanStartDate(string $date): static
+    public function setLoanStartDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_borrow_date_from', $date);
     }
 
@@ -64,10 +69,14 @@ trait HasLoanDetails
     /**
      * Set the loan end date.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setLoanEndDate(string $date): static
+    public function setLoanEndDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_borrow_date_to', $date);
     }
 

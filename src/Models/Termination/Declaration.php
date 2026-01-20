@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Termination;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
@@ -68,10 +69,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setRelatedDate(string $date): static
+    public function setRelatedDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_rel_date', $date);
     }
 
@@ -214,10 +219,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setBirthDate(string $date): static
+    public function setBirthDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_birthdate', $date);
     }
 
@@ -316,10 +325,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setIdIssueDate(string $date): static
+    public function setIdIssueDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date_ekdosis', $date);
     }
 
@@ -332,10 +345,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setIdExpiryDate(string $date): static
+    public function setIdExpiryDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date_ekdosis_lixi', $date);
     }
 
@@ -402,10 +419,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setResPermitDirectAccessExpiry(string $date): static
+    public function setResPermitDirectAccessExpiry(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_res_permit_inst_lixi', $date);
     }
 
@@ -472,10 +493,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setResPermitApprovalExpiry(string $date): static
+    public function setResPermitApprovalExpiry(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_res_permit_ap_lixi', $date);
     }
 
@@ -526,10 +551,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setSeasonalWorkVisaFrom(string $date): static
+    public function setSeasonalWorkVisaFrom(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_res_permit_visa_from', $date);
     }
 
@@ -542,10 +571,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setSeasonalWorkVisaTo(string $date): static
+    public function setSeasonalWorkVisaTo(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_res_permit_visa_to', $date);
     }
 
@@ -754,10 +787,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermFrom(string $date): static
+    public function setFixedTermFrom(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_apo', $date);
     }
 
@@ -770,10 +807,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermTo(string $date): static
+    public function setFixedTermTo(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_orismenou_ews', $date);
     }
 
@@ -822,10 +863,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(string $date): static
+    public function setHiringDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_proslipsidate', $date);
     }
 
@@ -838,10 +883,14 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setDepartureDate(string $date): static
+    public function setDepartureDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_apoxwrisidate', $date);
     }
 

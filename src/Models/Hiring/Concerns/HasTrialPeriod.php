@@ -2,6 +2,8 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Hiring\Concerns;
 
+use DateTime;
+
 /**
  * Trial period fields shared by E3N, E3M, and E3PD schemas.
  *
@@ -38,10 +40,14 @@ trait HasTrialPeriod
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTrialPeriodEndDate(string $date): static
+    public function setTrialPeriodEndDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_trial_date_to', $date);
     }
 }

@@ -22,6 +22,14 @@ The E3 hiring declarations report new employee hirings, transfers, and lending a
 
 All E3 declarations share a common base class (`Declaration`) with personal and employment fields. Each form type adds specific fields documented in their respective pages.
 
+::: tip DateTime Support
+All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+```php
+$declaration->setBirthDate('15/01/1990');           // String
+$declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
+```
+:::
+
 ### Branch/Location
 
 | Method | API Field | Type | Required | Description |

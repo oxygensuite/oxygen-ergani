@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkTime;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -48,8 +49,12 @@ class WorkTime extends Model
         return $this->get('f_rel_date');
     }
 
-    public function setRelatedDate(string $relatedDate): static
+    public function setRelatedDate(DateTime|string $relatedDate): static
     {
+        if ($relatedDate instanceof DateTime) {
+            $relatedDate = $relatedDate->format('d/m/Y');
+        }
+
         return $this->set('f_rel_date', $relatedDate);
     }
 
@@ -68,8 +73,12 @@ class WorkTime extends Model
         return $this->get('f_from_date');
     }
 
-    public function setFromDate(string $fromDate): static
+    public function setFromDate(DateTime|string $fromDate): static
     {
+        if ($fromDate instanceof DateTime) {
+            $fromDate = $fromDate->format('d/m/Y');
+        }
+
         return $this->set('f_from_date', $fromDate);
     }
 
@@ -78,8 +87,12 @@ class WorkTime extends Model
         return $this->get('f_to_date');
     }
 
-    public function setToDate(string $toDate): static
+    public function setToDate(DateTime|string $toDate): static
     {
+        if ($toDate instanceof DateTime) {
+            $toDate = $toDate->format('d/m/Y');
+        }
+
         return $this->set('f_to_date', $toDate);
     }
 

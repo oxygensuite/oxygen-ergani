@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Hiring;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Hiring\Concerns\HasDypaPrograms;
 use OxygenSuite\OxygenErgani\Models\Hiring\Concerns\HasExtendedEmploymentDetails;
@@ -179,10 +180,14 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTransferDate(string $date): static
+    public function setTransferDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date_metabibashs', $date);
     }
 

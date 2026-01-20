@@ -2,6 +2,8 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal\Concerns;
 
+use DateTime;
+
 /**
  * Termination notification date for immediate dismissals.
  *
@@ -21,10 +23,14 @@ trait HasTerminationNotification
     /**
      * Set the date when termination was notified to the employee.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTerminationNotificationDate(string $date): static
+    public function setTerminationNotificationDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_koinopoihshdate', $date);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Termination;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\FixedTermTerminationReason;
 use OxygenSuite\OxygenErgani\Factories\Termination\FixedTermTerminationDeclarationFactory;
@@ -183,10 +184,14 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the contractual end date of the fixed-term contract.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setContractEndDate(string $date): static
+    public function setContractEndDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_lixisymbashdate', $date);
     }
 
@@ -201,10 +206,14 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the employee's hiring date.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(string $date): static
+    public function setHiringDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_proslipsidate', $date);
     }
 
@@ -219,10 +228,14 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the actual termination date.
      *
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTerminationDate(string $date): static
+    public function setTerminationDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_apolysisdate', $date);
     }
 

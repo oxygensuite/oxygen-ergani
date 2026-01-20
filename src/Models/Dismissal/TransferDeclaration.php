@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Factories\Dismissal\TransferDeclarationFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 
@@ -104,10 +105,14 @@ class TransferDeclaration extends Declaration
     }
 
     /**
-     * @param string $date Date in DD/MM/YYYY format
+     * @param DateTime|string $date Date in DD/MM/YYYY format
      */
-    public function setTransferDate(string $date): static
+    public function setTransferDate(DateTime|string $date): static
     {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
         return $this->set('f_date_metabibashs', $date);
     }
 
