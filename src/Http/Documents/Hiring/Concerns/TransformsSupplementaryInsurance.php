@@ -9,8 +9,8 @@ trait TransformsSupplementaryInsurance
     /**
      * Transform SupplementaryInsuranceSelections to the ERGANI API nested format.
      *
-     * @param array<string, mixed> $array     The declaration array
-     * @param string               $nestedKey The API-specific nested key (e.g., 'EpikourikiSelectionsE3N')
+     * @param array<string, mixed> $array The declaration array
+     * @param string $nestedKey The API-specific nested key (e.g., 'EpikourikiSelectionsE3N')
      *
      * @return array<string, mixed>
      */

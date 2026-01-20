@@ -16,8 +16,8 @@ class FakeFileToken extends FileToken
     private MockHandler $refreshHandler;
 
     /**
-     * @param string                    $username
-     * @param string                    $password
+     * @param string $username
+     * @param string $password
      * @param array{cache_dir?: string} $options
      */
     public function __construct(string $username, string $password, array $options = [])

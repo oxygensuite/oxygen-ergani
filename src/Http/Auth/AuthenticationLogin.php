@@ -24,8 +24,8 @@ class AuthenticationLogin extends Client
      * Access token is used to authenticate the user for subsequent
      * requests, while the refresh token is used to obtain a new access token
      *
-     * @param string          $username
-     * @param string          $password
+     * @param string $username
+     * @param string $password
      * @param UserType|string $userType
      *
      * @return AuthenticationToken

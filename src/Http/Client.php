@@ -27,9 +27,9 @@ class Client
      * Create a new client instance. If no environment is provided, the client
      * will default to the test environment.
      *
-     * @param string|null       $accessToken Access token for the API
-     * @param Environment|null  $environment Environment for the client
-     * @param ClientConfig|null $config      Configuration for the client
+     * @param string|null $accessToken Access token for the API
+     * @param Environment|null $environment Environment for the client
+     * @param ClientConfig|null $config Configuration for the client
      */
     public function __construct(?string $accessToken = null, ?Environment $environment = null, ?ClientConfig $config = null)
     {
@@ -131,9 +131,9 @@ class Client
     /**
      * Make a GET request to the API.
      *
-     * @param string                           $uri   The URI to make the request to
-     * @param array<string, mixed>|null        $query The query parameters
-     * @param string|array<string, mixed>|null $body  The body of the request
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|null $query The query parameters
+     * @param string|array<string, mixed>|null $body The body of the request
      *
      * @return static
      * @throws ErganiException
@@ -146,9 +146,9 @@ class Client
     /**
      * Make a POST request to the API.
      *
-     * @param string                           $uri   The URI to make the request to
-     * @param array<string, mixed>|string|null $body  The body of the request
-     * @param array<string, mixed>|null        $query The query parameters
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|string|null $body The body of the request
+     * @param array<string, mixed>|null $query The query parameters
      *
      * @return static
      * @throws ErganiException
@@ -161,10 +161,10 @@ class Client
     /**
      * Make a request to the API.
      *
-     * @param string                           $method The HTTP method
-     * @param string                           $uri    The URI to make the request to
-     * @param array<string, mixed>|string|null $body   The body of the request
-     * @param array<string, mixed>|null        $query  The query parameters
+     * @param string $method The HTTP method
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|string|null $body The body of the request
+     * @param array<string, mixed>|null $query The query parameters
      *
      * @return static
      * @throws ErganiException
@@ -258,7 +258,7 @@ class Client
     /**
      * Build the request options.
      *
-     * @param array<string, mixed>|null        $query
+     * @param array<string, mixed>|null $query
      * @param array<string, mixed>|string|null $body
      *
      * @return array<string, mixed>

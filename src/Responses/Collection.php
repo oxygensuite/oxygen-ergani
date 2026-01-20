@@ -185,7 +185,7 @@ abstract class Collection implements Countable, IteratorAggregate, ArrayAccess
     /**
      * Set is not supported - collection is read-only.
      *
-     * @param TKey   $offset
+     * @param TKey $offset
      * @param TValue $value
      */
     public function offsetSet(mixed $offset, mixed $value): void

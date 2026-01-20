@@ -27,7 +27,7 @@ trait HasAttributes
      * Retrieves the value associated with the given key from the data array.
      * If the key does not exist, returns the provided default value.
      *
-     * @param string      $key     The key to look up in the data array.
+     * @param string $key The key to look up in the data array.
      * @param string|null $default The default value to return if the key is not found.
      *
      * @return mixed The value associated with the given key or the default value.
@@ -41,8 +41,8 @@ trait HasAttributes
      * Sets the value associated with the given key in the data array.
      * If the key does not exist, it will be created.
      *
-     * @param string $key   The key to associate with the value.
-     * @param mixed  $value The value to associate with the key.
+     * @param string $key The key to associate with the value.
+     * @param mixed $value The value to associate with the key.
      *
      * @return $this
      */
@@ -57,10 +57,10 @@ trait HasAttributes
      * Retrieves a datetime value associated with the given key.
      * If the key does not exist, returns the provided default value or null.
      *
-     * @param string      $key      The key to look up in the data array.
-     * @param string|null $format   The format to use when creating the DateTime object.
+     * @param string $key The key to look up in the data array.
+     * @param string|null $format The format to use when creating the DateTime object.
      * @param string|null $timezone The timezone to use when creating the DateTime object.
-     * @param mixed       $default  The default value to return if the key is not found or invalid.
+     * @param mixed $default The default value to return if the key is not found or invalid.
      *
      * @return DateTimeImmutable|null The DateTime object created from the value, or null if not found or invalid.
      */
@@ -89,8 +89,8 @@ trait HasAttributes
     /**
      * Retrieves a string value associated with the given key. If the value is not a string, returns null.
      *
-     * @param string $key     The key to look up in the data source.
-     * @param mixed  $default The default value to return if the key is not found.
+     * @param string $key The key to look up in the data source.
+     * @param mixed $default The default value to return if the key is not found.
      *
      * @return string|null The string value associated with the given key, or null if it is not a string.
      */
@@ -105,8 +105,8 @@ trait HasAttributes
      * Retrieves a boolean value associated with the specified key or null on failure.
      * If the key does not exist, the provided default value will be used.
      *
-     * @param string $key     The key for the value to be retrieved.
-     * @param mixed  $default The default value to return if the key does not exist.
+     * @param string $key The key for the value to be retrieved.
+     * @param mixed $default The default value to return if the key does not exist.
      *
      * @return ?bool Returns the boolean value if valid, null if the value cannot be determined as boolean.
      */
@@ -119,8 +119,8 @@ trait HasAttributes
      * Retrieves an integer value associated with the specified key or null on failure.
      * If the key does not exist, the provided default value will be used.
      *
-     * @param string $key     The key for the value to be retrieved.
-     * @param mixed  $default The default value to return if the key does not exist.
+     * @param string $key The key for the value to be retrieved.
+     * @param mixed $default The default value to return if the key does not exist.
      *
      * @return ?int Returns the integer value if valid, null if the value cannot be determined as an integer.
      */
@@ -133,8 +133,8 @@ trait HasAttributes
      * Retrieves a floating-point value associated with the specified key or null on failure.
      * If the key does not exist, the provided default value will be used.
      *
-     * @param string $key     The key for the value to be retrieved.
-     * @param mixed  $default The default value to return if the key does not exist.
+     * @param string $key The key for the value to be retrieved.
+     * @param mixed $default The default value to return if the key does not exist.
      *
      * @return ?float Returns the floating-point value if valid, null if the value cannot be determined as a float.
      */
@@ -147,8 +147,8 @@ trait HasAttributes
      * Retrieves a float value from a Greek-formatted decimal string (e.g., "1.500,00").
      * Handles both Greek format strings and raw numeric values.
      *
-     * @param string $key     The key for the value to be retrieved.
-     * @param mixed  $default The default value to return if the key does not exist.
+     * @param string $key The key for the value to be retrieved.
+     * @param mixed $default The default value to return if the key does not exist.
      *
      * @return ?float Returns the float value, or null if empty/not set.
      */
@@ -175,7 +175,7 @@ trait HasAttributes
      *
      * @template T of object
      *
-     * @param string          $key  The key for the array to be retrieved.
+     * @param string $key The key for the array to be retrieved.
      * @param class-string<T> $type The fully qualified class name to which the values should be mapped.
      *
      * @return array<int, T>
@@ -191,8 +191,8 @@ trait HasAttributes
      * Retrieves an array value associated with the specified key or returns the default value if the key does not exist.
      * If the retrieved value is not an array, the provided default value will be returned.
      *
-     * @param string $key     The key for the value to be retrieved.
-     * @param mixed  $default The default value to return if the key does not exist or the value is not an array.
+     * @param string $key The key for the value to be retrieved.
+     * @param mixed $default The default value to return if the key does not exist or the value is not an array.
      *
      * @return array<mixed>|null Returns the array value if valid, or the default value if the key does not exist or the value is not an array.
      */

@@ -9,8 +9,8 @@ trait TransformsModificationTypes
     /**
      * Transform ModificationTypeSelections to the ERGANI API nested format.
      *
-     * @param array<string, mixed> $array     The declaration array
-     * @param string               $nestedKey The API-specific nested key (e.g., 'TypesMetabolonMA')
+     * @param array<string, mixed> $array The declaration array
+     * @param string $nestedKey The API-specific nested key (e.g., 'TypesMetabolonMA')
      *
      * @return array<string, mixed>
      */

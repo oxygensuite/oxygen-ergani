@@ -28,7 +28,7 @@ abstract class Token implements TokenManager
      * Sets the active token manager.
      *
      * @param TokenManager|null $tokenManager
-     * @param Environment       $environment.
+     * @param Environment $environment.
      *
      * @return void
      */

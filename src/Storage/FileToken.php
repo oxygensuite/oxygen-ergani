@@ -17,8 +17,8 @@ class FileToken extends Token
     private ?AuthenticationToken $token = null;
 
     /**
-     * @param string                    $username
-     * @param string                    $password
+     * @param string $username
+     * @param string $password
      * @param array{cache_dir?: string} $options
      */
     public function __construct(string $username, string $password, array $options = [])
@@ -228,8 +228,8 @@ class FileToken extends Token
     }
 
     /**
-     * @param string                    $username
-     * @param string                    $password
+     * @param string $username
+     * @param string $password
      * @param array{cache_dir?: string} $options
      */
     public static function fake(string $username, string $password, array $options = []): FakeFileToken

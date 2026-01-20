@@ -10,7 +10,7 @@ class MonthlyStatus extends Service
     /**
      * Retrieves monthly employee status for the specified year and month
      *
-     * @param int $year  The report year (e.g., 2025)
+     * @param int $year The report year (e.g., 2025)
      * @param int $month The report month (1-12)
      *
      * @return EmployeeStatusResponse[]

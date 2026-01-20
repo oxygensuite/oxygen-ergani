@@ -135,7 +135,7 @@ class Model
      * Processes a value to convert it to array format.
      *
      * @param mixed $value The value to process
-     * @param bool  $sort  Whether to sort the value
+     * @param bool $sort Whether to sort the value
      *
      * @return mixed The processed value
      */
