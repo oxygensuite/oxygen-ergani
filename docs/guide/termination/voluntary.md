@@ -260,6 +260,20 @@ foreach ($response as $result) {
 }
 ```
 
+## Retrieve PDF
+
+After a successful submission, retrieve the official PDF document:
+
+```php
+$pdfBase64 = (new VoluntaryResignation())->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Save to file
+file_put_contents('resignation.pdf', base64_decode($pdfBase64));
+```
+
 ## Multiple Resignations
 
 Submit multiple resignations in a single API call:

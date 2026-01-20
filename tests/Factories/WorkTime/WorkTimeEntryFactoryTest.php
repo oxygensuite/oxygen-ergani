@@ -99,7 +99,7 @@ class WorkTimeEntryFactoryTest extends TestCase
             ->dayOff()
             ->make();
 
-        $this->assertEquals(WorkTimeType::DAY_OFF->value, $entry->getType());
+        $this->assertEquals(WorkTimeType::REST->value, $entry->getType());
         $this->assertEquals('', $entry->getFromTime());
         $this->assertEquals('', $entry->getToTime());
     }

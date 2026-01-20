@@ -249,6 +249,20 @@ foreach ($response as $result) {
 }
 ```
 
+## Retrieve PDF
+
+After a successful submission, retrieve the official PDF document:
+
+```php
+$pdfBase64 = (new DismissalWithoutNotice())->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Save to file
+file_put_contents('dismissal.pdf', base64_decode($pdfBase64));
+```
+
 ## Severance Calculation Guidelines
 
 Full severance for immediate dismissal (indicative):

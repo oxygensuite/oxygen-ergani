@@ -213,6 +213,20 @@ foreach ($response as $result) {
 }
 ```
 
+## Retrieve PDF
+
+After a successful submission, retrieve the official PDF document:
+
+```php
+$pdfBase64 = (new HiringNew())->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Save to file
+file_put_contents('hiring.pdf', base64_decode($pdfBase64));
+```
+
 ## Multiple Declarations
 
 Submit multiple declarations in a single API call:

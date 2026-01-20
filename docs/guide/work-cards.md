@@ -275,6 +275,45 @@ foreach ($response as $result) {
 | `protocol` | string | Official protocol number from ERGANI |
 | `submissionDate` | DateTimeInterface | When the submission was recorded |
 
+## Retrieve PDF
+
+After a successful submission, you can retrieve the official PDF document from ERGANI using the `pdf()` method:
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
+
+// Submit the work card
+$response = (new WorkCard())->handle($card);
+
+// Later, retrieve the PDF using protocol and submission date
+$workCardDoc = new WorkCard();
+$pdfBase64 = $workCardDoc->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Decode and save to file
+file_put_contents('work-card.pdf', base64_decode($pdfBase64));
+
+// Or display in browser
+$pdfBinary = base64_decode($pdfBase64);
+header('Content-Type: application/pdf');
+header('Content-Length: ' . strlen($pdfBinary));
+header('Content-Disposition: inline; filename="work-card.pdf"');
+echo $pdfBinary;
+```
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$protocol` | string | Protocol number from submission response |
+| `$submittedDate` | DateTime\|int\|string | Submission date (DateTime object or `Ymd` format, e.g., `20250115`) |
+
+::: tip Store Protocol Numbers
+Always store the protocol number and submission date after each submission. These are required to retrieve the PDF later or to cancel the submission.
+:::
+
 ## Date Formatting
 
 The ERGANI API requires specific date formats:

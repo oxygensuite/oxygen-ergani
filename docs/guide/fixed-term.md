@@ -333,6 +333,20 @@ foreach ($response as $result) {
 }
 ```
 
+## Retrieve PDF
+
+After a successful submission, retrieve the official PDF document:
+
+```php
+$pdfBase64 = (new FixedTermTermination())->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Save to file
+file_put_contents('fixed-term-termination.pdf', base64_decode($pdfBase64));
+```
+
 ## Files
 
 E7N supports optional documentation files:

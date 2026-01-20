@@ -83,7 +83,7 @@ class WeeklyWorkTimeTest extends TestCase
                     ->setDay(DayOfWeek::SATURDAY)
                     ->addAnalytics(
                         WorkTimeEntry::make()
-                            ->setType(WorkTimeType::DAY_OFF)
+                            ->setType(WorkTimeType::REST)
                             ->setFromTime('')
                             ->setToTime(''),
                     ),

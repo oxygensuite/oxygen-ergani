@@ -81,6 +81,19 @@ abstract class Collection implements Countable, IteratorAggregate, ArrayAccess
     }
 
     /**
+     * Convert all items to arrays.
+     *
+     * @return array<TKey, array<string, mixed>>
+     */
+    public function toArray(): array
+    {
+        return array_map(
+            fn(object $item) => method_exists($item, 'toArray') ? $item->toArray() : (array) $item,
+            $this->items,
+        );
+    }
+
+    /**
      * Get the first item in the collection.
      *
      * @return TValue|null

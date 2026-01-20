@@ -52,7 +52,8 @@
       "@lint",
       "@analyse",
       "@test"
-    ]
+    ],
+    "enum:check": "php bin/check-enum"
   },
   "config": {
     "optimize-autoloader": true,

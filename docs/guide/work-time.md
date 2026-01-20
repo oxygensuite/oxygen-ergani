@@ -46,12 +46,6 @@ $workTime = WorkTime::make()
                     ->setFromTime('09:00')
                     ->setToTime('17:00')
             )
-            ->addAnalytics(
-                WorkTimeEntry::make()
-                    ->setType(WorkTimeType::BREAK)
-                    ->setFromTime('13:00')
-                    ->setToTime('13:30')
-            )
     );
 
 $response = (new DailyWorkTime())->handle($workTime);
@@ -197,15 +191,9 @@ $work = WorkTimeEntry::make()
     ->setFromTime('09:00')
     ->setToTime('17:00');
 
-// Break
-$break = WorkTimeEntry::make()
-    ->setType(WorkTimeType::BREAK)
-    ->setFromTime('13:00')
-    ->setToTime('13:30');
-
-// Day off
+// Day off / Rest
 $dayOff = WorkTimeEntry::make()
-    ->setType(WorkTimeType::DAY_OFF);
+    ->setType(WorkTimeType::REST);
 
 // Leave with days
 $leave = WorkTimeEntry::make()
@@ -216,45 +204,57 @@ $leave = WorkTimeEntry::make()
 
 ## Work Time Types
 
-The `WorkTimeType` enum defines all available time entry types:
+The `WorkTimeType` enum defines all available time entry types. Codes are sourced from `ParameterLookup::WORK_TIME_TYPE`.
 
 ### Work Types
 
 | Case | Value | English | Greek |
 |------|-------|---------|-------|
 | `WORK` | ΕΡΓ | Work | Εργασία |
-| `WORK_EXTERNAL` | ΕΡΓ.ΕΞ | External work | Εργασία εκτός έδρας |
+| `REMOTE_WORK` | ΤΗΛ | Remote work | Τηλεργασία |
+
+### Rest/Non-Work
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `REST` | ΑΝ | Rest/Day off | Ανάπαυση/Ρεπό |
+| `NON_WORKING` | ΜΕ | Non-working | Μη εργασία |
+
+### Leave Types (Full-Day)
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `LEAVE_REGULAR` | ΑΔΚΑΝ | Regular leave | Κανονική άδεια |
+| `LEAVE_BLOOD_DONATION` | ΑΔΑΙΜ | Blood donation leave | Αιμοδοτική άδεια |
+| `LEAVE_EXAMINATION` | ΑΔΕΞ | Examination leave | Άδεια εξετάσεων |
+| `LEAVE_UNPAID` | ΑΔΑΑ | Unpaid leave | Άδεια άνευ αποδοχών |
+| `LEAVE_MATERNITY` | ΑΔΜΗ | Maternity leave | Άδεια μητρότητας |
+| `LEAVE_PATERNITY` | ΑΔΠΑ | Paternity leave | Άδεια πατρότητας |
+| `LEAVE_PARENTAL` | ΑΔΓΟΝ | Parental leave | Γονική άδεια |
+| `LEAVE_CHILD_CARE` | ΑΔΦΠ | Child care leave | Άδεια φροντίδας παιδιού |
+| `LEAVE_SICK` | ΑΔΑΣ | Sick leave | Άδεια ασθένειας |
+| `LEAVE_MARRIAGE` | ΑΔΓΑΜ | Marriage leave | Άδεια γάμου |
+| `LEAVE_BEREAVEMENT` | ΑΔΘΣΥΓ | Bereavement leave | Άδεια λόγω θανάτου συγγενούς |
+| `LEAVE_OTHER` | ΑΔΑΛ | Other leave | Άδεια Άλλη |
+
+::: tip More Leave Types
+The enum includes 28+ leave types. See the [Enums API reference](/api/enums#worktimetype) for the complete list.
+:::
+
+### Leave Types (Hourly)
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `HOURLY_CHILD_CARE` | ΩΑΦΠ | Child care leave (hours) | Άδεια φροντίδας παιδιού (ΩΡΕΣ) |
+| `HOURLY_PARENTAL` | ΩΑΓΟΝ | Parental leave (hours) | Γονική άδεια (ΩΡΕΣ) |
+| `HOURLY_OTHER` | ΩΑΑΛ | Other leave (hours) | Άδεια Άλλη (ΩΡΕΣ) |
+
+### Overtime
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
 | `OVERTIME` | ΥΠ | Overtime | Υπερωρία |
-| `NON_OVERTIME` | ΜΗ.ΥΠ | Non-overtime extra hours | Υπερεργασία |
-
-### Break and Day Off
-
-| Case | Value | English | Greek |
-|------|-------|---------|-------|
-| `BREAK` | ΔΛ | Break | Διάλειμμα |
-| `DAY_OFF` | ΡΕΠΟ | Day off | Ρεπό |
-
-### Leave Types
-
-| Case | Value | English | Greek |
-|------|-------|---------|-------|
-| `LEAVE_REGULAR` | ΑΔ.ΚΑΝ | Regular leave | Κανονική άδεια |
-| `LEAVE_BLOOD_DONATION` | ΑΔ.ΑΙΜ | Blood donation leave | Άδεια αιμοδοσίας |
-| `LEAVE_EXAMINATION` | ΑΔ.ΕΞ | Examination leave | Άδεια εξετάσεων |
-| `LEAVE_PARENTAL` | ΑΔ.ΑΝ.Π | Parental leave | Γονική άδεια |
-| `LEAVE_UNPAID` | ΑΔ.ΑΝ | Unpaid leave | Άδεια άνευ αποδοχών |
-| `LEAVE_MATERNITY` | ΑΔ.ΜΗΤ | Maternity leave | Άδεια μητρότητας |
-| `LEAVE_PATERNITY` | ΑΔ.ΠΑΤ | Paternity leave | Άδεια πατρότητας |
-| `LEAVE_SICK` | ΑΔ.ΑΣΘ | Sick leave | Άδεια ασθενείας |
-| `LEAVE_SPECIAL` | ΑΔ.ΕΙΔ | Special leave | Ειδική άδεια |
-
-### Other Types
-
-| Case | Value | English | Greek |
-|------|-------|---------|-------|
-| `HOLIDAY` | ΑΡΓ | Holiday | Αργία |
-| `ABSENCE` | ΑΠ | Absence | Απουσία |
-| `SUSPENSION` | ΑΝΑΣΤ | Suspension | Αναστολή |
+| `NO_OVERTIME` | ΧΥΠ | No overtime | Χωρίς υπερωρία |
 
 ### Using Labels
 
@@ -267,6 +267,37 @@ WorkTimeType::WORK->labelGreek();  // 'Εργασία'
 // Get all labels for dropdowns
 WorkTimeType::labels();       // ['ΕΡΓ' => 'Work', ...]
 WorkTimeType::labelsGreek();  // ['ΕΡΓ' => 'Εργασία', ...]
+```
+
+### Category Helpers
+
+Get subsets of types for specific use cases:
+
+```php
+// Get arrays of cases by category
+WorkTimeType::work();         // [WORK, REMOTE_WORK]
+WorkTimeType::rest();         // [REST, NON_WORKING]
+WorkTimeType::schedule();     // work + rest combined
+WorkTimeType::dayLeaves();    // 29 full-day leave types
+WorkTimeType::hourlyLeaves(); // 7 hourly leave types
+WorkTimeType::leaves();       // all 36 leave types
+WorkTimeType::overtime();     // [OVERTIME, NO_OVERTIME]
+
+// Check what category a type belongs to
+WorkTimeType::WORK->isWork();       // true
+WorkTimeType::LEAVE_SICK->isLeave(); // true
+WorkTimeType::REST->isSchedule();    // true
+```
+
+### Creating Filtered Dropdowns
+
+```php
+// Greek dropdown for weekly schedule (work + rest types only)
+$scheduleOptions = WorkTimeType::labelsFor(WorkTimeType::schedule(), 'greek');
+// ['ΕΡΓ' => 'Εργασία', 'ΤΗΛ' => 'Τηλεργασία', 'ΑΝ' => 'Ανάπαυση/Ρεπό', 'ΜΕ' => 'Μη εργασία']
+
+// Greek dropdown for leave types
+$leaveOptions = WorkTimeType::labelsFor(WorkTimeType::leaves(), 'greek');
 ```
 
 ## Day of Week Enum
@@ -314,19 +345,7 @@ $workTime = WorkTime::make()
                 WorkTimeEntry::make()
                     ->setType(WorkTimeType::WORK)
                     ->setFromTime('09:00')
-                    ->setToTime('13:00')
-            )
-            ->addAnalytics(
-                WorkTimeEntry::make()
-                    ->setType(WorkTimeType::BREAK)
-                    ->setFromTime('13:00')
-                    ->setToTime('13:30')
-            )
-            ->addAnalytics(
-                WorkTimeEntry::make()
-                    ->setType(WorkTimeType::WORK)
-                    ->setFromTime('13:30')
-                    ->setToTime('17:30')
+                    ->setToTime('17:00')
             )
     );
 
@@ -372,7 +391,7 @@ $workTime = WorkTime::make()
             ->setDate('15/01/2025')
             ->addAnalytics(
                 WorkTimeEntry::make()
-                    ->setType(WorkTimeType::DAY_OFF)
+                    ->setType(WorkTimeType::REST)
             )
     );
 ```
@@ -416,7 +435,7 @@ foreach ([DayOfWeek::SATURDAY, DayOfWeek::SUNDAY] as $day) {
             ->setDay($day)
             ->addAnalytics(
                 WorkTimeEntry::make()
-                    ->setType(WorkTimeType::DAY_OFF)
+                    ->setType(WorkTimeType::REST)
             )
     );
 }
@@ -498,6 +517,32 @@ foreach ($response as $result) {
 | `id` | string | Unique identifier for the submission |
 | `protocol` | string | Official protocol number from ERGANI |
 | `submissionDate` | DateTimeInterface | When the submission was recorded |
+
+## Retrieve PDF
+
+After a successful submission, you can retrieve the official PDF document from ERGANI:
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\WorkTime\DailyWorkTime;
+
+// Submit the work time declaration
+$response = (new DailyWorkTime())->handle($workTime);
+
+// Later, retrieve the PDF
+$pdfBase64 = (new DailyWorkTime())->pdf(
+    $response[0]->protocol,
+    $response[0]->submissionDate
+);
+
+// Decode and save to file
+file_put_contents('work-time.pdf', base64_decode($pdfBase64));
+```
+
+The `pdf()` method accepts the protocol number and submission date (as `DateTime` or `Ymd` string format like `20250115`).
+
+::: tip
+Always store the protocol number and submission date after each submission. These are required to retrieve the PDF later or to cancel the submission.
+:::
 
 ## JSON Structure
 
@@ -589,39 +634,19 @@ For reference, here's the JSON structure sent to the ERGANI API:
 - **DailyWorkTimeDrivers**: Special rules apply for drivers
 - **WorkTimeLeave**: For leave declarations specifically
 
-### 2. Include Breaks
+### 2. Split Work Periods for Breaks
 
-Always declare breaks explicitly when employees have them:
-
-```php
-->addAnalytics(
-    WorkTimeEntry::make()
-        ->setType(WorkTimeType::BREAK)
-        ->setFromTime('13:00')
-        ->setToTime('13:30')
-)
-```
-
-### 3. Split Work Periods Around Breaks
-
-When an employee works before and after a break, create two work entries:
+When an employee has a break, create separate work entries for each work period:
 
 ```php
-// Morning work
+// Morning work (before break)
 ->addAnalytics(
     WorkTimeEntry::make()
         ->setType(WorkTimeType::WORK)
         ->setFromTime('09:00')
         ->setToTime('13:00')
 )
-// Break
-->addAnalytics(
-    WorkTimeEntry::make()
-        ->setType(WorkTimeType::BREAK)
-        ->setFromTime('13:00')
-        ->setToTime('13:30')
-)
-// Afternoon work
+// Afternoon work (after break)
 ->addAnalytics(
     WorkTimeEntry::make()
         ->setType(WorkTimeType::WORK)
@@ -630,19 +655,19 @@ When an employee works before and after a break, create two work entries:
 )
 ```
 
-### 4. Time Format
+### 3. Time Format
 
 Always use 24-hour HH:MM format for times:
 - Correct: `'09:00'`, `'17:30'`, `'23:00'`
 - Incorrect: `'9:00'`, `'5:30 PM'`
 
-### 5. Date Format
+### 4. Date Format
 
 Use DD/MM/YYYY format for dates:
 - Correct: `'15/01/2025'`
 - Incorrect: `'2025-01-15'`, `'01/15/2025'`
 
-### 6. Store Protocol Numbers
+### 5. Store Protocol Numbers
 
 Always store the returned protocol number for corrections or cancellations:
 

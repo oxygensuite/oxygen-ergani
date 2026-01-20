@@ -30,6 +30,12 @@ abstract class Documents extends Client
     }
 
     /**
+     * Retrieve the PDF of a submitted document.
+     *
+     * @param string $protocol Protocol number from submission response
+     * @param DateTime|int|string $submittedDate Submission date (DateTime, Ymd integer, or Ymd string)
+     *
+     * @return string Base64-encoded PDF content
      * @throws ErganiException
      */
     public function pdf(string $protocol, DateTime|int|string $submittedDate): string

@@ -1,0 +1,238 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * CLI tool to compare enums against the live ERGANI API.
+ *
+ * Usage:
+ *   composer enum:check WorkCardDelayReason
+ *   composer enum:check --all
+ *   composer enum:check --list
+ *
+ * Configuration (in order of priority):
+ *   1. .env file in project root
+ *   2. Environment variables
+ *
+ * Required variables:
+ *   ERGANI_USERNAME  - ERGANI username
+ *   ERGANI_PASSWORD  - ERGANI password
+ *   ERGANI_ENV       - Environment: 'test' or 'production' (default: test)
+ */
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Http\Services\ParameterLookup;
+use OxygenSuite\OxygenErgani\Responses\ParameterCollection;
+use OxygenSuite\OxygenErgani\Storage\FileToken;
+use OxygenSuite\OxygenErgani\Storage\Token;
+
+/**
+ * Load environment variables from .env file if it exists.
+ *
+ * @return array<string, string>
+ */
+function loadEnvFile(string $path): array
+{
+    $env = [];
+
+    if (!file_exists($path)) {
+        return $env;
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        // Skip comments
+        if (str_starts_with(trim($line), '#')) {
+            continue;
+        }
+
+        // Parse KEY=value
+        if (str_contains($line, '=')) {
+            [$key, $value] = explode('=', $line, 2);
+            $key = trim($key);
+            $value = trim($value);
+
+            // Remove quotes if present
+            if ((str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+                (str_starts_with($value, "'") && str_ends_with($value, "'"))) {
+                $value = substr($value, 1, -1);
+            }
+
+            $env[$key] = $value;
+        }
+    }
+
+    return $env;
+}
+
+/**
+ * Get config value from .env array or environment variable.
+ *
+ * @param array<string, string> $envFile
+ */
+function getConfig(array $envFile, string $key, ?string $default = null): ?string
+{
+    return $envFile[$key] ?? getenv($key) ?: $default;
+}
+
+// Load .env file from project root
+$envFile = loadEnvFile(__DIR__ . '/../.env');
+
+// Map of enum short names to [ParameterLookup constant, full enum class]
+$enumMap = [
+    'WorkCardDelayReason' => [
+        ParameterLookup::WORK_CARD_DELAY_REASON,
+        \OxygenSuite\OxygenErgani\Enums\WorkCardDelayReason::class,
+    ],
+    'WorkTimeType' => [
+        ParameterLookup::WORK_TIME_TYPE,
+        \OxygenSuite\OxygenErgani\Enums\WorkTimeType::class,
+    ],
+];
+
+$args = array_slice($argv, 1);
+
+if (empty($args) || in_array('--help', $args) || in_array('-h', $args)) {
+    echo "Usage: composer enum:check <enum-name>\n";
+    echo "       composer enum:check --all\n";
+    echo "       composer enum:check --list\n\n";
+    echo "Available enums:\n";
+    foreach (array_keys($enumMap) as $name) {
+        echo "  - {$name}\n";
+    }
+    exit(0);
+}
+
+if (in_array('--list', $args)) {
+    echo "Available enums for comparison:\n\n";
+    foreach ($enumMap as $name => [$paramType, $enumClass]) {
+        echo "  {$name}\n";
+        echo "    Parameter: {$paramType}\n";
+        echo "    Class: {$enumClass}\n\n";
+    }
+    exit(0);
+}
+
+$enumsToCheck = [];
+
+if (in_array('--all', $args)) {
+    $enumsToCheck = array_keys($enumMap);
+} else {
+    foreach ($args as $arg) {
+        if (str_starts_with($arg, '-')) {
+            continue;
+        }
+        if (!isset($enumMap[$arg])) {
+            echo "\033[31mError: Unknown enum '{$arg}'\033[0m\n";
+            echo "Use --list to see available enums.\n";
+            exit(1);
+        }
+        $enumsToCheck[] = $arg;
+    }
+}
+
+if (empty($enumsToCheck)) {
+    echo "No enums to check. Use --help for usage.\n";
+    exit(1);
+}
+
+// Set up authentication from .env file or environment variables
+$username = getConfig($envFile, 'ERGANI_USERNAME');
+$password = getConfig($envFile, 'ERGANI_PASSWORD');
+$envName = getConfig($envFile, 'ERGANI_ENV', 'test');
+
+if (!$username || !$password) {
+    echo "\033[31mError: ERGANI_USERNAME and ERGANI_PASSWORD are required.\033[0m\n\n";
+    echo "Option 1: Create a .env file in the project root:\n";
+    echo "  ERGANI_USERNAME=your_username\n";
+    echo "  ERGANI_PASSWORD=your_password\n";
+    echo "  ERGANI_ENV=test\n\n";
+    echo "Option 2: Set environment variables:\n";
+    echo "  export ERGANI_USERNAME=your_username\n";
+    echo "  export ERGANI_PASSWORD=your_password\n";
+    echo "  export ERGANI_ENV=test\n";
+    exit(1);
+}
+
+$env = strtolower($envName) === 'production' ? Environment::PRODUCTION : Environment::TEST;
+Token::setCurrentTokenManager(new FileToken($username, $password), $env);
+
+echo "Using environment: \033[1m{$env->name}\033[0m\n";
+
+/**
+ * Fetch parameters from API.
+ */
+function getParameters(string $type): ParameterCollection
+{
+    return (new ParameterLookup())->handle($type);
+}
+
+/**
+ * Compare enum values against API values.
+ *
+ * @param class-string<BackedEnum> $enumClass
+ * @return array{missing_in_enum: array<string>, extra_in_enum: array<string>, matched: array<string>}
+ */
+function compareWithEnum(string $paramType, string $enumClass): array
+{
+    $apiValues = array_keys(getParameters($paramType)->all());
+    $enumValues = array_map(
+        fn(BackedEnum $case) => (string) $case->value,
+        $enumClass::cases(),
+    );
+
+    return [
+        'missing_in_enum' => array_values(array_diff($apiValues, $enumValues)),
+        'extra_in_enum' => array_values(array_diff($enumValues, $apiValues)),
+        'matched' => array_values(array_intersect($apiValues, $enumValues)),
+    ];
+}
+
+$hasIssues = false;
+
+foreach ($enumsToCheck as $enumName) {
+    [$paramType, $enumClass] = $enumMap[$enumName];
+
+    echo "\n\033[1m{$enumName}\033[0m\n";
+    echo str_repeat('-', strlen($enumName)) . "\n";
+
+    try {
+        $result = compareWithEnum($paramType, $enumClass);
+
+        $matchedCount = count($result['matched']);
+        $missingCount = count($result['missing_in_enum']);
+        $extraCount = count($result['extra_in_enum']);
+
+        echo "\033[32m✓ Matched: {$matchedCount}\033[0m\n";
+
+        if ($missingCount > 0) {
+            $hasIssues = true;
+            echo "\033[33m⚠ Missing in enum: {$missingCount}\033[0m\n";
+            foreach ($result['missing_in_enum'] as $code) {
+                $param = getParameters($paramType)->find($code);
+                $desc = $param ? " ({$param->description})" : '';
+                echo "    - {$code}{$desc}\n";
+            }
+        }
+
+        if ($extraCount > 0) {
+            $hasIssues = true;
+            echo "\033[31m✗ Extra in enum (not in API): {$extraCount}\033[0m\n";
+            foreach ($result['extra_in_enum'] as $code) {
+                echo "    - {$code}\n";
+            }
+        }
+
+        if ($missingCount === 0 && $extraCount === 0) {
+            echo "\033[32m✓ Enum is in sync with API\033[0m\n";
+        }
+    } catch (\Exception $e) {
+        $hasIssues = true;
+        echo "\033[31m✗ Error: {$e->getMessage()}\033[0m\n";
+    }
+}
+
+echo "\n";
+exit($hasIssues ? 1 : 0);

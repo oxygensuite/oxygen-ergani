@@ -59,8 +59,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Enums with Bilingual Labels
 - `HasLabels` trait for backed enums with English/Greek labels
-- New enums: `Sex`, `MaritalStatus`, `EmploymentStatus`, `WorkerType`, `EmploymentType`, `WorkLocation`, `SpecialCase`, `LoanType`, `SalaryPaymentSource`, `FixedTermTerminationReason`, `NoticePeriodMonths`, `WorkTimeType`, `DayOfWeek`, `WeekDays`, `BasicsAcceptance`, `SettlementType`, `IndividualContract`, `ResponsiblePosition`
+- New enums: `Sex`, `MaritalStatus`, `EmploymentStatus`, `WorkerType`, `EmploymentType`, `WorkLocation`, `SpecialCase`, `LoanType`, `SalaryPaymentSource`, `FixedTermTerminationReason`, `NoticePeriodMonths`, `WorkTimeType`, `DayOfWeek`, `WeekDays`, `BasicsAcceptance`, `SettlementType`, `IndividualContract`, `ResponsiblePosition`, `WorkCardDelayReason`
 - Labels accessible via `->label()`, `->labelGreek()`, `::labels()`, `::labelsGreek()`
+- `HasLabels::labelsFor()` method to get labels for a subset of enum cases
+- `WorkTimeType` category helpers: `work()`, `rest()`, `schedule()`, `dayLeaves()`, `hourlyLeaves()`, `leaves()`, `overtime()` and corresponding instance check methods (`isWork()`, `isLeave()`, etc.)
 
 #### Developer Experience
 - `withDefaults()` method on models to auto-fill missing fields with empty strings
@@ -68,6 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable cache directory for `FileToken` via constructor options or `FileToken::setDirectory()`
 - `.htaccess` protection for default `.cache/` directory
 - **DateTime support** for all date setter methods - accept both `DateTime` objects and strings, automatically formatted to the expected format
+- `Collection::toArray()` and `Response::toArray()` methods for easy serialization
+- `bin/check-enum` CLI tool to compare enums against the live ERGANI API (use `composer enum:check -- --all`)
 
 #### Quality Assurance
 - PHPStan level 7 static analysis
@@ -77,6 +81,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Documentation
 - VitePress documentation site with guides and API reference
 - Full coverage of all document types, models, enums, and services
+- Documentation for `pdf()` method to retrieve submitted documents as PDF
+- Restructured API reference with separate pages for each enum and model category
 
 ### Changed
 

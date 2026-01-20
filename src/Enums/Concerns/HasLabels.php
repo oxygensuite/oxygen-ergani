@@ -54,6 +54,38 @@ trait HasLabels
     }
 
     /**
+     * Get labels for a specific subset of cases as [value => label] array.
+     *
+     * Useful for creating filtered dropdowns from category helper methods.
+     *
+     * @param array<self> $cases Array of enum cases to get labels for
+     * @param string $locale 'english' or 'greek'
+     *
+     * @return array<int|string, string>
+     */
+    public static function labelsFor(array $cases, string $locale = 'greek'): array
+    {
+        $labels = [];
+
+        foreach ($cases as $case) {
+            $reflection = new ReflectionEnumUnitCase(self::class, $case->name);
+            $attributes = $reflection->getAttributes(Label::class);
+
+            $key = $case->value;
+
+            if (! empty($attributes)) {
+                /** @var Label $label */
+                $label = $attributes[0]->newInstance();
+                $labels[$key] = $label->{$locale};
+            } else {
+                $labels[$key] = $case->name;
+            }
+        }
+
+        return $labels;
+    }
+
+    /**
      * @return array<int|string, string>
      */
     private static function getLabelsForLocale(string $locale): array

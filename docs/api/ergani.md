@@ -145,16 +145,16 @@ use OxygenSuite\OxygenErgani\Enums\CardDetailType;
 $ergani = new Ergani($accessToken);
 
 $card = Card::make()
-    ->setEmployerAfm('123456789')
+    ->setEmployerTin('123456789')
     ->setBranchCode(0)
-    ->setDate('15/01/2025')
-    ->setAfm('987654321')
-    ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
-    ->setFirstName('ΙΩΑΝΝΗΣ')
-    ->addCardDetail(
+    ->addDetails(
         CardDetail::make()
+            ->setTin('987654321')
+            ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
+            ->setFirstName('ΙΩΑΝΝΗΣ')
             ->setType(CardDetailType::CHECK_IN)
-            ->setTime('09:00')
+            ->setReferenceDate('2025-01-15')
+            ->setDate('2025-01-15T09:00:00.000+02:00')
     );
 
 $responses = $ergani->sendWorkCards($card);
@@ -236,16 +236,16 @@ try {
 
     // Submit work card
     $card = Card::make()
-        ->setEmployerAfm('123456789')
+        ->setEmployerTin('123456789')
         ->setBranchCode(0)
-        ->setDate('15/01/2025')
-        ->setAfm('987654321')
-        ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
-        ->setFirstName('ΙΩΑΝΝΗΣ')
-        ->addCardDetail(
+        ->addDetails(
             CardDetail::make()
+                ->setTin('987654321')
+                ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
+                ->setFirstName('ΙΩΑΝΝΗΣ')
                 ->setType(CardDetailType::CHECK_IN)
-                ->setTime('09:00')
+                ->setReferenceDate('2025-01-15')
+                ->setDate('2025-01-15T09:00:00.000+02:00')
         );
 
     $responses = $ergani->sendWorkCards($card);
@@ -260,6 +260,27 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ```
+
+---
+
+## Retrieving PDFs
+
+To retrieve a PDF of a submitted document, use the `pdf()` method on the document class directly:
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
+
+// After submission, retrieve the PDF
+$pdfBase64 = (new WorkCard())->pdf(
+    $response->protocol,           // Protocol from submission
+    $response->submissionDate      // DateTime or Ymd format (e.g., 20250115)
+);
+
+// Decode and save
+file_put_contents('submission.pdf', base64_decode($pdfBase64));
+```
+
+This method is available on all document classes (WorkCard, DailyWorkTime, HiringNew, etc.).
 
 ---
 

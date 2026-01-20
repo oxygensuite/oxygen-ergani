@@ -103,8 +103,38 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/api/' },
             { text: 'Ergani Facade', link: '/api/ergani' },
-            { text: 'Models', link: '/api/models' },
-            { text: 'Enums', link: '/api/enums' },
+          ]
+        },
+        {
+          text: 'Models',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/api/models/' },
+            { text: 'Work Cards', link: '/api/models/work-cards' },
+            { text: 'Work Time', link: '/api/models/work-time' },
+            { text: 'Hiring (E3)', link: '/api/models/hiring' },
+            { text: 'Termination (E5/E7)', link: '/api/models/termination' },
+            { text: 'Dismissal (E6)', link: '/api/models/dismissal' },
+            { text: 'Modifications (MA)', link: '/api/models/modifications' },
+            { text: 'Common Fields', link: '/api/models/common-fields' },
+          ]
+        },
+        {
+          text: 'Enums',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/api/enums/' },
+            { text: 'Personal', link: '/api/enums/personal' },
+            { text: 'Employment', link: '/api/enums/employment' },
+            { text: 'Work Time', link: '/api/enums/work-time' },
+            { text: 'Loan/Borrowing', link: '/api/enums/loan' },
+            { text: 'Termination', link: '/api/enums/termination' },
+            { text: 'Administrative', link: '/api/enums/administrative' },
+          ]
+        },
+        {
+          text: 'Other',
+          items: [
             { text: 'Responses', link: '/api/responses' },
             { text: 'Exceptions', link: '/api/exceptions' },
           ]

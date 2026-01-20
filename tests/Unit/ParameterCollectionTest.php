@@ -298,4 +298,71 @@ class ParameterCollectionTest extends TestCase
         $this->assertSame('Numeric code', $collection[123]->description);
         $this->assertNull($collection[999]);
     }
+
+    public function test_to_array_converts_objects_to_arrays(): void
+    {
+        $collection = $this->createCollection();
+
+        $array = $collection->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertCount(4, $array);
+        $this->assertArrayHasKey('A', $array);
+        $this->assertArrayHasKey('B', $array);
+
+        // Each item should be an array, not an object
+        $this->assertIsArray($array['A']);
+        $this->assertSame([
+            'code' => 'A',
+            'description' => 'Alpha',
+            'extra' => 'Group1',
+        ], $array['A']);
+
+        $this->assertSame([
+            'code' => 'B',
+            'description' => 'Beta',
+            'extra' => 'Group1',
+        ], $array['B']);
+    }
+
+    public function test_to_array_on_empty_collection(): void
+    {
+        $collection = new ParameterCollection();
+
+        $array = $collection->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertEmpty($array);
+    }
+
+    public function test_to_array_handles_null_values(): void
+    {
+        $collection = new ParameterCollection([
+            new ParameterResponse(['Code' => 'X', 'Description' => null, 'Extra' => null]),
+        ]);
+
+        $array = $collection->toArray();
+
+        $this->assertSame([
+            'X' => [
+                'code' => 'X',
+                'description' => null,
+                'extra' => null,
+            ],
+        ], $array);
+    }
+
+    public function test_parameter_response_to_array(): void
+    {
+        $response = $this->createParameter('ΕΡΓ', 'ΕΡΓΑΣΙΑ', 'ΕΡΓΑΣΙΑ-ΕΡΓΑΣΙΑ');
+
+        $array = $response->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertSame([
+            'code' => 'ΕΡΓ',
+            'description' => 'ΕΡΓΑΣΙΑ',
+            'extra' => 'ΕΡΓΑΣΙΑ-ΕΡΓΑΣΙΑ',
+        ], $array);
+    }
 }

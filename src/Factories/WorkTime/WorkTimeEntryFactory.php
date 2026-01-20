@@ -53,12 +53,12 @@ class WorkTimeEntryFactory extends Factory
     }
 
     /**
-     * Configure as day off.
+     * Configure as rest/day off.
      */
     public function dayOff(): static
     {
         return $this->state([
-            'f_type' => WorkTimeType::DAY_OFF->value,
+            'f_type' => WorkTimeType::REST->value,
             'f_from' => '',
             'f_to' => '',
         ]);
