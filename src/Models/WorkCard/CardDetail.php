@@ -25,7 +25,7 @@ class CardDetail extends Model
         'f_aitiologia',
     ];
 
-    public function getTinNumber(): ?string
+    public function getTin(): ?string
     {
         return $this->get('f_afm');
     }

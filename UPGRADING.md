@@ -98,6 +98,15 @@ The package handles Greek number formatting (e.g., `1.500,00`) internally when g
 
 The codebase now follows the [PER Coding Style](https://www.php-fig.org/per/coding-style/) instead of PSR-12. This shouldn't affect your code, but if you're contributing, please use PER style.
 
+### 6. CardDetail Getter Renamed
+
+The `getTinNumber()` method in `CardDetail` has been renamed to `getTin()` for consistency with the setter `setTin()`.
+
+```diff
+- $cardDetail->getTinNumber();
++ $cardDetail->getTin();
+```
+
 ## New Features Available in v2.0
 
 After upgrading, you can take advantage of these new features:

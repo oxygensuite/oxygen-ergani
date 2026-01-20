@@ -44,7 +44,7 @@ class CardDetailFactoryTest extends TestCase
     {
         $cardDetail = CardDetailFactory::new()->make();
 
-        $this->assertNotNull($cardDetail->getTinNumber());
+        $this->assertNotNull($cardDetail->getTin());
         $this->assertNotNull($cardDetail->getLastName());
         $this->assertNotNull($cardDetail->getFirstName());
         $this->assertNotNull($cardDetail->getType());
@@ -55,7 +55,7 @@ class CardDetailFactoryTest extends TestCase
     public function testAfmIsValid(): void
     {
         $cardDetail = CardDetailFactory::new()->make();
-        $afm = $cardDetail->getTinNumber();
+        $afm = $cardDetail->getTin();
 
         $this->assertMatchesRegularExpression('/^\d{9}$/', $afm);
     }

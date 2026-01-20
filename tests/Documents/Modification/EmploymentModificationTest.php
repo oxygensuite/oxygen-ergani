@@ -10,9 +10,9 @@ use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
 use OxygenSuite\OxygenErgani\Factories\Factory;
 use OxygenSuite\OxygenErgani\Http\Documents\Modification\EmploymentModification;
+use OxygenSuite\OxygenErgani\Models\Hiring\SupplementaryInsuranceSelection;
 use OxygenSuite\OxygenErgani\Models\Modification\ModificationDeclaration;
 use OxygenSuite\OxygenErgani\Models\Modification\ModificationTypeSelection;
-use OxygenSuite\OxygenErgani\Models\Hiring\SupplementaryInsuranceSelection;
 use Tests\TestCase;
 
 class EmploymentModificationTest extends TestCase

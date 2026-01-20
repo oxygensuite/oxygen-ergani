@@ -90,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Models\WTO\WTOEmployee` → `Models\WorkTime\WorkTimeEmployee`
 - **Numeric fields require strict types**: Float fields must be passed as floats, integer fields as integers
 - **Code style changed from PSR-12 to PER**
+- **CardDetail getter renamed**: `getTinNumber()` → `getTin()` for consistency with setter `setTin()`
 
 #### Non-Breaking Changes
 - Documents reorganized into subfolders (`Hiring/`, `Termination/`, `Dismissal/`, `Modification/`, `Overtime/`, `WorkCard/`, `WorkingStatus/`)

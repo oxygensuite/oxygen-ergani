@@ -89,14 +89,14 @@ class WorkCardTest extends TestCase
         $this->assertNotNull($card->getDetails());
         $this->assertCount(2, $card->getDetails());
 
-        $this->assertSame('888888888', $card->getDetail(0)->getTinNumber());
+        $this->assertSame('888888888', $card->getDetail(0)->getTin());
         $this->assertSame('John', $card->getDetail(0)->getFirstName());
         $this->assertSame('Doe', $card->getDetail(0)->getLastName());
         $this->assertSame('2025-02-21', $card->getDetail(0)->getReferenceDate());
         $this->assertSame('2025-02-21 15:48:00', $card->getDetail(0)->getDate());
         $this->assertSame(CardDetailType::CHECK_IN, $card->getDetail(0)->getType());
 
-        $this->assertSame('777777777', $card->getDetail(1)->getTinNumber());
+        $this->assertSame('777777777', $card->getDetail(1)->getTin());
         $this->assertSame('Jane', $card->getDetail(1)->getFirstName());
         $this->assertSame('Doe', $card->getDetail(1)->getLastName());
         $this->assertSame('2025-02-21', $card->getDetail(1)->getReferenceDate());
