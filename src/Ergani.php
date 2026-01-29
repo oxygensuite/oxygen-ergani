@@ -214,9 +214,9 @@ class Ergani
      *
      * Use this to clean up remnants from old credentials.
      */
-    public function flushCache(): bool
+    public static function flushCache(CacheInterface $cache): bool
     {
-        return $this->cache?->clear() ?? false;
+        return $cache->clear();
     }
 
     /**

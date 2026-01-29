@@ -856,8 +856,20 @@ public function clearCache(): bool
 
 Flush the entire cache store (all prefixes, all credentials). Use this to clean up remnants when credentials change.
 
+This is a **static method** - no Ergani instance or credentials required.
+
 ```php
-public function flushCache(): bool
+public static function flushCache(CacheInterface $cache): bool
+```
+
+**Example:**
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+use OxygenSuite\OxygenErgani\Cache\FileCache;
+
+$cache = new FileCache();
+Ergani::flushCache($cache);
 ```
 
 ### clearEmployerCache()

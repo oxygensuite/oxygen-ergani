@@ -266,18 +266,11 @@ class ErganiTest extends TestCase
         $ergani = new Ergani('test-access-token', config: $config, cache: $cache, cachePrefix: 'user1');
 
         $ergani->getEmployerInfo();
-        $this->assertTrue($ergani->flushCache());
+        $this->assertTrue(Ergani::flushCache($cache));
 
         // After flushing, should hit API again
         $result = $ergani->getEmployerInfo();
         $this->assertSame('12345', $result->id);
-    }
-
-    public function test_flush_cache_returns_false_without_cache(): void
-    {
-        $ergani = new Ergani('test-access-token');
-
-        $this->assertFalse($ergani->flushCache());
     }
 
     public function test_auto_prefix_from_token_manager(): void
