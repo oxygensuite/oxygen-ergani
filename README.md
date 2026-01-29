@@ -6,7 +6,7 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen)](https://phpstan.org/)
 
-> **Warning**
+> [!CAUTION]
 > This package is currently in **alpha** (v2.0.0-alpha). The API is not yet stable and **breaking changes may occur** between releases. Please pin to a specific version in production environments and review the [CHANGELOG.md](CHANGELOG.md) before upgrading.
 
 ## Features
@@ -54,7 +54,7 @@ Token::setCurrentTokenManager(
 ### 2. Submit a Work Card
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
+use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
 use OxygenSuite\OxygenErgani\Models\WorkCard\CardDetail;
 use OxygenSuite\OxygenErgani\Enums\CardDetailType;
@@ -73,7 +73,8 @@ $card = Card::make()
             ->setDate(date('Y-m-d\TH:i:s.uP'))
     );
 
-$response = (new WorkCard())->handle($card);
+$ergani = new Ergani();
+$response = $ergani->sendWorkCards($card);
 
 echo $response[0]->protocol; // e.g., 'ΕΥΣ92'
 ```
@@ -81,7 +82,7 @@ echo $response[0]->protocol; // e.g., 'ΕΥΣ92'
 ### 3. Submit a Hiring Declaration (E3)
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringNew;
+use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Models\Hiring\NewDeclaration;
 
 $declaration = NewDeclaration::make()
@@ -95,7 +96,8 @@ $declaration = NewDeclaration::make()
     // ... additional fields
     ->withDefaults(); // Fill remaining fields with empty strings
 
-$response = (new HiringNew())->handle($declaration);
+$ergani = new Ergani();
+$response = $ergani->sendHiringNew($declaration);
 ```
 
 ## Documentation
