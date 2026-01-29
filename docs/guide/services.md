@@ -32,6 +32,15 @@ echo $employer->ame;           // AME number
 echo $employer->isInCardSector; // true if work cards required
 ```
 
+### Via Ergani Facade
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+$employer = $ergani->getEmployerInfo();
+```
+
 ### Response: `EmployerResponse`
 
 | Property | Type | Description |
@@ -82,6 +91,15 @@ if ($branches->has('1')) {
 // Get first/last
 $first = $branches->first();
 $last = $branches->last();
+```
+
+### Via Ergani Facade
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+$branches = $ergani->getBranches();
 ```
 
 ### Response: `BranchCollection` of `BranchResponse`
@@ -274,6 +292,15 @@ foreach ($employees as $employee) {
 }
 ```
 
+### Via Ergani Facade
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+$employees = $ergani->getMonthlyStatus(2025, 1);  // January 2025
+```
+
 ### Parameters
 
 | Parameter | Type | Description |
@@ -366,7 +393,7 @@ try {
 
 ## Best Practices
 
-1. **Cache Parameters**: Parameter lookup results don't change frequently. Cache them to reduce API calls.
+1. **Cache Parameters**: Parameter lookup results don't change frequently. Use the built-in PSR-16 caching on the `Ergani` facade to reduce API calls (see [Ergani Facade - Caching](/api/ergani#caching)).
 
 2. **Validate Codes**: Always validate user-provided codes against parameter lookups before submission.
 

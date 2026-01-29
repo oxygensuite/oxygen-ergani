@@ -19,7 +19,8 @@
   ],
   "require": {
     "php": "^8.2",
-    "guzzlehttp/guzzle": "^7.9"
+    "guzzlehttp/guzzle": "^7.9",
+    "psr/simple-cache": "^3.0"
   },
   "require-dev": {
     "fakerphp/faker": "^v1.24",

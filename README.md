@@ -17,6 +17,7 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 - **Employment Modifications (MA/MAD)** - Changes to employment terms
 - **Overtime Declarations** - Regular and retrospective overtime submissions
 - **Query Services** - Employer info, branch details, parameter lookups, and employee status
+- **PSR-16 Caching** - Opt-in caching for service responses with bundled file-based and in-memory implementations
 
 ## Requirements
 

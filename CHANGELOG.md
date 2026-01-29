@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### PSR-16 Caching
+- Opt-in PSR-16 caching for `EmployerInfo`, `BranchInfo`, and `ParameterLookup` services via the `Ergani` facade
+- `FileCache` - File-based PSR-16 implementation with TTL support and configurable directory (mirrors `FileToken` pattern)
+- `InMemoryCache` - Array-based PSR-16 implementation for single-request use or testing
+- `NullCache` - No-op PSR-16 implementation for explicitly disabling caching
+- `getEmployerInfo()` facade method for retrieving employer details
+- `getBranches()` facade method for retrieving branch information
+- Cache clearing methods: `clearCache()`, `flushCache()`, `clearEmployerCache()`, `clearBranchCache()`, `clearParameterCache()`
+- `clearExpired()` method on `FileCache` and `InMemoryCache` for maintenance
+- Auto-derived cache prefix from `TokenManager` credentials (sha256 of username:password)
+- `Token::cacheIdentifier()` method for generating cache-safe credential hashes
+
 #### New Document Types
 - **E3 Hiring Forms** - Complete hiring declaration support
   - `HiringNew` (E3N) - New employee hiring
@@ -63,6 +75,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Labels accessible via `->label()`, `->labelGreek()`, `::labels()`, `::labelsGreek()`
 - `HasLabels::labelsFor()` method to get labels for a subset of enum cases
 - `WorkTimeType` category helpers: `work()`, `rest()`, `schedule()`, `dayLeaves()`, `hourlyLeaves()`, `leaves()`, `overtime()` and corresponding instance check methods (`isWork()`, `isLeave()`, etc.)
+
+#### Ergani Facade Extension
+- Extended `Ergani` facade class with 34+ methods for all document types
+- Trait-based organization in `src/Ergani/Concerns/` for maintainability:
+  - `SendsHiringDocuments` - E3 hiring methods (`sendHiringNew()`, `sendHiringModification()`, `sendHiringDeletion()`, `sendHiringWithLending()`)
+  - `SendsTerminationDocuments` - E5 + E7 termination methods (`sendVoluntaryResignation()`, `sendResignationNotification()`, `sendResignationAfterNotification()`, `sendTerminationByDeath()`, `sendVoluntaryExitCompensation()`, `sendRetirementVoluntary()`, `sendRetirementMandatory()`, `sendFixedTermTermination()`)
+  - `SendsDismissalDocuments` - E6 dismissal methods (`sendDismissalWithoutNotice()`, `sendDismissalWithNotice()`, `sendRetirementDismissal()`, `sendEndOfLoan()`, `sendTrialPeriodTermination()`, `sendTransfer()`)
+  - `SendsWorkTimeDocuments` - Work time methods (`sendDailyWorkTime()`, `sendWeeklyWorkTime()`, `sendDailyWorkTimeDrivers()`, `sendDailyWorkTimeRetrospective()`, `sendWorkTimeLeave()`, `sendWorkTimeLeaveCorrection()`)
+  - `SendsOvertimeDocuments` - Overtime methods (`sendOvertime()`, `sendOvertimeDrivers()`, `sendOvertimeRetrospective()`)
+  - `SendsModificationDocuments` - MA methods (`sendEmploymentModification()`, `sendBorrowedEmploymentModification()`)
+  - `SendsWorkingStatusDocuments` - Status change method (`sendWorkingStatusChange()`)
+  - `ManagesDocuments` - Document management methods (`cancelDocument()`, `getSubmissions()`, `getSchema()`, `getDocumentPdf()`)
+- `getMonthlyStatus()` method for retrieving employee status reports
 
 #### Developer Experience
 - `withDefaults()` method on models to auto-fill missing fields with empty strings

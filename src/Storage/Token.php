@@ -54,6 +54,15 @@ abstract class Token implements TokenManager
     }
 
     /**
+     * Returns a hash suitable for use as a cache prefix,
+     * derived from the username and password.
+     */
+    public function cacheIdentifier(): string
+    {
+        return hash('sha256', $this->username . ':' . $this->password);
+    }
+
+    /**
      * @throws ErganiException
      */
     public function authenticate(): ?string
