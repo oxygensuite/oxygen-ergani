@@ -9,18 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### PSR-16 Caching
-- Opt-in PSR-16 caching for `EmployerInfo`, `BranchInfo`, and `ParameterLookup` services via the `Ergani` facade
-- `FileCache` - File-based PSR-16 implementation with TTL support and configurable directory (mirrors `FileToken` pattern)
-- `InMemoryCache` - Array-based PSR-16 implementation for single-request use or testing
-- `NullCache` - No-op PSR-16 implementation for explicitly disabling caching
-- `getEmployerInfo()` facade method for retrieving employer details
-- `getBranches()` facade method for retrieving branch information
-- Cache clearing methods: `clearCache()`, `flushCache()`, `clearEmployerCache()`, `clearBranchCache()`, `clearParameterCache()`
-- `clearExpired()` method on `FileCache` and `InMemoryCache` for maintenance
-- Auto-derived cache prefix from `TokenManager` credentials (sha256 of username:password)
-- `Token::cacheIdentifier()` method for generating cache-safe credential hashes
-
 #### New Document Types
 - **E3 Hiring Forms** - Complete hiring declaration support
   - `HiringNew` (E3N) - New employee hiring
@@ -53,29 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `WorkTimeOvertimeRetrospective` - Retrospective overtime
 - **Working Status Change** - Employee status update document
 
-#### Query Services
-- `EmployerInfo` (EX_BASE_01) - Retrieve employer details
-- `BranchInfo` (EX_BASE_02) - Retrieve branch details
-- `ParameterLookup` (EX_BASE_03) - Query parameter lists (work types, nationalities, etc.)
-- `MonthlyStatus` (EX_BASE_04) - Query monthly employee status
-
-#### Response Collections
-- `BranchCollection` - Typed collection for branch responses with search/filter methods
-- `ParameterCollection` - Typed collection for parameter responses with O(1) lookup
-
-#### Model Factory System
-- Laravel-inspired factory system for generating test data
-- `GreekProvider` for Faker with valid Greek identifiers (AFM, AMKA, ID numbers)
-- Factory state methods for common scenarios (fixed-term, part-time, foreign nationals, etc.)
-- Factories for all model types (WorkCard, WorkTime, Hiring, Termination, Dismissal, Modification, Overtime)
-
-#### Enums with Bilingual Labels
-- `HasLabels` trait for backed enums with English/Greek labels
-- New enums: `Sex`, `MaritalStatus`, `EmploymentStatus`, `WorkerType`, `EmploymentType`, `WorkLocation`, `SpecialCase`, `LoanType`, `SalaryPaymentSource`, `FixedTermTerminationReason`, `NoticePeriodMonths`, `WorkTimeType`, `DayOfWeek`, `WeekDays`, `BasicsAcceptance`, `SettlementType`, `IndividualContract`, `ResponsiblePosition`, `WorkCardDelayReason`
-- Labels accessible via `->label()`, `->labelGreek()`, `::labels()`, `::labelsGreek()`
-- `HasLabels::labelsFor()` method to get labels for a subset of enum cases
-- `WorkTimeType` category helpers: `work()`, `rest()`, `schedule()`, `dayLeaves()`, `hourlyLeaves()`, `leaves()`, `overtime()` and corresponding instance check methods (`isWork()`, `isLeave()`, etc.)
-
 #### Ergani Facade Extension
 - Extended `Ergani` facade class with 34+ methods for all document types
 - Trait-based organization in `src/Ergani/Concerns/` for maintainability:
@@ -89,6 +54,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `ManagesDocuments` - Document management methods (`cancelDocument()`, `getSubmissions()`, `getSchema()`, `getDocumentPdf()`)
 - `getMonthlyStatus()` method for retrieving employee status reports
 
+#### Query Services
+- `EmployerInfo` (EX_BASE_01) - Retrieve employer details
+- `BranchInfo` (EX_BASE_02) - Retrieve branch details
+- `ParameterLookup` (EX_BASE_03) - Query parameter lists (work types, nationalities, etc.)
+- `MonthlyStatus` (EX_BASE_04) - Query monthly employee status
+
+#### PSR-16 Caching
+- Opt-in PSR-16 caching for `getEmployerInfo()`, `getBranches()`, and `getParameters()` via the `Ergani` facade
+- `FileCache` - File-based PSR-16 implementation with TTL support and configurable directory (mirrors `FileToken` pattern)
+- `InMemoryCache` - Array-based PSR-16 implementation for single-request use or testing
+- `NullCache` - No-op PSR-16 implementation for explicitly disabling caching
+- Cache clearing methods: `clearCache()`, `flushCache()`, `clearEmployerCache()`, `clearBranchCache()`, `clearParameterCache()`
+- `clearExpired()` method on `FileCache` and `InMemoryCache` for maintenance
+- Auto-derived cache prefix from `TokenManager` credentials (sha256 of username:password)
+- `Token::cacheIdentifier()` method for generating cache-safe credential hashes
+
+#### Response Collections
+- `BranchCollection` - Typed collection for branch responses with search/filter methods
+- `ParameterCollection` - Typed collection for parameter responses with O(1) lookup
+
+#### Enums with Bilingual Labels
+- `HasLabels` trait for backed enums with English/Greek labels
+- New enums: `Sex`, `MaritalStatus`, `EmploymentStatus`, `WorkerType`, `EmploymentType`, `WorkLocation`, `SpecialCase`, `LoanType`, `SalaryPaymentSource`, `FixedTermTerminationReason`, `NoticePeriodMonths`, `WorkTimeType`, `DayOfWeek`, `WeekDays`, `BasicsAcceptance`, `SettlementType`, `IndividualContract`, `ResponsiblePosition`, `WorkCardDelayReason`
+- Labels accessible via `->label()`, `->labelGreek()`, `::labels()`, `::labelsGreek()`
+- `HasLabels::labelsFor()` method to get labels for a subset of enum cases
+- `WorkTimeType` category helpers: `work()`, `rest()`, `schedule()`, `dayLeaves()`, `hourlyLeaves()`, `leaves()`, `overtime()` and corresponding instance check methods (`isWork()`, `isLeave()`, etc.)
+
+#### Model Factory System
+- Laravel-inspired factory system for generating test data
+- `GreekProvider` for Faker with valid Greek identifiers (AFM, AMKA, ID numbers)
+- Factory state methods for common scenarios (fixed-term, part-time, foreign nationals, etc.)
+- Factories for all model types (WorkCard, WorkTime, Hiring, Termination, Dismissal, Modification, Overtime)
+
 #### Developer Experience
 - `withDefaults()` method on models to auto-fill missing fields with empty strings
 - Greek float casting with configurable precision (`'greek_float'` for 2 decimals, `'greek_float:1'` for 1 decimal)
@@ -98,16 +96,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Collection::toArray()` and `Response::toArray()` methods for easy serialization
 - `bin/check-enum` CLI tool to compare enums against the live ERGANI API (use `composer enum:check -- --all`)
 
-#### Quality Assurance
-- PHPStan level 7 static analysis
-- Mutation testing with Infection
-- Comprehensive test coverage for all document types
-
 #### Documentation
 - VitePress documentation site with guides and API reference
 - Full coverage of all document types, models, enums, and services
 - Documentation for `pdf()` method to retrieve submitted documents as PDF
 - Restructured API reference with separate pages for each enum and model category
+
+#### Quality Assurance
+- PHPStan level 7 static analysis
+- Mutation testing with Infection
+- Comprehensive test coverage for all document types
 
 ### Changed
 

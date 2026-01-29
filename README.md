@@ -6,6 +6,9 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen)](https://phpstan.org/)
 
+> **Warning**
+> This package is currently in **alpha** (v2.0.0-alpha). The API is not yet stable and **breaking changes may occur** between releases. Please pin to a specific version in production environments and review the [CHANGELOG.md](CHANGELOG.md) before upgrading.
+
 ## Features
 
 - **Work Cards** - Employee check-in/check-out submissions
