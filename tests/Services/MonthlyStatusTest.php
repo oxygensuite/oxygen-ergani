@@ -32,8 +32,8 @@ class MonthlyStatusTest extends TestCase
 
         // First employee
         $this->assertInstanceOf(EmployeeStatusResponse::class, $employees[0]);
-        $this->assertSame('12345', $employees[0]->employerId);
-        $this->assertSame('0', $employees[0]->branchAa);
+        $this->assertSame(12345, $employees[0]->employerId);
+        $this->assertSame(0, $employees[0]->branchAa);
         $this->assertSame(2025, $employees[0]->year);
         $this->assertSame(1, $employees[0]->month);
         $this->assertSame('Εξαρτημένη', $employees[0]->employeeType);
