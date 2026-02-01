@@ -23,7 +23,13 @@ class MonthlyStatus extends Service
             'ReportMonth' => (string) $month,
         ])->json();
 
-        $employees = $data[$this->serviceCode()]['Apasxoloumenoi'] ?? [];
+        $employees = $data[$this->serviceCode()]['MiniaiaKatastash'] ?? [];
+
+        // API returns object for single employee, array for multiple
+        // Normalize to always be an array of employees
+        if ($employees !== [] && !array_is_list($employees)) {
+            $employees = [$employees];
+        }
 
         return array_map(
             fn(array $employee) => new EmployeeStatusResponse($employee),

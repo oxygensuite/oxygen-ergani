@@ -271,7 +271,7 @@ if ($office) {
 
 ## Monthly Status (EX_BASE_04)
 
-Retrieves the employment status of all employees for a specific month.
+Retrieves comprehensive monthly employment status for all employees, including work days, leave balances, overtime, and insurance data.
 
 ### Usage
 
@@ -283,11 +283,11 @@ $employees = $service->handle(2025, 1);  // January 2025
 
 foreach ($employees as $employee) {
     echo "{$employee->lastName} {$employee->firstName}\n";
-    echo "AFM: {$employee->afm}\n";
-    echo "AMKA: {$employee->amka}\n";
-    echo "From: {$employee->fromDate} To: {$employee->toDate}\n";
+    echo "AFM: {$employee->afm}, AMKA: {$employee->amka}\n";
     echo "Specialty: {$employee->specialty}\n";
     echo "Salary: {$employee->salary}\n";
+    echo "Work days: {$employee->workDays}, Remote: {$employee->remoteWorkDays}\n";
+    echo "Annual leave taken: {$employee->annualLeaveDays} days\n";
     echo "---\n";
 }
 ```
@@ -310,16 +310,89 @@ $employees = $ergani->getMonthlyStatus(2025, 1);  // January 2025
 
 ### Response: Array of `EmployeeStatusResponse`
 
+The response includes comprehensive employee data organized into categories:
+
+#### Identification
+
 | Property | Type | Description |
 |----------|------|-------------|
-| `afm` | string\|null | Employee tax ID |
-| `amka` | string\|null | Employee social security number |
-| `lastName` | string\|null | Last name (Επώνυμο) |
-| `firstName` | string\|null | First name (Όνομα) |
-| `fromDate` | string\|null | Employment start date |
-| `toDate` | string\|null | Employment end date (if terminated) |
-| `specialty` | string\|null | Employee specialty |
-| `salary` | string\|null | Salary amount |
+| `employerId` | string\|null | Employer ID |
+| `branchAa` | string\|null | Branch sequence number |
+| `year` | int\|null | Report year |
+| `month` | int\|null | Report month |
+| `employeeType` | string\|null | Employee type (e.g., "Εξαρτημένη") |
+| `afm` | string\|null | Tax ID |
+| `amka` | string\|null | Social security number |
+| `ama` | string\|null | IKA insurance number |
+| `lastName` | string\|null | Last name |
+| `firstName` | string\|null | First name |
+| `fatherName` | string\|null | Father's name |
+| `motherName` | string\|null | Mother's name |
+| `birthDate` | DateTimeInterface\|null | Birth date |
+| `sex` | string\|null | Sex |
+| `nationality` | string\|null | Nationality code with description |
+| `maritalStatus` | string\|null | Marital status |
+| `childrenCount` | int\|null | Number of children |
+| `educationLevel` | string\|null | Education level code with description |
+
+#### Employment Details
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `characterization` | string\|null | Employee type (Υπάλληλος/Εργάτης) |
+| `employmentRelation` | string\|null | Employment relation (Αορίστου/Ορισμένου) |
+| `employmentStatus` | string\|null | Full/Part time (Πλήρης/Μερική) |
+| `specialty` | string\|null | Specialty code with description |
+| `salary` | string\|null | Gross salary (Greek format) |
+| `weeklyHours` | string\|null | Weekly work hours |
+| `hourlyWage` | string\|null | Hourly wage |
+| `program` | string\|null | Employment program |
+| `responsible` | string\|null | Responsible person |
+| `hiringDate` | DateTimeInterface\|null | Hiring date |
+
+#### Work Days
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `workDays` | int\|null | Days worked on-site |
+| `remoteWorkDays` | int\|null | Days worked remotely |
+| `restDays` | int\|null | Rest/repo days |
+| `nonWorkingDays` | int\|null | Non-working days |
+
+#### Leave Days
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `annualLeaveDays` | int\|null | Annual leave days |
+| `bloodDonationLeaveDays` | int\|null | Blood donation leave |
+| `examLeaveDays` | int\|null | Exam leave |
+| `unpaidLeaveDays` | int\|null | Unpaid leave |
+| `maternityLeaveDays` | int\|null | Maternity leave |
+| `maternityProtectionDays` | int\|null | Maternity protection days |
+| `paternityLeaveDays` | int\|null | Paternity leave |
+| `childCareLeaveDays` | int\|null | Child care leave |
+| `parentalLeaveDays` | int\|null | Parental leave |
+| `sicknessDays` | int\|null | Sick days |
+| `otherLeaveDays` | int\|null | Other leave types |
+
+See [EmployeeStatusResponse](/api/responses#employeestatusresponse) for the complete list of 30+ leave type fields.
+
+#### Overtime & Work Card
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `overtimeMinutes` | int\|null | Total overtime minutes |
+| `overtimeDays` | int\|null | Days with overtime |
+| `workCardDays` | int\|null | Days with work card entries |
+| `sundayHolidayDays` | int\|null | Sunday/holiday work days |
+| `sundayHolidayCardDays` | int\|null | Sunday/holiday card days |
+
+#### Insurance Totals
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `totalInsuredLeaveDays` | int\|null | Total insured leave days |
+| `totalInsuredSicknessDays` | int\|null | Total insured sickness days |
 
 ### Example: Generate Monthly Report
 
@@ -333,12 +406,34 @@ $employees = $service->handle(
     (int) $now->format('n')
 );
 
-$activeEmployees = array_filter(
-    $employees,
-    fn($emp) => empty($emp->toDate)  // No end date = still employed
+// Calculate totals
+$totalWorkDays = array_sum(array_map(fn($e) => $e->workDays ?? 0, $employees));
+$totalRemoteDays = array_sum(array_map(fn($e) => $e->remoteWorkDays ?? 0, $employees));
+$totalLeaveDays = array_sum(array_map(fn($e) => $e->annualLeaveDays ?? 0, $employees));
+
+echo "Total employees: " . count($employees) . "\n";
+echo "Total work days: {$totalWorkDays}\n";
+echo "Total remote days: {$totalRemoteDays}\n";
+echo "Total leave days taken: {$totalLeaveDays}\n";
+```
+
+### Example: Find Employees on Leave
+
+```php
+$employees = $service->handle(2025, 1);
+
+$onLeave = array_filter($employees, fn($e) =>
+    ($e->annualLeaveDays ?? 0) > 0 ||
+    ($e->sicknessDays ?? 0) > 0 ||
+    ($e->maternityLeaveDays ?? 0) > 0
 );
 
-echo "Active employees: " . count($activeEmployees);
+foreach ($onLeave as $emp) {
+    echo "{$emp->lastName}: ";
+    if ($emp->annualLeaveDays > 0) echo "Annual: {$emp->annualLeaveDays}d ";
+    if ($emp->sicknessDays > 0) echo "Sick: {$emp->sicknessDays}d ";
+    echo "\n";
+}
 ```
 
 ---
