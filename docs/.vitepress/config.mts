@@ -86,6 +86,10 @@ export default defineConfig({
             },
             { text: 'Fixed-Term (E7)', link: '/guide/fixed-term' },
             { text: 'Modifications (MA)', link: '/guide/modifications' },
+            { text: 'Construction (E12)', link: '/guide/construction' },
+            { text: 'Sixth Day', link: '/guide/sixth-day' },
+            { text: 'Pre-Announcement', link: '/guide/pre-announcement' },
+            { text: 'Internship (E3.5)', link: '/guide/internship' },
           ]
         },
         {
@@ -103,20 +107,6 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/api/' },
             { text: 'Ergani Facade', link: '/api/ergani' },
-          ]
-        },
-        {
-          text: 'Models',
-          collapsed: false,
-          items: [
-            { text: 'Overview', link: '/api/models/' },
-            { text: 'Work Cards', link: '/api/models/work-cards' },
-            { text: 'Work Time', link: '/api/models/work-time' },
-            { text: 'Hiring (E3)', link: '/api/models/hiring' },
-            { text: 'Termination (E5/E7)', link: '/api/models/termination' },
-            { text: 'Dismissal (E6)', link: '/api/models/dismissal' },
-            { text: 'Modifications (MA)', link: '/api/models/modifications' },
-            { text: 'Common Fields', link: '/api/models/common-fields' },
           ]
         },
         {

@@ -5,10 +5,14 @@ namespace OxygenSuite\OxygenErgani;
 use OxygenSuite\OxygenErgani\Enums\Environment;
 use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\ManagesDocuments;
+use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsConstructionDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsDismissalDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsHiringDocuments;
+use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsInternshipDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsModificationDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsOvertimeDocuments;
+use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsPreAnnouncementDocuments;
+use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsSixthDayDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsTerminationDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsWorkingStatusDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsWorkTimeDocuments;
@@ -16,18 +20,22 @@ use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogin;
 use OxygenSuite\OxygenErgani\Http\ClientConfig;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
+use OxygenSuite\OxygenErgani\Http\Services\AcceptanceStatus;
 use OxygenSuite\OxygenErgani\Http\Services\BranchInfo;
 use OxygenSuite\OxygenErgani\Http\Services\EmployerInfo;
 use OxygenSuite\OxygenErgani\Http\Services\MonthlyStatus;
 use OxygenSuite\OxygenErgani\Http\Services\ParameterLookup;
 use OxygenSuite\OxygenErgani\Http\Services\ServicesList;
+use OxygenSuite\OxygenErgani\Http\Services\WorkforceStatus;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
+use OxygenSuite\OxygenErgani\Responses\AcceptanceStatusResponse;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 use OxygenSuite\OxygenErgani\Responses\BranchCollection;
 use OxygenSuite\OxygenErgani\Responses\EmployeeStatusResponse;
 use OxygenSuite\OxygenErgani\Responses\EmployerResponse;
 use OxygenSuite\OxygenErgani\Responses\ParameterCollection;
 use OxygenSuite\OxygenErgani\Responses\WorkCardResponse;
+use OxygenSuite\OxygenErgani\Responses\WorkforceStatusResponse;
 use OxygenSuite\OxygenErgani\Storage\Token;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -36,10 +44,14 @@ use ReflectionClass;
 class Ergani
 {
     use ManagesDocuments;
+    use SendsConstructionDocuments;
     use SendsDismissalDocuments;
     use SendsHiringDocuments;
+    use SendsInternshipDocuments;
     use SendsModificationDocuments;
     use SendsOvertimeDocuments;
+    use SendsPreAnnouncementDocuments;
+    use SendsSixthDayDocuments;
     use SendsTerminationDocuments;
     use SendsWorkingStatusDocuments;
     use SendsWorkTimeDocuments;
@@ -137,6 +149,35 @@ class Ergani
     {
         return (new MonthlyStatus($this->accessToken, $this->environment, $this->config))
             ->handle($year, $month);
+    }
+
+    /**
+     * Retrieve current workforce status, optionally filtered by employee TIN.
+     *
+     * @param string|null $tin Employee tax identification number (optional)
+     *
+     * @return WorkforceStatusResponse[]
+     * @throws ErganiException
+     */
+    public function getWorkforceStatus(?string $tin = null): array
+    {
+        return (new WorkforceStatus($this->accessToken, $this->environment, $this->config))
+            ->handle($tin);
+    }
+
+    /**
+     * Retrieve the acceptance status of essential terms declarations.
+     *
+     * @param string $tin Employee tax identification number
+     * @param string $protocol Declaration protocol number
+     * @param \DateTime|string $date Declaration submission date (DD/MM/YYYY)
+     *
+     * @throws ErganiException
+     */
+    public function getAcceptanceStatus(string $tin, string $protocol, \DateTime|string $date): ?AcceptanceStatusResponse
+    {
+        return (new AcceptanceStatus($this->accessToken, $this->environment, $this->config))
+            ->handle($tin, $protocol, $date);
     }
 
     /**

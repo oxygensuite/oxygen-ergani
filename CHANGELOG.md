@@ -40,9 +40,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `WorkTimeOvertimeDrivers` - Driver-specific overtime
   - `WorkTimeOvertimeRetrospective` - Retrospective overtime
 - **Working Status Change** - Employee status update document
+- **E12 Construction Forms** - Construction work declaration support
+  - `ConstructionWorkDeclaration` (E12) - Construction work personnel declaration
+  - `ConstructionWorkCensus` (E12Apogr) - Construction work census
+- **SixthDay Declaration** - Sixth day / extra shift declaration
+  - `SixthDay` (SixthDay) - Employment declaration for extra shift
+- **Pre-Announcement Exemption** - Pre-announcement exemption declaration
+  - `PreAnnouncementExemption` (ExProan) - Exemption from pre-announcement requirement
+- **E3.5 Internship Declaration** - Internship start/modification support
+  - `Internship` (57) - Internship declaration with ~100 fields and schedule helpers
 
 #### Ergani Facade Extension
-- Extended `Ergani` facade class with 34+ methods for all document types
+- Extended `Ergani` facade class with 40+ methods for all document types
 - Trait-based organization in `src/Ergani/Concerns/` for maintainability:
   - `SendsHiringDocuments` - E3 hiring methods (`sendHiringNew()`, `sendHiringModification()`, `sendHiringDeletion()`, `sendHiringWithLending()`)
   - `SendsTerminationDocuments` - E5 + E7 termination methods (`sendVoluntaryResignation()`, `sendResignationNotification()`, `sendResignationAfterNotification()`, `sendTerminationByDeath()`, `sendVoluntaryExitCompensation()`, `sendRetirementVoluntary()`, `sendRetirementMandatory()`, `sendFixedTermTermination()`)
@@ -51,6 +60,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `SendsOvertimeDocuments` - Overtime methods (`sendOvertime()`, `sendOvertimeDrivers()`, `sendOvertimeRetrospective()`)
   - `SendsModificationDocuments` - MA methods (`sendEmploymentModification()`, `sendBorrowedEmploymentModification()`)
   - `SendsWorkingStatusDocuments` - Status change method (`sendWorkingStatusChange()`)
+  - `SendsConstructionDocuments` - Construction methods (`sendConstructionWork()`, `sendConstructionWorkCensus()`)
+  - `SendsSixthDayDocuments` - Sixth day method (`sendSixthDayDeclaration()`)
+  - `SendsPreAnnouncementDocuments` - Pre-announcement method (`sendPreAnnouncementExemption()`)
+  - `SendsInternshipDocuments` - Internship method (`sendInternshipDeclaration()`)
   - `ManagesDocuments` - Document management methods (`cancelDocument()`, `getSubmissions()`, `getSchema()`, `getDocumentPdf()`)
 - `getMonthlyStatus()` method for retrieving employee status reports
 
@@ -59,6 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BranchInfo` (EX_BASE_02) - Retrieve branch details
 - `ParameterLookup` (EX_BASE_03) - Query parameter lists (work types, nationalities, etc.)
 - `MonthlyStatus` (EX_BASE_04) - Query monthly employee status
+- `WorkforceStatus` (EX_BASE_05) - Query workforce movement status
+- `AcceptanceStatus` (EX_BASE_06) - Query essential terms acceptance status
 
 #### PSR-16 Caching
 - Opt-in PSR-16 caching for `getEmployerInfo()`, `getBranches()`, and `getParameters()` via the `Ergani` facade
@@ -85,7 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Laravel-inspired factory system for generating test data
 - `GreekProvider` for Faker with valid Greek identifiers (AFM, AMKA, ID numbers)
 - Factory state methods for common scenarios (fixed-term, part-time, foreign nationals, etc.)
-- Factories for all model types (WorkCard, WorkTime, Hiring, Termination, Dismissal, Modification, Overtime)
+- Factories for all model types (WorkCard, WorkTime, Hiring, Termination, Dismissal, Modification, Overtime, Construction, SixthDay, PreAnnouncement, Internship)
 
 #### Developer Experience
 - `withDefaults()` method on models to auto-fill missing fields with empty strings

@@ -66,5 +66,5 @@ The `HasLabels` trait provides:
 
 ## See Also
 
-- [Models](/api/models/) - Model classes using these enums
+- [Guide](/guide/getting-started) - Usage guides for each document type
 - [Responses](/api/responses) - Response classes

@@ -624,6 +624,24 @@ For reference, here's the JSON structure sent to the ERGANI API:
 }
 ```
 
+## Testing with Factories
+
+`WorkTimeEntry` supports factory state methods for generating test data:
+
+```php
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTimeEntry;
+
+// Common entry types
+$entry = WorkTimeEntry::factory()->work('08:00', '16:00')->make();
+$entry = WorkTimeEntry::factory()->overtime('17:00', '19:00')->make();
+$entry = WorkTimeEntry::factory()->dayOff()->make();
+$entry = WorkTimeEntry::factory()->leaveRegular('2025', '010')->make();
+
+// Shift presets
+$entry = WorkTimeEntry::factory()->morningShift()->make();
+$entry = WorkTimeEntry::factory()->nightShift()->make();
+```
+
 ## Best Practices
 
 ### 1. Use Appropriate Document Type

@@ -16,7 +16,7 @@ class ServicesListTest extends TestCase
         $response = $list->handle();
 
         $this->assertIsArray($response);
-        $this->assertCount(4, $response);
+        $this->assertCount(6, $response);
 
         $row0 = $response[0];
         $this->assertSame('EX_BASE_01', $row0['name']);
@@ -57,5 +57,31 @@ class ServicesListTest extends TestCase
         $this->assertSame('ΜΗΝΑΣ', $row3['parameters'][1]['description']);
         $this->assertTrue($row3['parameters'][1]['isRequired']);
         $this->assertSame('Decimal', $row3['parameters'][1]['type']);
+
+        $row4 = $response[4];
+        $this->assertSame('EX_BASE_05', $row4['name']);
+        $this->assertSame('ΣΤΟΙΧΕΙΑ ΤΡΕΧΟΥΣΑΣ ΚΑΤΑΣΤΑΣΗΣ ΔΥΝΑΜΙΚΟΥ', $row4['description']);
+        $this->assertNull($row4['instructions']);
+        $this->assertIsArray($row4['parameters']);
+        $this->assertCount(1, $row4['parameters']);
+        $this->assertSame('afm', $row4['parameters'][0]['name']);
+        $this->assertFalse($row4['parameters'][0]['isRequired']);
+        $this->assertSame('Text', $row4['parameters'][0]['type']);
+
+        $row5 = $response[5];
+        $this->assertSame('EX_BASE_06', $row5['name']);
+        $this->assertSame('ΣΤΟΙΧΕΙΑ ΚΑΤΑΣΤΑΣΗΣ ΑΠΟΔΟΧΗΣ ΟΥΣΙΩΔΩΝ ΟΡΩΝ', $row5['description']);
+        $this->assertNotNull($row5['instructions']);
+        $this->assertIsArray($row5['parameters']);
+        $this->assertCount(3, $row5['parameters']);
+        $this->assertSame('afm', $row5['parameters'][0]['name']);
+        $this->assertTrue($row5['parameters'][0]['isRequired']);
+        $this->assertSame('Text', $row5['parameters'][0]['type']);
+        $this->assertSame('protocol', $row5['parameters'][1]['name']);
+        $this->assertTrue($row5['parameters'][1]['isRequired']);
+        $this->assertSame('Text', $row5['parameters'][1]['type']);
+        $this->assertSame('date', $row5['parameters'][2]['name']);
+        $this->assertTrue($row5['parameters'][2]['isRequired']);
+        $this->assertSame('Date', $row5['parameters'][2]['type']);
     }
 }

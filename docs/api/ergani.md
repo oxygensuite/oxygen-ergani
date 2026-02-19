@@ -185,6 +185,84 @@ foreach ($employees as $employee) {
 
 ---
 
+### getWorkforceStatus()
+
+Retrieve current workforce status, optionally filtered by employee AFM. Not cached (dynamic data).
+
+```php
+public function getWorkforceStatus(?string $tin = null): array
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `$tin` | string\|null | `null` | Employee tax ID to filter by |
+
+**Returns:** `array<int, WorkforceStatusResponse>` - List of workforce status records
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+// All employees
+$employees = $ergani->getWorkforceStatus();
+
+// Specific employee
+$employees = $ergani->getWorkforceStatus('123456789');
+
+foreach ($employees as $employee) {
+    echo "{$employee->lastName} {$employee->firstName}\n";
+    echo "Step: {$employee->step}\n";
+    echo "Salary: {$employee->grossSalary}\n";
+}
+```
+
+---
+
+### getAcceptanceStatus()
+
+Retrieve the acceptance status of essential terms declarations from myErgani. Not cached (dynamic data).
+
+```php
+public function getAcceptanceStatus(
+    string $tin,
+    string $protocol,
+    DateTime|string $date
+): ?AcceptanceStatusResponse
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$tin` | string | Employee tax identification number |
+| `$protocol` | string | Declaration protocol number |
+| `$date` | DateTime\|string | Declaration submission date (DD/MM/YYYY) |
+
+**Returns:** `AcceptanceStatusResponse|null` - Status response, or null if no matching declaration
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$status = $ergani->getAcceptanceStatus('123456789', '67890', '15/01/2025');
+
+if ($status?->isAccepted()) {
+    echo "Terms accepted on {$status->answerDate->format('d/m/Y')}\n";
+} elseif ($status?->isAnswerPending()) {
+    echo "Awaiting employee response\n";
+}
+```
+
+---
+
 ### getParameters()
 
 Look up parameter values by type.
@@ -684,6 +762,74 @@ public function sendWorkingStatusChange(WorkingStatus|array $workingStatus): arr
 
 ---
 
+## Sixth Day Documents
+
+### sendSixthDayDeclaration()
+
+Submit sixth day / extra shift declaration (SixthDay).
+
+```php
+public function sendSixthDayDeclaration(SixthDayDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Pre-Announcement Documents
+
+### sendPreAnnouncementExemption()
+
+Submit pre-announcement exemption declaration (ExProan).
+
+```php
+public function sendPreAnnouncementExemption(ExemptionDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Construction Documents (E12)
+
+### sendConstructionWork()
+
+Submit construction work personnel declaration (E12).
+
+```php
+public function sendConstructionWork(ConstructionWork|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendConstructionWorkCensus()
+
+Submit construction work census declaration (E12Apogr).
+
+```php
+public function sendConstructionWorkCensus(ConstructionCensus|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Internship Documents (E3.5)
+
+### sendInternshipDeclaration()
+
+Submit internship declaration (E3.5 / action code 57).
+
+```php
+public function sendInternshipDeclaration(InternshipDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
 ## Document Management
 
 ### cancelDocument()
@@ -999,6 +1145,8 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `getEmployerInfo()` | EX_BASE_01 | Employer details |
 | | `getBranches()` | EX_BASE_02 | Branch list |
 | | `getMonthlyStatus()` | EX_BASE_04 | Monthly employee status |
+| | `getWorkforceStatus()` | EX_BASE_05 | Current workforce status |
+| | `getAcceptanceStatus()` | EX_BASE_06 | Essential terms acceptance status |
 | | `getParameters()` | EX_BASE_03 | System parameters |
 | **Work Cards** | `sendWorkCards()` | WRKCardSE | Check-in/check-out |
 | **Hiring** | `sendHiringNew()` | E3N | New employee |
@@ -1031,6 +1179,11 @@ $responses = $ergani->sendHiringNew($declarations);
 | **Modification** | `sendEmploymentModification()` | WebMA | Employment changes |
 | | `sendBorrowedEmploymentModification()` | WebMAD | Borrowed employee changes |
 | **Status** | `sendWorkingStatusChange()` | WKChgWK | Working status change |
+| **Sixth Day** | `sendSixthDayDeclaration()` | SixthDay | Extra shift / 6th day |
+| **Pre-Announce** | `sendPreAnnouncementExemption()` | ExProan | Pre-announcement exemption |
+| **Construction** | `sendConstructionWork()` | E12 | Construction personnel |
+| | `sendConstructionWorkCensus()` | E12Apogr | Construction census |
+| **Internship** | `sendInternshipDeclaration()` | 57 | Internship (E3.5) |
 | **Management** | `cancelDocument()` | - | Cancel submission |
 | | `getSubmissions()` | - | List document types |
 | | `getSchema()` | - | Get document schema |
@@ -1047,3 +1200,7 @@ $responses = $ergani->sendHiringNew($declarations);
 - [Hiring](/guide/hiring/) - E3 hiring declarations
 - [Termination](/guide/termination/) - E5 termination declarations
 - [Dismissal](/guide/dismissal/) - E6 dismissal declarations
+- [Construction](/guide/construction) - E12 construction declarations
+- [Sixth Day](/guide/sixth-day) - Extra shift declarations
+- [Pre-Announcement](/guide/pre-announcement) - Pre-announcement exemptions
+- [Internship](/guide/internship) - E3.5 internship declarations

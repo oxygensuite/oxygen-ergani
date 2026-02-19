@@ -121,7 +121,6 @@ Full documentation is available at **[oxygensuite.github.io/oxygen-ergani](https
 ### API Reference
 
 - [Ergani Facade](https://oxygensuite.github.io/oxygen-ergani/api/ergani)
-- [Models](https://oxygensuite.github.io/oxygen-ergani/api/models)
 - [Enums](https://oxygensuite.github.io/oxygen-ergani/api/enums)
 - [Responses](https://oxygensuite.github.io/oxygen-ergani/api/responses)
 - [Exceptions](https://oxygensuite.github.io/oxygen-ergani/api/exceptions)

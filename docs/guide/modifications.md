@@ -90,7 +90,7 @@ $declaration = ModificationDeclaration::make()
 
     // What changed (required)
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('1')  // e.g., Salary change
+        ModificationTypeSelection::make()->setModificationTypeCode('01')  // e.g., Salary change
     );
 
 $response = (new EmploymentModification())->handle($declaration);
@@ -117,18 +117,28 @@ use OxygenSuite\OxygenErgani\Models\Modification\ModificationTypeSelection;
 
 $declaration
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('1')  // Salary
+        ModificationTypeSelection::make()->setModificationTypeCode('01')  // Salary
     )
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('3')  // Schedule
+        ModificationTypeSelection::make()->setModificationTypeCode('03')  // Schedule
     );
 
 // Or set all at once
 $declaration->setModificationTypeSelections([
-    ModificationTypeSelection::make()->setType('1'),
-    ModificationTypeSelection::make()->setType('3'),
+    ModificationTypeSelection::make()->setModificationTypeCode('01'),
+    ModificationTypeSelection::make()->setModificationTypeCode('03'),
 ]);
 ```
+
+#### Common Modification Type Codes
+
+| Code | Description |
+|------|-------------|
+| `01` | Salary change |
+| `02` | Position change |
+| `03` | Hours change |
+| `04` | Location change |
+| `05` | Employment status change |
 
 #### Salary and Employment
 
@@ -365,7 +375,7 @@ $declaration = ModificationDeclaration::make()
 
     // Mark what changed
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('1')  // Salary modification
+        ModificationTypeSelection::make()->setModificationTypeCode('01')  // Salary modification
     )
 
     ->setComments('Αύξηση αποδοχών λόγω προαγωγής');
@@ -398,10 +408,10 @@ $declaration = ModificationDeclaration::make()
 
     // Modification types
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('2')  // Employment status
+        ModificationTypeSelection::make()->setModificationTypeCode('02')  // Employment status
     )
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('1')  // Salary
+        ModificationTypeSelection::make()->setModificationTypeCode('01')  // Salary
     )
 
     ->setComments('Μετατροπή σε μερική απασχόληση κατόπιν αιτήματος εργαζομένου');
@@ -422,7 +432,7 @@ $declaration = ModificationDeclaration::make()
 
     // Mark the change
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('4')  // Employment type
+        ModificationTypeSelection::make()->setModificationTypeCode('04')  // Employment type
     );
 ```
 
@@ -451,10 +461,10 @@ $declaration = ModificationDeclaration::make()
 
     // Mark changes
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('5')  // Specialty
+        ModificationTypeSelection::make()->setModificationTypeCode('05')  // Specialty
     )
     ->addModificationTypeSelection(
-        ModificationTypeSelection::make()->setType('1')  // Salary
+        ModificationTypeSelection::make()->setModificationTypeCode('01')  // Salary
     );
 ```
 

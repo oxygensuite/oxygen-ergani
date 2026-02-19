@@ -15,9 +15,14 @@ OxygenSuite\OxygenErgani
 │   │   ├── WorkCard/               # Work card submissions
 │   │   ├── WorkTime/               # Work time declarations
 │   │   ├── Hiring/                 # E3 hiring forms
-│   │   ├── Termination/            # E5 termination forms
+│   │   ├── Termination/            # E5/E7 termination forms
 │   │   ├── Dismissal/              # E6 dismissal forms
-│   │   └── Modification/           # MA modification forms
+│   │   ├── Modification/           # MA modification forms
+│   │   ├── Construction/           # E12 construction forms
+│   │   ├── SixthDay/              # Sixth day declarations
+│   │   ├── PreAnnouncement/       # Pre-announcement exemptions
+│   │   ├── Internship/            # E3.5 internship forms
+│   │   └── WorkingStatus/         # Working status changes
 │   └── Services/                   # Query services
 ├── Models/                         # Data models
 ├── Responses/                      # Response wrappers
@@ -46,9 +51,10 @@ Documents handle submissions to the ERGANI API:
 | Class | Action | Description |
 |-------|--------|-------------|
 | `WorkCard` | - | Employee check-ins/check-outs |
-| `DailyWorkTime` | WTD | Daily work time declarations |
-| `WeeklyWorkTime` | WTW | Weekly work time declarations |
+| `DailyWorkTime` | WTODaily | Daily work time declarations |
+| `WeeklyWorkTime` | WTOWeek | Weekly work time declarations |
 | `Overtime` | OVT | Overtime declarations |
+| `WorkingStatusChange` | WKChgWK | Working status changes |
 
 ### Hiring Documents (E3)
 
@@ -95,6 +101,21 @@ Documents handle submissions to the ERGANI API:
 | `EmploymentModification` | WebMA | Modify regular employee |
 | `BorrowedEmploymentModification` | WebMAD | Modify borrowed employee |
 
+### Construction Documents (E12)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `ConstructionWorkDeclaration` | E12 | Construction work personnel declaration |
+| `ConstructionWorkCensus` | E12Apogr | Construction work census |
+
+### Other Documents
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `SixthDay` | SixthDay | Sixth day / extra shift declaration |
+| `PreAnnouncementExemption` | ExProan | Pre-announcement exemption |
+| `Internship` | 57 | E3.5 internship declaration |
+
 ## Services
 
 Services query ERGANI data:
@@ -105,11 +126,12 @@ Services query ERGANI data:
 | `BranchInfo` | EX_BASE_02 | Branch details |
 | `ParameterLookup` | EX_BASE_03 | Parameter lists |
 | `MonthlyStatus` | EX_BASE_04 | Monthly employee status |
+| `WorkforceStatus` | EX_BASE_05 | Workforce status |
+| `AcceptanceStatus` | EX_BASE_06 | Acceptance status |
 
 ## API Reference Pages
 
 - [Ergani Facade](/api/ergani) - Main facade class methods
-- [Models](/api/models) - Data model classes
 - [Enums](/api/enums) - Enumeration classes with values
 - [Responses](/api/responses) - Response wrapper classes
 - [Exceptions](/api/exceptions) - Exception classes

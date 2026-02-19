@@ -222,7 +222,7 @@ class MyDocumentTest extends TestCase
 When adding new features, update the documentation:
 
 - **New enums**: Update `docs/api/enums.md`
-- **New models**: Update `docs/api/models.md` and relevant guide pages
+- **New models**: Update relevant guide pages (e.g., `docs/guide/work-time.md`)
 - **New documents**: Add guide page and update `docs/.vitepress/config.mts`
 - **New services**: Update `docs/guide/services.md`
 - **New exceptions**: Update `docs/api/exceptions.md`

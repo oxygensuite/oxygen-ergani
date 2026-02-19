@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition (Trial) 8.1.7.2743 (http://www.liquid-technologies.com)-->
+<xs:schema xmlns="http://www.yeka.gr/SixthDay" xml:lang="gr" attributeFormDefault="unqualified" targetNamespace="http://www.yeka.gr/SixthDay" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="DhlwshSixthDayType">
+        <xs:sequence>
+            <xs:element name="f_aa_pararthmatos" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Α/Α ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{1,5}" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_continuous_operation">
+			  <xs:annotation>
+				<xs:documentation>H ΕΠΙΧΕΙΡΗΣΗ ΕΙΝΑΙ ΕΚ ΦΥΣΕΩΣ ΣΥΝΕΧΟΥΣ ΛΕΙΤΟΥΡΓΙΑΣ (0) ΌΧΙ (1) ΝΑΙ</xs:documentation>
+			  </xs:annotation>
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value=""/>
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+				</xs:restriction>
+			  </xs:simpleType>
+			</xs:element>
+			<xs:element name="f_kad_kyria" nillable="false">
+				<xs:annotation>
+					<xs:documentation>Κ.Α.Δ. - ΚΥΡΙΑ ΔΡΑΣΤΗΡΙΟΤΗΤΑ</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[0-9]{2,8}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="f_special_occasion_description" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΕΡΙΓΡΑΦΗ ΕΙΔΙΚΗΣ ΠΕΡΙΠΤΩΣΗΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_date_special_from" nillable="false">
+                <xs:annotation><xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΑΠΟ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_date_special_to" nillable="false">
+                <xs:annotation><xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΕΩΣ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_comments" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΑΡΑΤΗΡΗΣΕΙΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>   
+          
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DhlwseisSixthDayType">
+		<xs:sequence>
+			<xs:element name="DhlwshSixthDay" type="DhlwshSixthDayType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΔΗΛΩΣΕΙΣ ΑΠΟΣΧΟΛΗΣΗΣ ΤΗΝ ΕΚΤΗ ΗΜΕΡΑ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="DhlwseisSixthDay" type="DhlwseisSixthDayType">
+		<xs:annotation>
+			<xs:documentation>ΔΗΛΩΣΕΙΣ ΑΠΟΣΧΟΛΗΣΗΣ ΤΗΝ ΕΚΤΗ ΗΜΕΡΑ</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

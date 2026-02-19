@@ -45,5 +45,47 @@
                 "maxLength": 0
             }
         ]
+    },
+    {
+        "name": "EX_BASE_05",
+        "description": "ΣΤΟΙΧΕΙΑ ΤΡΕΧΟΥΣΑΣ ΚΑΤΑΣΤΑΣΗΣ ΔΥΝΑΜΙΚΟΥ",
+        "instructions": null,
+        "parameters": [
+            {
+                "name": "afm",
+                "description": null,
+                "isRequired": false,
+                "type": "Text",
+                "maxLength": 0
+            }
+        ]
+    },
+    {
+        "name": "EX_BASE_06",
+        "description": "ΣΤΟΙΧΕΙΑ ΚΑΤΑΣΤΑΣΗΣ ΑΠΟΔΟΧΗΣ ΟΥΣΙΩΔΩΝ ΟΡΩΝ",
+        "instructions": "Στοιχεία Εισόδου\r\nafm: ΑΦΜ ΕΡΓΑΖΟΜΕΝΟΥ που εκκρεμεί αποδοχή από myErgani\r\nprotocol: Αρ. Πρωτοκόλλου Δήλωσης που εκκρεμεί αποδοχή από myErgani\r\ndate: Ημ/νια Υποβολής Δήλωσης που εκκρεμεί αποδοχή από myErgani(DD/MM/YYYY)\r\nΣτοιχεία Εξόδου\r\nMainStatus: Κατάσταση Δήλωσης που εκκρεμεί αποδοχή από myErgani(1 Υποβληθείσα 2 Ανακληθείσα)\r\nAnswerStatus: Κατάσταση Υποβολής Αποδοχής (0 Εκκρεμεί 1 Υποβλήθηκε)\r\nAnswerAccept: Αποδοχή (0 Απόρριψη 1 Αποδοχή 2 Αυτοδίκαιη αποδοχή λόγω παρέλευσης προθεσμίας 3 Απόρριψη λόγω παρέλευσης προθεσμίας (Obsolete) )\r\nAnswerProtocol: Αρ. Πρωτοκόλλου Αποδοχής\r\nAnswerDate: Ημ/νια Υποβολής Αποδοχής",
+        "parameters": [
+            {
+                "name": "afm",
+                "description": null,
+                "isRequired": true,
+                "type": "Text",
+                "maxLength": 0
+            },
+            {
+                "name": "protocol",
+                "description": null,
+                "isRequired": true,
+                "type": "Text",
+                "maxLength": 0
+            },
+            {
+                "name": "date",
+                "description": null,
+                "isRequired": true,
+                "type": "Date",
+                "maxLength": 0
+            }
+        ]
     }
 ]
