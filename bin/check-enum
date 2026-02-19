@@ -8,6 +8,7 @@
  *   composer enum:check WorkCardDelayReason
  *   composer enum:check --all
  *   composer enum:check --list
+ *   composer enum:check --all --fresh
  *
  * Configuration (in order of priority):
  *   1. .env file in project root
@@ -19,63 +20,13 @@
  *   ERGANI_ENV       - Environment: 'test' or 'production' (default: test)
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Cache\FileCache;
+use OxygenSuite\OxygenErgani\Enums\WorkCardDelayReason;
+use OxygenSuite\OxygenErgani\Enums\WorkTimeType;
 use OxygenSuite\OxygenErgani\Http\Services\ParameterLookup;
 use OxygenSuite\OxygenErgani\Responses\ParameterCollection;
-use OxygenSuite\OxygenErgani\Storage\FileToken;
-use OxygenSuite\OxygenErgani\Storage\Token;
-
-/**
- * Load environment variables from .env file if it exists.
- *
- * @return array<string, string>
- */
-function loadEnvFile(string $path): array
-{
-    $env = [];
-
-    if (!file_exists($path)) {
-        return $env;
-    }
-
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-    foreach ($lines as $line) {
-        // Skip comments
-        if (str_starts_with(trim($line), '#')) {
-            continue;
-        }
-
-        // Parse KEY=value
-        if (str_contains($line, '=')) {
-            [$key, $value] = explode('=', $line, 2);
-            $key = trim($key);
-            $value = trim($value);
-
-            // Remove quotes if present
-            if ((str_starts_with($value, '"') && str_ends_with($value, '"')) ||
-                (str_starts_with($value, "'") && str_ends_with($value, "'"))) {
-                $value = substr($value, 1, -1);
-            }
-
-            $env[$key] = $value;
-        }
-    }
-
-    return $env;
-}
-
-/**
- * Get config value from .env array or environment variable.
- *
- * @param array<string, string> $envFile
- */
-function getConfig(array $envFile, string $key, ?string $default = null): ?string
-{
-    return $envFile[$key] ?? getenv($key) ?: $default;
-}
 
 // Load .env file from project root
 $envFile = loadEnvFile(__DIR__ . '/../.env');
@@ -84,11 +35,11 @@ $envFile = loadEnvFile(__DIR__ . '/../.env');
 $enumMap = [
     'WorkCardDelayReason' => [
         ParameterLookup::WORK_CARD_DELAY_REASON,
-        \OxygenSuite\OxygenErgani\Enums\WorkCardDelayReason::class,
+        WorkCardDelayReason::class,
     ],
     'WorkTimeType' => [
         ParameterLookup::WORK_TIME_TYPE,
-        \OxygenSuite\OxygenErgani\Enums\WorkTimeType::class,
+        WorkTimeType::class,
     ],
 ];
 
@@ -97,7 +48,8 @@ $args = array_slice($argv, 1);
 if (empty($args) || in_array('--help', $args) || in_array('-h', $args)) {
     echo "Usage: composer enum:check <enum-name>\n";
     echo "       composer enum:check --all\n";
-    echo "       composer enum:check --list\n\n";
+    echo "       composer enum:check --list\n";
+    echo "       composer enum:check --all --fresh\n\n";
     echo "Available enums:\n";
     foreach (array_keys($enumMap) as $name) {
         echo "  - {$name}\n";
@@ -138,46 +90,45 @@ if (empty($enumsToCheck)) {
     exit(1);
 }
 
-// Set up authentication from .env file or environment variables
-$username = getConfig($envFile, 'ERGANI_USERNAME');
-$password = getConfig($envFile, 'ERGANI_PASSWORD');
-$envName = getConfig($envFile, 'ERGANI_ENV', 'test');
+setupAuth($envFile);
 
-if (!$username || !$password) {
-    echo "\033[31mError: ERGANI_USERNAME and ERGANI_PASSWORD are required.\033[0m\n\n";
-    echo "Option 1: Create a .env file in the project root:\n";
-    echo "  ERGANI_USERNAME=your_username\n";
-    echo "  ERGANI_PASSWORD=your_password\n";
-    echo "  ERGANI_ENV=test\n\n";
-    echo "Option 2: Set environment variables:\n";
-    echo "  export ERGANI_USERNAME=your_username\n";
-    echo "  export ERGANI_PASSWORD=your_password\n";
-    echo "  export ERGANI_ENV=test\n";
-    exit(1);
+$cache = new FileCache();
+$cacheTtl = 86400;
+
+if (in_array('--fresh', $args)) {
+    foreach ($enumMap as [$paramType, $enumClass]) {
+        $cache->delete("cli:enum:{$paramType}");
+    }
 }
 
-$env = strtolower($envName) === 'production' ? Environment::PRODUCTION : Environment::TEST;
-Token::setCurrentTokenManager(new FileToken($username, $password), $env);
-
-echo "Using environment: \033[1m{$env->name}\033[0m\n";
-
 /**
- * Fetch parameters from API.
+ * Fetch parameters from API (cached for 1 day).
  */
-function getParameters(string $type): ParameterCollection
+function getParameters(string $type, FileCache $cache, int $cacheTtl): ParameterCollection
 {
-    return (new ParameterLookup())->handle($type);
+    $cacheKey = "cli:enum:{$type}";
+    $cached = $cache->get($cacheKey);
+
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    $result = (new ParameterLookup())->handle($type);
+    $cache->set($cacheKey, $result, $cacheTtl);
+
+    return $result;
 }
 
 /**
  * Compare enum values against API values.
  *
  * @param class-string<BackedEnum> $enumClass
+ *
  * @return array{missing_in_enum: array<string>, extra_in_enum: array<string>, matched: array<string>}
  */
-function compareWithEnum(string $paramType, string $enumClass): array
+function compareWithEnum(string $paramType, string $enumClass, FileCache $cache, int $cacheTtl): array
 {
-    $apiValues = array_keys(getParameters($paramType)->all());
+    $apiValues = array_keys(getParameters($paramType, $cache, $cacheTtl)->all());
     $enumValues = array_map(
         fn(BackedEnum $case) => (string) $case->value,
         $enumClass::cases(),
@@ -199,7 +150,7 @@ foreach ($enumsToCheck as $enumName) {
     echo str_repeat('-', strlen($enumName)) . "\n";
 
     try {
-        $result = compareWithEnum($paramType, $enumClass);
+        $result = compareWithEnum($paramType, $enumClass, $cache, $cacheTtl);
 
         $matchedCount = count($result['matched']);
         $missingCount = count($result['missing_in_enum']);
@@ -211,7 +162,7 @@ foreach ($enumsToCheck as $enumName) {
             $hasIssues = true;
             echo "\033[33m⚠ Missing in enum: {$missingCount}\033[0m\n";
             foreach ($result['missing_in_enum'] as $code) {
-                $param = getParameters($paramType)->find($code);
+                $param = getParameters($paramType, $cache, $cacheTtl)->find($code);
                 $desc = $param ? " ({$param->description})" : '';
                 echo "    - {$code}{$desc}\n";
             }

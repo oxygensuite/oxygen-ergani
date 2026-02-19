@@ -58,6 +58,9 @@ composer schema:check -- --list
 
 # Check API coverage (which submissions we implement)
 composer schema:check -- --coverage
+
+# Clear cache and re-fetch from API
+composer schema:check -- --all --fresh
 ```
 
 ### Flags
@@ -69,6 +72,7 @@ composer schema:check -- --coverage
 | `--errors-only` | With `--all`, suppress passing groups and only show mismatches |
 | `--show-order` | Show field order differences when fields match but order differs |
 | `--coverage` | Cross-reference implemented documents against the API submissions list |
+| `--fresh` | Clear cached API responses and re-fetch from the live API |
 | `--help` | Show usage information |
 
 ### Output
@@ -153,6 +157,9 @@ composer enum:check -- --all
 
 # List available enums
 composer enum:check -- --list
+
+# Clear cache and re-fetch from API
+composer enum:check -- --all --fresh
 ```
 
 ### Flags
@@ -161,6 +168,7 @@ composer enum:check -- --list
 |------|-------------|
 | `--all` | Check all enums |
 | `--list` | List available enums with their parameter types and classes |
+| `--fresh` | Clear cached API responses and re-fetch from the live API |
 | `--help` | Show usage information |
 
 ### Available Enums
@@ -191,6 +199,23 @@ WorkTimeType
 ✗ Extra in enum (not in API): 1
     - ΠΑΛΑΙΟΣ
 ```
+
+---
+
+## Caching
+
+Both tools cache API responses locally (in `.cache/data/`) with a 1-day TTL to speed up repeated runs. On subsequent invocations the cached data is used instead of calling the live API, making the typical fix-and-recheck loop much faster.
+
+Use the `--fresh` flag to clear the cache and force a fresh API fetch:
+
+```bash
+composer schema:check -- --all --fresh
+composer enum:check -- --all --fresh
+```
+
+::: tip
+Authentication (login/token refresh) still happens on every run — only the schema and parameter data is cached.
+:::
 
 ---
 

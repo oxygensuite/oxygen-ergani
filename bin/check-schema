@@ -16,6 +16,7 @@
  *   composer schema:check --all --show-order
  *   composer schema:check --all --errors-only
  *   composer schema:check --coverage
+ *   composer schema:check --all --fresh
  *
  * Configuration (in order of priority):
  *   1. .env file in project root
@@ -27,10 +28,10 @@
  *   ERGANI_ENV       - Environment: 'test' or 'production' (default: test)
  */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-use OxygenSuite\OxygenErgani\Enums\Environment;
-use OxygenSuite\OxygenErgani\Http\Documents\LookupSubmissions;
+use OxygenSuite\OxygenErgani\Cache\FileCache;
+use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Documents\Construction\ConstructionWorkCensus;
 use OxygenSuite\OxygenErgani\Http\Documents\Construction\ConstructionWorkDeclaration;
 use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\DismissalWithNotice;
@@ -39,11 +40,13 @@ use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\EndOfLoan;
 use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\RetirementDismissal;
 use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\Transfer;
 use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\TrialPeriodTermination;
+use OxygenSuite\OxygenErgani\Http\Documents\Documents;
 use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringDeletion;
 use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringModification;
 use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringNew;
 use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringWithLending;
 use OxygenSuite\OxygenErgani\Http\Documents\Internship\Internship;
+use OxygenSuite\OxygenErgani\Http\Documents\LookupSubmissions;
 use OxygenSuite\OxygenErgani\Http\Documents\Modification\BorrowedEmploymentModification;
 use OxygenSuite\OxygenErgani\Http\Documents\Modification\EmploymentModification;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertime;
@@ -66,55 +69,6 @@ use OxygenSuite\OxygenErgani\Http\Documents\WorkTime\DailyWorkTimeRetrospective;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkTime\WeeklyWorkTime;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkTime\WorkTimeLeave;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkTime\WorkTimeLeaveCorrection;
-use OxygenSuite\OxygenErgani\Storage\FileToken;
-use OxygenSuite\OxygenErgani\Storage\Token;
-
-/**
- * Load environment variables from .env file if it exists.
- *
- * @return array<string, string>
- */
-function loadEnvFile(string $path): array
-{
-    $env = [];
-
-    if (!file_exists($path)) {
-        return $env;
-    }
-
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-    foreach ($lines as $line) {
-        if (str_starts_with(trim($line), '#')) {
-            continue;
-        }
-
-        if (str_contains($line, '=')) {
-            [$key, $value] = explode('=', $line, 2);
-            $key = trim($key);
-            $value = trim($value);
-
-            if ((str_starts_with($value, '"') && str_ends_with($value, '"')) ||
-                (str_starts_with($value, "'") && str_ends_with($value, "'"))) {
-                $value = substr($value, 1, -1);
-            }
-
-            $env[$key] = $value;
-        }
-    }
-
-    return $env;
-}
-
-/**
- * Get config value from .env array or environment variable.
- *
- * @param  array<string, string>  $envFile
- */
-function getConfig(array $envFile, string $key, ?string $default = null): ?string
-{
-    return $envFile[$key] ?? getenv($key) ?: $default;
-}
 
 /**
  * Parse XSD file and extract field names in order (recursively flattened).
@@ -127,10 +81,10 @@ function parseXsdFields(string $xsdPath): array
     $xml->registerXPathNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
 
     // Build a map of named complex types
-    /** @var array<string, SimpleXMLElement> */
+    /** @var array<string, SimpleXMLElement> $typeMap */
     $typeMap = [];
     foreach ($xml->xpath('//xs:complexType[@name]') as $complexType) {
-        $typeMap[(string)$complexType['name']] = $complexType;
+        $typeMap[(string) $complexType['name']] = $complexType;
     }
 
     // Find the root element and start recursion from its type
@@ -140,7 +94,7 @@ function parseXsdFields(string $xsdPath): array
         return [];
     }
 
-    $rootType = (string)$rootElements[0]['type'];
+    $rootType = (string) $rootElements[0]['type'];
 
     return collectFields($typeMap, $rootType);
 }
@@ -148,7 +102,8 @@ function parseXsdFields(string $xsdPath): array
 /**
  * Recursively collect leaf field names from a complex type.
  *
- * @param  array<string, SimpleXMLElement>  $typeMap
+ * @param array<string, SimpleXMLElement> $typeMap
+ *
  * @return array<int, string>
  */
 function collectFields(array $typeMap, string $typeName): array
@@ -164,8 +119,8 @@ function collectFields(array $typeMap, string $typeName): array
     $fields = [];
 
     foreach ($elements as $element) {
-        $name = (string)$element['name'];
-        $refType = (string)$element['type'];
+        $name = (string) $element['name'];
+        $refType = (string) $element['type'];
 
         // If the element references a local complex type, recurse into it
         if ($refType !== '' && isset($typeMap[$refType])) {
@@ -180,9 +135,9 @@ function collectFields(array $typeMap, string $typeName): array
 }
 
 // Load .env file from project root
-$envFile = loadEnvFile(__DIR__.'/../.env');
+$envFile = loadEnvFile(__DIR__ . '/../.env');
 
-$xsdDir = __DIR__.'/../xsd';
+$xsdDir = __DIR__ . '/../xsd';
 
 // Schema map: grouped by XSD. Each group has an XSD path and an array of document classes.
 // Documents sharing the same XSD are grouped together so their API fields can be unioned.
@@ -385,15 +340,16 @@ if (empty($args) || in_array('--help', $args) || in_array('-h', $args)) {
     echo "       composer schema:check --list\n";
     echo "       composer schema:check --all --show-order\n";
     echo "       composer schema:check --all --errors-only\n";
-    echo "       composer schema:check --coverage\n\n";
+    echo "       composer schema:check --coverage\n";
+    echo "       composer schema:check --all --fresh\n\n";
     echo "Names can be group names (e.g. WTO) or document names (e.g. DailyWorkTime).\n";
     echo "Document names resolve to their group.\n\n";
     echo "Available names:\n";
     foreach ($nameIndex as $name => $group) {
         if ($name === $group) {
-            echo "  - {$name}\n";
+            echo "  - $name\n";
         } else {
-            echo "  - {$name} → {$group}\n";
+            echo "  - $name → $group\n";
         }
     }
     exit(0);
@@ -406,13 +362,13 @@ if (in_array('--list', $args)) {
         $docNames = array_keys($group['documents']);
         $isMulti = count($docNames) > 1;
 
-        echo "  \033[1m{$groupName}\033[0m ({$xsdLabel})\n";
+        echo "  \033[1m$groupName\033[0m ($xsdLabel)\n";
 
         if ($isMulti) {
-            echo '    Documents: '.implode(', ', $docNames)."\n";
+            echo '    Documents: ' . implode(', ', $docNames) . "\n";
         } else {
             $docClass = reset($group['documents']);
-            echo "    Class: {$docClass}\n";
+            echo "    Class: $docClass\n";
         }
 
         echo "\n";
@@ -420,27 +376,33 @@ if (in_array('--list', $args)) {
     exit(0);
 }
 
+$cache = new FileCache();
+$cacheTtl = 86400;
+
+if (in_array('--fresh', $args)) {
+    foreach ($schemaMap as $group) {
+        foreach ($group['documents'] as $docClass) {
+            $cache->delete('cli:schema:' . (new ReflectionClass($docClass))->getShortName());
+        }
+    }
+    $cache->delete('cli:submissions');
+}
+
+setupAuth($envFile);
+
 $isCoverage = in_array('--coverage', $args);
 
 if ($isCoverage) {
-    // Set up authentication for coverage check
-    $username = getConfig($envFile, 'ERGANI_USERNAME');
-    $password = getConfig($envFile, 'ERGANI_PASSWORD');
-    $envName = getConfig($envFile, 'ERGANI_ENV', 'test');
-
-    if (!$username || !$password) {
-        echo "\033[31mError: ERGANI_USERNAME and ERGANI_PASSWORD are required.\033[0m\n";
-        exit(1);
-    }
-
-    $env = strtolower($envName) === 'production' ? Environment::PRODUCTION : Environment::TEST;
-    Token::setCurrentTokenManager(new FileToken($username, $password), $env);
-
-    echo "Using environment: \033[1m{$env->name}\033[0m\n";
     echo "Fetching submissions list from API...\n\n";
 
-    // Fetch available submissions from the API
-    $submissions = (new LookupSubmissions())->handle();
+    // Fetch available submissions from the API (cached for 1 day)
+    $cacheKey = 'cli:submissions';
+    $submissions = $cache->get($cacheKey);
+
+    if ($submissions === null) {
+        $submissions = (new LookupSubmissions())->handle();
+        $cache->set($cacheKey, $submissions, $cacheTtl);
+    }
 
     // Build a map of API codes from the submissions list
     /** @var array<string, string> $apiCodes code => description */
@@ -482,24 +444,24 @@ if ($isCoverage) {
 
     // Output
     echo "\033[1mAPI Coverage Report\033[0m\n";
-    echo str_repeat('=', 40)."\n\n";
+    echo str_repeat('=', 40) . "\n\n";
 
-    echo "\033[32m✓ Covered: ".count($covered)."/".count($apiCodes)." API submissions\033[0m\n";
+    echo "\033[32m✓ Covered: " . count($covered) . '/' . count($apiCodes) . " API submissions\033[0m\n";
     foreach ($covered as $code => $info) {
-        echo "    {$code} → {$info['docName']}\n";
+        echo "    $code → {$info['docName']}\n";
     }
 
     if (count($notCovered) > 0) {
-        echo "\n\033[33m⚠ Not covered: ".count($notCovered)." API submissions\033[0m\n";
+        echo "\n\033[33m⚠ Not covered: " . count($notCovered) . " API submissions\033[0m\n";
         foreach ($notCovered as $code => $description) {
-            echo "    {$code} — {$description}\n";
+            echo "    $code — $description\n";
         }
     }
 
     if (count($notInApi) > 0) {
-        echo "\n\033[36mℹ Our documents not in submissions list: ".count($notInApi)."\033[0m\n";
+        echo "\n\033[36mℹ Our documents not in submissions list: " . count($notInApi) . "\033[0m\n";
         foreach ($notInApi as $action => $docName) {
-            echo "    {$action} ({$docName})\n";
+            echo "    $action ($docName)\n";
         }
     }
 
@@ -520,7 +482,7 @@ if (in_array('--all', $args)) {
         }
 
         if (!isset($nameIndex[$arg])) {
-            echo "\033[31mError: Unknown name '{$arg}'\033[0m\n";
+            echo "\033[31mError: Unknown name '$arg'\033[0m\n";
             echo "Use --list to see available schemas.\n";
             exit(1);
         }
@@ -529,7 +491,7 @@ if (in_array('--all', $args)) {
 
         if (!in_array($resolvedGroup, $groupsToCheck)) {
             if ($arg !== $resolvedGroup) {
-                echo "\033[36mℹ '{$arg}' → group '{$resolvedGroup}'\033[0m\n";
+                echo "\033[36mℹ '$arg' → group '$resolvedGroup'\033[0m\n";
             }
             $groupsToCheck[] = $resolvedGroup;
         }
@@ -541,38 +503,26 @@ if (empty($groupsToCheck)) {
     exit(1);
 }
 
-// Set up authentication
-$username = getConfig($envFile, 'ERGANI_USERNAME');
-$password = getConfig($envFile, 'ERGANI_PASSWORD');
-$envName = getConfig($envFile, 'ERGANI_ENV', 'test');
-
-if (!$username || !$password) {
-    echo "\033[31mError: ERGANI_USERNAME and ERGANI_PASSWORD are required.\033[0m\n\n";
-    echo "Option 1: Create a .env file in the project root:\n";
-    echo "  ERGANI_USERNAME=your_username\n";
-    echo "  ERGANI_PASSWORD=your_password\n";
-    echo "  ERGANI_ENV=test\n\n";
-    echo "Option 2: Set environment variables:\n";
-    echo "  export ERGANI_USERNAME=your_username\n";
-    echo "  export ERGANI_PASSWORD=your_password\n";
-    echo "  export ERGANI_ENV=test\n";
-    exit(1);
-}
-
-$env = strtolower($envName) === 'production' ? Environment::PRODUCTION : Environment::TEST;
-Token::setCurrentTokenManager(new FileToken($username, $password), $env);
-
-echo "Using environment: \033[1m{$env->name}\033[0m\n";
-
 /**
  * Fetch API schema for a document class and extract field names.
  *
- * @param  class-string  $docClass
+ * @param class-string $docClass
+ *
  * @return array<int, string>
+ * @throws ReflectionException
+ * @throws \Psr\SimpleCache\InvalidArgumentException
+ * @throws ErganiException
  */
-function getApiFields(string $docClass): array
+function getApiFields(string $docClass, FileCache $cache, int $cacheTtl): array
 {
-    /** @var \OxygenSuite\OxygenErgani\Http\Documents\Documents $document */
+    $cacheKey = 'cli:schema:' . (new ReflectionClass($docClass))->getShortName();
+    $cached = $cache->get($cacheKey);
+
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    /** @var Documents $document */
     $document = new $docClass();
     $schema = $document->schema();
 
@@ -581,6 +531,8 @@ function getApiFields(string $docClass): array
     foreach ($schema['propertiesInfo'] as $prop) {
         $fields[] = $prop['name'];
     }
+
+    $cache->set($cacheKey, $fields, $cacheTtl);
 
     return $fields;
 }
@@ -599,21 +551,21 @@ foreach ($groupsToCheck as $groupName) {
     // Buffer output so we can suppress clean groups when --errors-only is active
     ob_start();
 
-    $xsdLabel = $xsd ? "xsd/{$xsd}" : 'no local XSD';
-    echo "\n\033[1m{$groupName}\033[0m ({$xsdLabel})\n";
+    $xsdLabel = $xsd ? "xsd/$xsd" : 'no local XSD';
+    echo "\n\033[1m$groupName\033[0m ($xsdLabel)\n";
 
     if ($isMulti) {
-        echo '  Documents: '.implode(', ', array_keys($documents))."\n";
+        echo '  Documents: ' . implode(', ', array_keys($documents)) . "\n";
     }
 
-    echo str_repeat('-', strlen($groupName) + strlen($xsdLabel) + 3)."\n";
+    echo str_repeat('-', strlen($groupName) + strlen($xsdLabel) + 3) . "\n";
 
     try {
         // Fetch API fields for each document and build the union
         $unionFields = [];
 
         foreach ($documents as $docName => $docClass) {
-            $apiFields = getApiFields($docClass);
+            $apiFields = getApiFields($docClass, $cache, $cacheTtl);
 
             foreach ($apiFields as $field) {
                 if (!in_array($field, $unionFields)) {
@@ -625,7 +577,7 @@ foreach ($groupsToCheck as $groupName) {
         if ($xsd === null) {
             $groupHasIssues = true;
             echo "\033[33m⚠ No XSD file — skipping field comparison\033[0m\n";
-            echo '  API fields ('.count($unionFields).'): '.implode(', ', $unionFields)."\n";
+            echo '  API fields (' . count($unionFields) . '): ' . implode(', ', $unionFields) . "\n";
 
             $output = ob_get_clean();
             $hasIssues = true;
@@ -640,11 +592,11 @@ foreach ($groupsToCheck as $groupName) {
             continue;
         }
 
-        $xsdPath = $xsdDir.'/'.$xsd;
+        $xsdPath = $xsdDir . '/' . $xsd;
 
         if (!file_exists($xsdPath)) {
             $groupHasIssues = true;
-            echo "\033[31m✗ XSD file not found: {$xsdPath}\033[0m\n";
+            echo "\033[31m✗ XSD file not found: $xsdPath\033[0m\n";
 
             $output = ob_get_clean();
             $hasIssues = true;
@@ -666,24 +618,24 @@ foreach ($groupsToCheck as $groupName) {
         $matched = array_values(array_intersect($unionFields, $xsdFields));
 
         $countLabel = $isMulti
-            ? count($matched).' (union of '.count($documents).' API schemas)'
-            : (string)count($matched);
+            ? count($matched) . ' (union of ' . count($documents) . ' API schemas)'
+            : (string) count($matched);
 
-        echo "\033[32m✓ Fields match: {$countLabel}\033[0m\n";
+        echo "\033[32m✓ Fields match: $countLabel\033[0m\n";
 
         if (count($inApiNotXsd) > 0) {
             $groupHasIssues = true;
-            echo "\033[33m⚠ In API but not in XSD: ".count($inApiNotXsd)."\033[0m\n";
+            echo "\033[33m⚠ In API but not in XSD: " . count($inApiNotXsd) . "\033[0m\n";
             foreach ($inApiNotXsd as $field) {
-                echo "    + {$field}\n";
+                echo "    + $field\n";
             }
         }
 
         if (count($inXsdNotApi) > 0) {
             $groupHasIssues = true;
-            echo "\033[31m✗ In XSD but not in API: ".count($inXsdNotApi)."\033[0m\n";
+            echo "\033[31m✗ In XSD but not in API: " . count($inXsdNotApi) . "\033[0m\n";
             foreach ($inXsdNotApi as $field) {
-                echo "    - {$field}\n";
+                echo "    - $field\n";
             }
         }
 
@@ -693,13 +645,13 @@ foreach ($groupsToCheck as $groupName) {
                 echo "\033[32m✓ Order matches\033[0m\n";
             } elseif ($showOrder) {
                 echo "\033[36mℹ Field order differs\033[0m\n";
-                echo '    API: '.implode(', ', $unionFields)."\n";
-                echo '    XSD: '.implode(', ', $xsdFields)."\n";
+                echo '    API: ' . implode(', ', $unionFields) . "\n";
+                echo '    XSD: ' . implode(', ', $xsdFields) . "\n";
             } else {
                 echo "\033[36mℹ Field order differs (use --show-order to display)\033[0m\n";
             }
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $groupHasIssues = true;
         echo "\033[31m✗ Error: {$e->getMessage()}\033[0m\n";
     }
@@ -719,7 +671,7 @@ foreach ($groupsToCheck as $groupName) {
 }
 
 if ($errorsOnly && $skippedCount > 0) {
-    echo "\n\033[32m✓ {$skippedCount}/{$checkedCount} schemas passed (hidden)\033[0m\n";
+    echo "\n\033[32m✓ $skippedCount/$checkedCount schemas passed (hidden)\033[0m\n";
 }
 
 echo "\n";
