@@ -20,7 +20,8 @@
   "require": {
     "php": "^8.2",
     "guzzlehttp/guzzle": "^7.9",
-    "psr/simple-cache": "^3.0"
+    "psr/simple-cache": "^3.0",
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^v1.24",
@@ -54,7 +55,8 @@
       "@analyse",
       "@test"
     ],
-    "enum:check": "php bin/check-enum"
+    "enum:check": "php bin/check-enum",
+    "schema:check": "php bin/check-schema"
   },
   "config": {
     "optimize-autoloader": true,

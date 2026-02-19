@@ -8,6 +8,7 @@ use OxygenSuite\OxygenErgani\Enums\LoanType;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\ResponsiblePosition;
 use OxygenSuite\OxygenErgani\Enums\SalaryPaymentSource;
+use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Enums\WeekDays;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
@@ -95,8 +96,12 @@ class BorrowedModificationDeclarationFactory extends Factory
             // Education
             'f_epipedo_morfosis' => (string) $fake->numberBetween(1, 10),
 
-            // Change Date
+            // Change Details
             'f_date_metabolhs' => $changeDate->format('d/m/Y'),
+            'f_eidos_dieuthethshs' => '',
+            'f_eidos_dieuthethshs_comments' => '',
+            'f_periodos_anaforas_from' => '',
+            'f_periodos_anaforas_to' => '',
 
             // Borrow Details (REQUIRED for MAD)
             'f_borrow_type' => (string) LoanType::GENUINE->value,
@@ -230,6 +235,19 @@ class BorrowedModificationDeclarationFactory extends Factory
         return $this->state([
             'f_efarmostea_sillogiki_simbasi' => '1',
             'f_efarmostea_sillogiki_simbasi_comments' => $comments,
+        ]);
+    }
+
+    /**
+     * Configure the model with settlement type.
+     *
+     * @return $this
+     */
+    public function withSettlement(SettlementType $type, string $comment = ''): static
+    {
+        return $this->state([
+            'f_eidos_dieuthethshs' => (string) $type->value,
+            'f_eidos_dieuthethshs_comments' => $comment,
         ]);
     }
 

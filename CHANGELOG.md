@@ -39,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `WorkTimeOvertime` - Regular overtime
   - `WorkTimeOvertimeDrivers` - Driver-specific overtime
   - `WorkTimeOvertimeRetrospective` - Retrospective overtime
-- **Working Status Change** - Employee status update document
 - **E12 Construction Forms** - Construction work declaration support
   - `ConstructionWorkDeclaration` (E12) - Construction work personnel declaration
   - `ConstructionWorkCensus` (E12Apogr) - Construction work census
@@ -59,7 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `SendsWorkTimeDocuments` - Work time methods (`sendDailyWorkTime()`, `sendWeeklyWorkTime()`, `sendDailyWorkTimeDrivers()`, `sendDailyWorkTimeRetrospective()`, `sendWorkTimeLeave()`, `sendWorkTimeLeaveCorrection()`)
   - `SendsOvertimeDocuments` - Overtime methods (`sendOvertime()`, `sendOvertimeDrivers()`, `sendOvertimeRetrospective()`)
   - `SendsModificationDocuments` - MA methods (`sendEmploymentModification()`, `sendBorrowedEmploymentModification()`)
-  - `SendsWorkingStatusDocuments` - Status change method (`sendWorkingStatusChange()`)
   - `SendsConstructionDocuments` - Construction methods (`sendConstructionWork()`, `sendConstructionWorkCensus()`)
   - `SendsSixthDayDocuments` - Sixth day method (`sendSixthDayDeclaration()`)
   - `SendsPreAnnouncementDocuments` - Pre-announcement method (`sendPreAnnouncementExemption()`)
@@ -139,10 +137,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`flushCache()` is now static**: `$ergani->flushCache()` → `Ergani::flushCache($cache)` - no credentials needed to flush entire cache
 
 #### Non-Breaking Changes
-- Documents reorganized into subfolders (`Hiring/`, `Termination/`, `Dismissal/`, `Modification/`, `Overtime/`, `WorkCard/`, `WorkingStatus/`)
+- Documents reorganized into subfolders (`Hiring/`, `Termination/`, `Dismissal/`, `Modification/`, `Overtime/`, `WorkCard/`)
 - Models reorganized into subfolders matching document structure
 - Extracted shared traits for declaration models (`HasExtendedEmploymentDetails`, `HasDypaPrograms`, `HasTrialPeriod`, `HasInsurance`, `HasWagePayment`, `HasAcceptanceFiles`, `HasSalary`, `HasCompensation`, `HasFormFile`, etc.)
 - Generic `Collection` base class extracted for response collections
+
+### Removed
+
+- **Working Status Change** (`WKChgWK`) - Document type, models, factories, and XSD removed. The ERGANI API no longer includes `WKChgWK` in its submissions list; its functionality has been absorbed into Employment Modification forms (MA/MAD). Use `EmploymentModification` (WebMA) or `BorrowedEmploymentModification` (WebMAD) instead.
+  - Removed `WorkingStatusChange` document class
+  - Removed `WorkingStatus` and `WorkingStatusEmployee` models
+  - Removed `WorkingStatusFactory` and `WorkingStatusEmployeeFactory` factories
+  - Removed `SendsWorkingStatusDocuments` trait and `sendWorkingStatusChange()` facade method
+  - Removed `WorkingStatusChange_v1.xsd` schema file
 
 ## [1.1.1] - 2024-12-17
 

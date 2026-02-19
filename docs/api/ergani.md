@@ -748,20 +748,6 @@ public function sendBorrowedEmploymentModification(BorrowedModificationDeclarati
 
 ---
 
-## Working Status Documents
-
-### sendWorkingStatusChange()
-
-Submit working status change declaration.
-
-```php
-public function sendWorkingStatusChange(WorkingStatus|array $workingStatus): array
-```
-
-**Returns:** `array<int, SubmissionResponse>`
-
----
-
 ## Sixth Day Documents
 
 ### sendSixthDayDeclaration()
@@ -1178,7 +1164,6 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `sendOvertimeRetrospective()` | WTOOvA | Overtime retrospective |
 | **Modification** | `sendEmploymentModification()` | WebMA | Employment changes |
 | | `sendBorrowedEmploymentModification()` | WebMAD | Borrowed employee changes |
-| **Status** | `sendWorkingStatusChange()` | WKChgWK | Working status change |
 | **Sixth Day** | `sendSixthDayDeclaration()` | SixthDay | Extra shift / 6th day |
 | **Pre-Announce** | `sendPreAnnouncementExemption()` | ExProan | Pre-announcement exemption |
 | **Construction** | `sendConstructionWork()` | E12 | Construction personnel |

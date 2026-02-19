@@ -7,6 +7,7 @@ namespace Tests\Documents\Modification;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\LoanType;
 use OxygenSuite\OxygenErgani\Enums\SalaryPaymentSource;
+use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
 use OxygenSuite\OxygenErgani\Factories\Factory;
 use OxygenSuite\OxygenErgani\Http\Documents\Modification\BorrowedEmploymentModification;
@@ -134,6 +135,39 @@ class BorrowedEmploymentModificationTest extends TestCase
         $this->assertSame('17/01/2026', $declaration->getChangeDate());
     }
 
+    public function test_model_settlement_type(): void
+    {
+        $declaration = BorrowedModificationDeclaration::make()
+            ->setSettlementType(SettlementType::INDIVIDUAL)
+            ->setSettlementTypeComment('Ατομική συμφωνία');
+
+        $this->assertSame('1', $declaration->getSettlementType());
+        $this->assertSame('Ατομική συμφωνία', $declaration->getSettlementTypeComment());
+
+        $declaration->setSettlementType(SettlementType::COLLECTIVE);
+        $this->assertSame('0', $declaration->getSettlementType());
+    }
+
+    public function test_model_reference_period(): void
+    {
+        $declaration = BorrowedModificationDeclaration::make()
+            ->setReferencePeriodFrom('01/01/2026')
+            ->setReferencePeriodTo('31/01/2026');
+
+        $this->assertSame('01/01/2026', $declaration->getReferencePeriodFrom());
+        $this->assertSame('31/01/2026', $declaration->getReferencePeriodTo());
+    }
+
+    public function test_model_reference_period_accepts_datetime(): void
+    {
+        $declaration = BorrowedModificationDeclaration::make()
+            ->setReferencePeriodFrom(new \DateTime('2026-01-01'))
+            ->setReferencePeriodTo(new \DateTime('2026-01-31'));
+
+        $this->assertSame('01/01/2026', $declaration->getReferencePeriodFrom());
+        $this->assertSame('31/01/2026', $declaration->getReferencePeriodTo());
+    }
+
     public function test_model_specialty(): void
     {
         $declaration = BorrowedModificationDeclaration::make()
@@ -190,8 +224,12 @@ class BorrowedEmploymentModificationTest extends TestCase
         $this->assertArrayHasKey('f_onoma', $array);
         $this->assertArrayHasKey('f_birthdate', $array);
 
-        // Change Date
+        // Change Details
         $this->assertArrayHasKey('f_date_metabolhs', $array);
+        $this->assertArrayHasKey('f_eidos_dieuthethshs', $array);
+        $this->assertArrayHasKey('f_eidos_dieuthethshs_comments', $array);
+        $this->assertArrayHasKey('f_periodos_anaforas_from', $array);
+        $this->assertArrayHasKey('f_periodos_anaforas_to', $array);
 
         // Borrow Details (Required for MAD)
         $this->assertArrayHasKey('f_borrow_type', $array);
@@ -265,6 +303,16 @@ class BorrowedEmploymentModificationTest extends TestCase
         $this->assertSame(25.0, $declaration->getWeeklyHours());
         $this->assertSame('1', $declaration->get('f_efarmostea_sillogiki_simbasi'));
         $this->assertSame('EGSSE', $declaration->get('f_efarmostea_sillogiki_simbasi_comments'));
+    }
+
+    public function test_factory_with_settlement(): void
+    {
+        $declaration = BorrowedModificationDeclaration::factory()
+            ->withSettlement(SettlementType::INDIVIDUAL, 'Ατομική συμφωνία')
+            ->make();
+
+        $this->assertSame('1', $declaration->get('f_eidos_dieuthethshs'));
+        $this->assertSame('Ατομική συμφωνία', $declaration->get('f_eidos_dieuthethshs_comments'));
     }
 
     public function test_factory_foreign_national(): void

@@ -16,7 +16,6 @@ use OxygenSuite\OxygenErgani\Models\Dismissal\DismissalWithoutNoticeDeclaration;
 use OxygenSuite\OxygenErgani\Models\Hiring\NewDeclaration;
 use OxygenSuite\OxygenErgani\Models\Modification\ModificationDeclaration;
 use OxygenSuite\OxygenErgani\Models\Termination\VoluntaryResignationDeclaration;
-use OxygenSuite\OxygenErgani\Models\WorkingStatus\WorkingStatus;
 use OxygenSuite\OxygenErgani\Responses\BranchCollection;
 use OxygenSuite\OxygenErgani\Responses\BranchResponse;
 use OxygenSuite\OxygenErgani\Responses\EmployeeStatusResponse;
@@ -383,18 +382,6 @@ class ErganiTest extends TestCase
 
         $declaration = ModificationDeclaration::factory()->make();
         $responses = $ergani->sendEmploymentModification($declaration);
-
-        $this->assertCount(1, $responses);
-        $this->assertInstanceOf(SubmissionResponse::class, $responses[0]);
-    }
-
-    public function test_send_working_status_change(): void
-    {
-        $config = (new ClientConfig())->setHandler($this->mockResponse(200, 'working-status-change.json'));
-        $ergani = new Ergani('test-access-token', config: $config);
-
-        $workingStatus = WorkingStatus::factory()->make();
-        $responses = $ergani->sendWorkingStatusChange($workingStatus);
 
         $this->assertCount(1, $responses);
         $this->assertInstanceOf(SubmissionResponse::class, $responses[0]);

@@ -1116,20 +1116,3 @@ parameters:
 			count: 1
 			path: src/Factories/WorkTime/WorkTimeEmployeeFactory.php
 
-		-
-			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Factories/WorkingStatus/WorkingStatusEmployeeFactory.php
-
-		-
-			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Factories/WorkingStatus/WorkingStatusEmployeeFactory.php
-
-		-
-			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Factories/WorkingStatus/WorkingStatusEmployeeFactory.php

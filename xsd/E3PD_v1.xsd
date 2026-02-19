@@ -601,6 +601,38 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
+      <!--<xs:element name="f_apoalliperioxi">
+        <xs:annotation>
+          <xs:documentation>ΗΛΘΕ ΑΠΟ ΑΛΛΗ ΠΕΡΙΟΧΗ Ή ΞΕΝΗ ΧΩΡΑ ΕΝΤΟΣ ΤΟΥ ΤΕΛΕΥΤΑΙΟΥ ΕΤΟΥΣ (0) ΌΧΙ (1) ΝΑΙ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
+      <!--<xs:element name="f_nationalityalli">
+        <xs:annotation>
+          <xs:documentation>ΑΝ ΗΛΘΕ ΑΠΟ ΑΛΛΗ ΧΩΡΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9][0-9][0-9]|([ ]*)" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_kallikratisalli">
+        <xs:annotation>
+          <xs:documentation>ΑΝ ΗΛΘΕ ΑΠΟ ΑΛΛΗ ΠΕΡΙΟΧΗ ΔΗΜΟΤΙΚΗ / ΤΟΠΙΚΗ ΚΟΙΝΟΤΗΤΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]{8})|([ ]*)" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
       <xs:element name="f_responsible_position" minOccurs="0">
         <xs:annotation>
           <xs:documentation>ΚΑΤΕΧΕΙ ΘΕΣΗ ΕΠΟΠΤΕΙΑΣ Ή ΔΙΕΥΘΥΝΣΗΣ Ή ΕΜΠΙΣΤΕΥΤΙΚΗ (1) ΟΧΙ (2) ΘΕΣΗ ΜΕ ΔΙΕΥΘΥΝΤΙΚΟ ΔΙΚΑΙΩΜΑ (3) ΘΕΣΗ ΜΕ ΑΠΟΔΟΧΕΣ ΤΟΥΛΑΧΙΣΤΟΝ ΤΟΥ ΤΕΤΡΑΠΛΑΣΙΟΥ ΤΟΥ ΕΛΑΧΙΣΤΟΥ ΝΟΜΟΘΕΤΗΜΕΝΟΥ ΜΙΣΘΟΥ (4) ΘΕΣΗ ΜΕ ΑΠΟΔΟΧΕΣ ΤΟΥΛΑΧΙΣΤΟΝ ΤΟΥ ΕΞΑΠΛΑΣΙΟΥ ΤΟΥ ΕΛΑΧΙΣΤΟΥ ΝΟΜΟΘΕΤΗΜΕΝΟΥ ΜΙΣΘΟΥ </xs:documentation>
@@ -823,19 +855,7 @@
           <xs:restriction base="xs:base64Binary">
           </xs:restriction>
         </xs:simpleType>
-      </xs:element>
-      <xs:element name="f_atomikh_symbash" nillable="false">
-        <xs:annotation>
-          <xs:documentation>ΑΤΟΜΙΚΗ ΣΥΜΒΑΣΗ (0) ΌΧΙ (1) ΑΠΟΔΟΧΗ ΑΤΟΜΙΚΗΣ ΣΥΜΒΑΣΗΣ ΜΕ ΕΠΙΣΥΝΑΠΤΟΜΕΝΟ ΑΡΧΕΙΟ (2) ΕΚΚΡΕΜΕΙ</xs:documentation>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="0"/>
-            <xs:enumeration value="1"/>
-            <xs:enumeration value="2"/>
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
+      </xs:element>      
       <xs:element name="f_file_symbash">
         <xs:annotation>
           <xs:documentation>Αρχείο Αποδοχής Ατομικής Σύμβασης(pdf)</xs:documentation>

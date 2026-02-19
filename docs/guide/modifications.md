@@ -31,8 +31,8 @@ Use these forms when employment terms change:
 | Loan Details | Optional | **Required** |
 | Salary Payment Source | Not applicable | **Required** |
 | Modification Types | Required array | Not included |
-| Settlement Type | Available | Not included |
-| Reference Period | Available | Not included |
+| Settlement Type | Available | Available |
+| Reference Period | Available | Available |
 
 ---
 
@@ -207,6 +207,7 @@ use OxygenSuite\OxygenErgani\Models\Modification\BorrowedModificationDeclaration
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Enums\LoanType;
 use OxygenSuite\OxygenErgani\Enums\SalaryPaymentSource;
+use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
 
@@ -233,8 +234,9 @@ $declaration = BorrowedModificationDeclaration::make()
     ->setAfm('987654321')
     ->setAmka('22089012345')
 
-    // Modification Date
+    // Modification Details
     ->setModificationDate('01/02/2025')
+    ->setSettlementType(SettlementType::INDIVIDUAL)
 
     // Loan Details (REQUIRED for MAD)
     ->setLoanType(LoanType::GENUINE)
@@ -271,6 +273,15 @@ $response = (new BorrowedEmploymentModification())->handle($declaration);
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
 | `setSalaryPaymentSource()` | `f_kataboli_apodoxon` | SalaryPaymentSource | Yes | Who pays wages |
+
+#### Settlement/Reference Period
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setSettlementType()` | `f_eidos_dieuthethshs` | SettlementType | No | Settlement arrangement |
+| `setSettlementTypeComment()` | `f_eidos_dieuthethshs_comments` | string | No | Settlement details (max 200 chars) |
+| `setReferencePeriodFrom()` | `f_periodos_anaforas_from` | string | No | Reference period start |
+| `setReferencePeriodTo()` | `f_periodos_anaforas_to` | string | No | Reference period end |
 
 ::: info Salary Fields
 When `SalaryPaymentSource::INDIRECT_EMPLOYER` is set, you should also provide salary details:

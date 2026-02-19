@@ -107,6 +107,75 @@ The `getTinNumber()` method in `CardDetail` has been renamed to `getTin()` for c
 + $cardDetail->getTin();
 ```
 
+### 7. `flushCache()` Is Now Static
+
+The `flushCache()` method on the `Ergani` facade is now a static method that takes the cache instance as a parameter.
+
+```diff
+- $ergani->flushCache();
++ Ergani::flushCache($cache);
+```
+
+### 8. Working Status Change Removed
+
+The `WKChgWK` (Working Status Change) document has been removed entirely. The ERGANI API no longer lists this submission type; its functionality has been absorbed into the Employment Modification forms (MA/MAD).
+
+**Before:**
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\WorkingStatus\WorkingStatusChange;
+use OxygenSuite\OxygenErgani\Models\WorkingStatus\WorkingStatus;
+use OxygenSuite\OxygenErgani\Models\WorkingStatus\WorkingStatusEmployee;
+
+$employee = WorkingStatusEmployee::make()
+    ->setAfm('123456789')
+    // ...
+
+$response = (new WorkingStatusChange())->handle(
+    WorkingStatus::make()->addEmployee($employee)
+);
+
+// Or via the Ergani facade:
+$ergani->sendWorkingStatusChange($workingStatus);
+```
+
+**After:**
+
+Use `EmploymentModification` (WebMA) for regular employees, or `BorrowedEmploymentModification` (WebMAD) for borrowed/loaned employees:
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Modification\EmploymentModification;
+use OxygenSuite\OxygenErgani\Models\Modification\ModificationDeclaration;
+use OxygenSuite\OxygenErgani\Models\Modification\ModificationTypeSelection;
+
+$declaration = ModificationDeclaration::make()
+    ->setBranchCode(0)
+    ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
+    ->setFirstName('ΙΩΑΝΝΗΣ')
+    // ... personal and employment fields ...
+    ->setModificationDate('01/02/2025')
+    ->addModificationTypeSelection(
+        ModificationTypeSelection::make()->setModificationTypeCode('01')
+    );
+
+$response = (new EmploymentModification())->handle($declaration);
+
+// Or via the Ergani facade:
+$ergani->sendEmploymentModification($declaration);
+```
+
+See the [Modifications guide](/guide/modifications) for full documentation.
+
+**Removed classes:**
+
+| Removed | Replacement |
+|---------|-------------|
+| `WorkingStatusChange` | `EmploymentModification` or `BorrowedEmploymentModification` |
+| `WorkingStatus` | `ModificationDeclaration` or `BorrowedModificationDeclaration` |
+| `WorkingStatusEmployee` | _(fields are now part of the declaration model)_ |
+| `SendsWorkingStatusDocuments` trait | `SendsModificationDocuments` trait |
+| `sendWorkingStatusChange()` | `sendEmploymentModification()` or `sendBorrowedEmploymentModification()` |
+
 ## New Features Available in v2.0
 
 After upgrading, you can take advantage of these new features:

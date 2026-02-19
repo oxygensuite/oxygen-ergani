@@ -2,7 +2,9 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Modification;
 
+use DateTime;
 use OxygenSuite\OxygenErgani\Enums\SalaryPaymentSource;
+use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Factories\Modification\BorrowedModificationDeclarationFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 
@@ -88,8 +90,12 @@ class BorrowedModificationDeclaration extends Declaration
         // Education
         'f_epipedo_morfosis',
 
-        // Change Date (MAD specific starts here)
+        // Change Details (MAD specific starts here)
         'f_date_metabolhs',
+        'f_eidos_dieuthethshs',
+        'f_eidos_dieuthethshs_comments',
+        'f_periodos_anaforas_from',
+        'f_periodos_anaforas_to',
 
         // Borrow Details (REQUIRED for MAD)
         'f_borrow_type',
@@ -142,6 +148,84 @@ class BorrowedModificationDeclaration extends Declaration
         'f_foreign_file',
         'f_young_file',
     ];
+
+    // ==================== Settlement/Reference Period ====================
+
+    /**
+     * Get the settlement type.
+     */
+    public function getSettlementType(): ?string
+    {
+        return $this->get('f_eidos_dieuthethshs');
+    }
+
+    /**
+     * @param SettlementType|string|int $type 0=Collective, 1=Individual, 2=No settlement (or use SettlementType enum)
+     */
+    public function setSettlementType(SettlementType|string|int $type): static
+    {
+        if ($type instanceof SettlementType) {
+            $type = $type->value;
+        }
+
+        return $this->set('f_eidos_dieuthethshs', (string) $type);
+    }
+
+    /**
+     * Get the settlement type comments.
+     */
+    public function getSettlementTypeComment(): ?string
+    {
+        return $this->get('f_eidos_dieuthethshs_comments');
+    }
+
+    /**
+     * @param string $comment Settlement type comments (max 200 chars)
+     */
+    public function setSettlementTypeComment(string $comment): static
+    {
+        return $this->set('f_eidos_dieuthethshs_comments', $comment);
+    }
+
+    /**
+     * Get the reference period start date.
+     */
+    public function getReferencePeriodFrom(): ?string
+    {
+        return $this->get('f_periodos_anaforas_from');
+    }
+
+    /**
+     * @param DateTime|string $date Date in DD/MM/YYYY format
+     */
+    public function setReferencePeriodFrom(DateTime|string $date): static
+    {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
+        return $this->set('f_periodos_anaforas_from', $date);
+    }
+
+    /**
+     * Get the reference period end date.
+     */
+    public function getReferencePeriodTo(): ?string
+    {
+        return $this->get('f_periodos_anaforas_to');
+    }
+
+    /**
+     * @param DateTime|string $date Date in DD/MM/YYYY format
+     */
+    public function setReferencePeriodTo(DateTime|string $date): static
+    {
+        if ($date instanceof DateTime) {
+            $date = $date->format('d/m/Y');
+        }
+
+        return $this->set('f_periodos_anaforas_to', $date);
+    }
 
     // ==================== Salary Payment Source (MAD-only) ====================
 

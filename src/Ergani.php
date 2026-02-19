@@ -14,7 +14,6 @@ use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsOvertimeDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsPreAnnouncementDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsSixthDayDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsTerminationDocuments;
-use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsWorkingStatusDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsWorkTimeDocuments;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogin;
@@ -53,7 +52,6 @@ class Ergani
     use SendsPreAnnouncementDocuments;
     use SendsSixthDayDocuments;
     use SendsTerminationDocuments;
-    use SendsWorkingStatusDocuments;
     use SendsWorkTimeDocuments;
 
     private const DEFAULT_CACHE_TTL = 2_592_000;

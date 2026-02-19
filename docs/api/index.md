@@ -21,8 +21,7 @@ OxygenSuite\OxygenErgani
 │   │   ├── Construction/           # E12 construction forms
 │   │   ├── SixthDay/              # Sixth day declarations
 │   │   ├── PreAnnouncement/       # Pre-announcement exemptions
-│   │   ├── Internship/            # E3.5 internship forms
-│   │   └── WorkingStatus/         # Working status changes
+│   │   └── Internship/            # E3.5 internship forms
 │   └── Services/                   # Query services
 ├── Models/                         # Data models
 ├── Responses/                      # Response wrappers
@@ -54,7 +53,6 @@ Documents handle submissions to the ERGANI API:
 | `DailyWorkTime` | WTODaily | Daily work time declarations |
 | `WeeklyWorkTime` | WTOWeek | Weekly work time declarations |
 | `Overtime` | OVT | Overtime declarations |
-| `WorkingStatusChange` | WKChgWK | Working status changes |
 
 ### Hiring Documents (E3)
 
