@@ -39,7 +39,7 @@ class AcceptanceStatus extends Service
             return null;
         }
 
-        return new AcceptanceStatusResponse($result);
+        return new AcceptanceStatusResponse($result['AnswerStatus'] ?? $result);
     }
 
     protected function serviceCode(): string
