@@ -41,6 +41,7 @@ use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use ReflectionClass;
 
+/** @phpstan-consistent-constructor */
 class Ergani
 {
     use ManagesDocuments;
@@ -86,6 +87,29 @@ class Ergani
         $this->cache = $cache;
         $this->cachePrefix = $cachePrefix ?? $this->deriveCachePrefix();
         $this->cacheTtl = $cacheTtl;
+    }
+
+    /**
+     * Create a new instance fluently.
+     *
+     * Accepts the same arguments as the constructor.
+     *
+     * @param ?string $accessToken Bearer token (null when using TokenManager)
+     * @param ?Environment $environment API environment
+     * @param ?ClientConfig $config Custom HTTP client configuration
+     * @param ?CacheInterface $cache PSR-16 cache for service responses
+     * @param ?string $cachePrefix Cache key prefix. Null = auto-derive from TokenManager credentials. Empty string = no prefix.
+     * @param int $cacheTtl Cache TTL in seconds (default: 30 days)
+     */
+    public static function make(
+        ?string $accessToken = null,
+        ?Environment $environment = Environment::TEST,
+        ?ClientConfig $config = null,
+        ?CacheInterface $cache = null,
+        ?string $cachePrefix = null,
+        int $cacheTtl = self::DEFAULT_CACHE_TTL,
+    ): static {
+        return new static($accessToken, $environment, $config, $cache, $cachePrefix, $cacheTtl);
     }
 
     /**

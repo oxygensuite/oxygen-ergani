@@ -417,6 +417,23 @@ class ErganiTest extends TestCase
         $this->assertTrue($ergani->logout('test-refresh-token'));
     }
 
+    public function test_make_returns_new_instance(): void
+    {
+        $ergani = Ergani::make();
+
+        $this->assertInstanceOf(Ergani::class, $ergani);
+        $this->assertNotSame($ergani, Ergani::make());
+    }
+
+    public function test_make_forwards_constructor_arguments(): void
+    {
+        $config = (new ClientConfig())->setHandler($this->mockResponse(200, 'ex-base-01.json'));
+
+        $employer = Ergani::make('test-access-token', config: $config)->getEmployerInfo();
+
+        $this->assertSame('ERGANI A.E', $employer->name);
+    }
+
     public function test_cancel_document(): void
     {
         $config = (new ClientConfig())->setHandler(new MockHandler([

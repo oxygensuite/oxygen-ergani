@@ -14,7 +14,8 @@ class Ergani
         ?Environment $environment = Environment::TEST,
         ?ClientConfig $config = null,
         ?CacheInterface $cache = null,
-        string $cachePrefix = '',
+        ?string $cachePrefix = null,
+        int $cacheTtl = 2_592_000,
     );
 }
 ```
@@ -29,6 +30,34 @@ class Ergani
 | `$cache` | CacheInterface\|null | `null` | PSR-16 cache for service responses |
 | `$cachePrefix` | string\|null | `null` | Cache key prefix. Null = auto-derive from TokenManager credentials. |
 | `$cacheTtl` | int | `2592000` | Cache TTL in seconds (default: 30 days) |
+
+### make()
+
+Static constructor for fluent one-liners. Accepts the same parameters as the constructor and returns a new instance.
+
+```php
+public static function make(
+    ?string $accessToken = null,
+    ?Environment $environment = Environment::TEST,
+    ?ClientConfig $config = null,
+    ?CacheInterface $cache = null,
+    ?string $cachePrefix = null,
+    int $cacheTtl = 2_592_000,
+): static
+```
+
+**Example:**
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+use OxygenSuite\OxygenErgani\Enums\Environment;
+
+// Equivalent to (new Ergani())->sendHiringNew($declaration)
+$responses = Ergani::make()->sendHiringNew($declaration);
+
+// With configuration
+$employer = Ergani::make($accessToken, Environment::PRODUCTION)->getEmployerInfo();
+```
 
 ---
 

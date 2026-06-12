@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `Ergani::make()` static constructor for fluent one-liners (e.g. `Ergani::make()->sendHiringNew($declaration)`)
 - Generate LLM-friendly documentation (`llms.txt`, `llms-full.txt`, per-page Markdown) and a sitemap for the docs site
 - Show last-updated dates and code group icons on docs pages; use clean URLs
 
