@@ -87,5 +87,47 @@
                 "maxLength": 0
             }
         ]
+    },
+    {
+        "name": "EX_BASE_07",
+        "description": "ΣΤΟΙΧΕΙΑ ΗΜΕΡΟΛΟΓΙΟΥ ΠΡΑΓΜΑΤΙΚΗΣ ΑΠΑΣΧΟΛΗΣΗΣ",
+        "instructions": "Στοιχεία Εισόδου PararthmaAa: AA Παραρτήματος date: Ημ/νια (DD/MM/YYYY) - Περιορισμός σε ημ/νιες προηγούμενου μήνα και πίσω \r\nΣτοιχεία Εξόδου RealWorking: Στοιχεία Ημερολογίου Πραγματικής Απασχόλησης {Aa: ΑΑ Παραρτήματος, Afm:ΑΦΜ Εργαζόμενου, Date: Ημ/νια, HourFrom: Ώρα Από, HourTo: Ώρα Έως, IsEndDateDifferentThanDate: Εάν η Ωρα Έως είναι της επόμενης μέρας 1 αλλιώς 0 } ",
+        "parameters": [
+            {
+                "name": "PararthmaAa",
+                "description": null,
+                "isRequired": true,
+                "type": "Int",
+                "maxLength": 0
+            },
+            {
+                "name": "Date",
+                "description": null,
+                "isRequired": true,
+                "type": "Date",
+                "maxLength": 0
+            }
+        ]
+    },
+    {
+        "name": "EX_BASE_08",
+        "description": "ΣΤΟΙΧΕΙΑ ΤΡΕΧΟΥΣΑΣ ΚΑΤΑΣΤΑΣΗΣ ΨΗΦΙΑΚΗΣ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ",
+        "instructions": "Στοιχεία Εισόδου PararthmaAa: AA Παραρτήματος date: Ημ/νια (DD/MM/YYYY) - Περιορισμός σε ημ/νιες προηγούμενου μήνα και πίσω \r\nΣτοιχεία Εξόδου Working: Στοιχεία Τρέχουσας Κατάστασης ΨΟΧΕ {Aa: ΑΑ Παραρτήματος, Afm:ΑΦΜ Εργαζόμενου, Date: Ημ/νια, Type: Τυπος Εργασίας - Άδειας - Υπερωρίας, HourFrom: Ώρα Από, HourTo: Ώρα Έως, Extra:Εάν πρόκειται για Κανονική Άδεια {Έτος - Μέρες}, BreakMinutes: Διάλ/μα Λεπτά, BreakInWork: Διάλ/μα 0:Εκτός/1:Εντός } ",
+        "parameters": [
+            {
+                "name": "PararthmaAa",
+                "description": null,
+                "isRequired": true,
+                "type": "Int",
+                "maxLength": 0
+            },
+            {
+                "name": "Date",
+                "description": null,
+                "isRequired": true,
+                "type": "Date",
+                "maxLength": 0
+            }
+        ]
     }
 ]

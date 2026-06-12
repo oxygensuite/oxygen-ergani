@@ -16,7 +16,7 @@ class ServicesListTest extends TestCase
         $response = $list->handle();
 
         $this->assertIsArray($response);
-        $this->assertCount(6, $response);
+        $this->assertCount(8, $response);
 
         $row0 = $response[0];
         $this->assertSame('EX_BASE_01', $row0['name']);
@@ -83,5 +83,31 @@ class ServicesListTest extends TestCase
         $this->assertSame('date', $row5['parameters'][2]['name']);
         $this->assertTrue($row5['parameters'][2]['isRequired']);
         $this->assertSame('Date', $row5['parameters'][2]['type']);
+
+        $row6 = $response[6];
+        $this->assertSame('EX_BASE_07', $row6['name']);
+        $this->assertSame('ΣΤΟΙΧΕΙΑ ΗΜΕΡΟΛΟΓΙΟΥ ΠΡΑΓΜΑΤΙΚΗΣ ΑΠΑΣΧΟΛΗΣΗΣ', $row6['description']);
+        $this->assertNotNull($row6['instructions']);
+        $this->assertIsArray($row6['parameters']);
+        $this->assertCount(2, $row6['parameters']);
+        $this->assertSame('PararthmaAa', $row6['parameters'][0]['name']);
+        $this->assertTrue($row6['parameters'][0]['isRequired']);
+        $this->assertSame('Int', $row6['parameters'][0]['type']);
+        $this->assertSame('Date', $row6['parameters'][1]['name']);
+        $this->assertTrue($row6['parameters'][1]['isRequired']);
+        $this->assertSame('Date', $row6['parameters'][1]['type']);
+
+        $row7 = $response[7];
+        $this->assertSame('EX_BASE_08', $row7['name']);
+        $this->assertSame('ΣΤΟΙΧΕΙΑ ΤΡΕΧΟΥΣΑΣ ΚΑΤΑΣΤΑΣΗΣ ΨΗΦΙΑΚΗΣ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ ΕΡΓΑΣΙΑΣ', $row7['description']);
+        $this->assertNotNull($row7['instructions']);
+        $this->assertIsArray($row7['parameters']);
+        $this->assertCount(2, $row7['parameters']);
+        $this->assertSame('PararthmaAa', $row7['parameters'][0]['name']);
+        $this->assertTrue($row7['parameters'][0]['isRequired']);
+        $this->assertSame('Int', $row7['parameters'][0]['type']);
+        $this->assertSame('Date', $row7['parameters'][1]['name']);
+        $this->assertTrue($row7['parameters'][1]['isRequired']);
+        $this->assertSame('Date', $row7['parameters'][1]['type']);
     }
 }

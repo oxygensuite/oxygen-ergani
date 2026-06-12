@@ -126,6 +126,8 @@ Services query ERGANI data:
 | `MonthlyStatus` | EX_BASE_04 | Monthly employee status |
 | `WorkforceStatus` | EX_BASE_05 | Workforce status |
 | `AcceptanceStatus` | EX_BASE_06 | Acceptance status |
+| `RealWorkingDiary` | EX_BASE_07 | Real employment diary (trial only) |
+| `DigitalWorkTimeStatus` | EX_BASE_08 | Digital work time organization status (trial only) |
 
 ## API Reference Pages
 

@@ -22,18 +22,22 @@ use OxygenSuite\OxygenErgani\Http\ClientConfig;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Http\Services\AcceptanceStatus;
 use OxygenSuite\OxygenErgani\Http\Services\BranchInfo;
+use OxygenSuite\OxygenErgani\Http\Services\DigitalWorkTimeStatus;
 use OxygenSuite\OxygenErgani\Http\Services\EmployerInfo;
 use OxygenSuite\OxygenErgani\Http\Services\MonthlyStatus;
 use OxygenSuite\OxygenErgani\Http\Services\ParameterLookup;
+use OxygenSuite\OxygenErgani\Http\Services\RealWorkingDiary;
 use OxygenSuite\OxygenErgani\Http\Services\ServicesList;
 use OxygenSuite\OxygenErgani\Http\Services\WorkforceStatus;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
 use OxygenSuite\OxygenErgani\Responses\AcceptanceStatusResponse;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 use OxygenSuite\OxygenErgani\Responses\BranchCollection;
+use OxygenSuite\OxygenErgani\Responses\DigitalWorkTimeResponse;
 use OxygenSuite\OxygenErgani\Responses\EmployeeStatusResponse;
 use OxygenSuite\OxygenErgani\Responses\EmployerResponse;
 use OxygenSuite\OxygenErgani\Responses\ParameterCollection;
+use OxygenSuite\OxygenErgani\Responses\RealWorkingResponse;
 use OxygenSuite\OxygenErgani\Responses\WorkCardResponse;
 use OxygenSuite\OxygenErgani\Responses\WorkforceStatusResponse;
 use OxygenSuite\OxygenErgani\Storage\Token;
@@ -215,6 +219,43 @@ class Ergani
     {
         return (new AcceptanceStatus($this->accessToken, $this->environment, $this->config))
             ->handle($tin, $protocol, $date);
+    }
+
+    /**
+     * Retrieve the real employment diary entries for a branch on a given date.
+     *
+     * Only available on the trial environment. Dates are restricted to the
+     * previous month and earlier.
+     *
+     * @param int $branchAa Branch number
+     * @param \DateTime|string $date Reference date (DD/MM/YYYY)
+     *
+     * @return RealWorkingResponse[]
+     * @throws ErganiException
+     */
+    public function getRealWorkingDiary(int $branchAa, \DateTime|string $date): array
+    {
+        return (new RealWorkingDiary($this->accessToken, $this->environment, $this->config))
+            ->handle($branchAa, $date);
+    }
+
+    /**
+     * Retrieve the current digital work time organization (ΨΟΧΕ) status
+     * for a branch on a given date.
+     *
+     * Only available on the trial environment. Dates are restricted to the
+     * previous month and earlier.
+     *
+     * @param int $branchAa Branch number
+     * @param \DateTime|string $date Reference date (DD/MM/YYYY)
+     *
+     * @return DigitalWorkTimeResponse[]
+     * @throws ErganiException
+     */
+    public function getDigitalWorkTimeStatus(int $branchAa, \DateTime|string $date): array
+    {
+        return (new DigitalWorkTimeStatus($this->accessToken, $this->environment, $this->config))
+            ->handle($branchAa, $date);
     }
 
     /**

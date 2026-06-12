@@ -324,6 +324,81 @@ if ($status?->isAccepted()) {
 
 ---
 
+### getRealWorkingDiary()
+
+Retrieve real employment diary entries for a branch on a given date. Not cached (dynamic data).
+
+::: warning Trial Environment Only
+EX_BASE_07 is currently available only on the trial environment.
+:::
+
+```php
+public function getRealWorkingDiary(int $branchAa, DateTime|string $date): array
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$branchAa` | int | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+
+**Returns:** `array<int, RealWorkingResponse>` - List of diary entries (empty when no data)
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$entries = $ergani->getRealWorkingDiary(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->hourFrom} - {$entry->hourTo}";
+    echo $entry->endsOnNextDay ? " (next day)\n" : "\n";
+}
+```
+
+---
+
+### getDigitalWorkTimeStatus()
+
+Retrieve the current digital work time organization (ΨΟΧΕ) status for a branch on a given date. Not cached (dynamic data).
+
+::: warning Trial Environment Only
+EX_BASE_08 is currently available only on the trial environment.
+:::
+
+```php
+public function getDigitalWorkTimeStatus(int $branchAa, DateTime|string $date): array
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$branchAa` | int | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+
+**Returns:** `array<int, DigitalWorkTimeResponse>` - List of work time entries (empty when no data)
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$entries = $ergani->getDigitalWorkTimeStatus(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->type} {$entry->hourFrom} - {$entry->hourTo}\n";
+}
+```
+
+---
+
 ### getParameters()
 
 Look up parameter values by type.
@@ -1194,6 +1269,8 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `getMonthlyStatus()` | EX_BASE_04 | Monthly employee status |
 | | `getWorkforceStatus()` | EX_BASE_05 | Current workforce status |
 | | `getAcceptanceStatus()` | EX_BASE_06 | Essential terms acceptance status |
+| | `getRealWorkingDiary()` | EX_BASE_07 | Real employment diary entries (trial only) |
+| | `getDigitalWorkTimeStatus()` | EX_BASE_08 | Digital work time organization status (trial only) |
 | | `getParameters()` | EX_BASE_03 | System parameters |
 | **Work Cards** | `sendWorkCards()` | WRKCardSE | Check-in/check-out |
 | **Hiring** | `sendHiringNew()` | E3N | New employee |

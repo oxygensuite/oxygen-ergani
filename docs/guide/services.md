@@ -12,6 +12,12 @@ The ERGANI API provides several query services for retrieving employer informati
 | Monthly Status    | `MonthlyStatus`    | `EX_BASE_04` | Employee status for a specific month                       |
 | Workforce Status  | `WorkforceStatus`  | `EX_BASE_05` | Current workforce status with employment details           |
 | Acceptance Status | `AcceptanceStatus` | `EX_BASE_06` | Essential terms acceptance status from myErgani            |
+| Real Working Diary | `RealWorkingDiary` | `EX_BASE_07` | Real employment diary entries per branch and date          |
+| Digital Work Time Status | `DigitalWorkTimeStatus` | `EX_BASE_08` | Current digital work time organization (ΨΟΧΕ) status       |
+
+::: warning Trial Environment Only
+`EX_BASE_07` and `EX_BASE_08` are currently available **only on the trial environment** (`trialeservices.yeka.gr`). They have not been released to production yet.
+:::
 
 ---
 
@@ -644,6 +650,134 @@ if ($status === null) {
     echo "Terms rejected by employee.\n";
 }
 ```
+
+---
+
+## Real Working Diary (EX_BASE_07)
+
+Retrieves the real employment diary entries (actual work periods) for a branch on a given date. Dates are restricted to the previous month and earlier.
+
+::: warning Trial Environment Only
+This service is currently available only on the trial environment.
+:::
+
+### Usage
+
+```php
+use OxygenSuite\OxygenErgani\Http\Services\RealWorkingDiary;
+
+$service = new RealWorkingDiary($accessToken, $environment);
+
+$entries = $service->handle(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "AFM: {$entry->afm}\n";
+    echo "Date: {$entry->date?->format('d/m/Y')}\n";
+    echo "From: {$entry->hourFrom} To: {$entry->hourTo}\n";
+
+    if ($entry->endsOnNextDay) {
+        echo "Shift ends on the next day.\n";
+    }
+}
+```
+
+### Via Ergani Facade
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+
+// With string date
+$entries = $ergani->getRealWorkingDiary(0, '15/05/2026');
+
+// With DateTime object
+$entries = $ergani->getRealWorkingDiary(0, new DateTime('2026-05-15'));
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `$branchAa` | int | Yes | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
+
+### Response: `RealWorkingResponse[]`
+
+Returns an empty array when no entries exist for the given branch and date.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `branchAa` | int\|null | Branch number |
+| `afm` | string\|null | Employee tax identification number |
+| `date` | DateTimeInterface\|null | Entry date |
+| `hourFrom` | string\|null | Start time |
+| `hourTo` | string\|null | End time |
+| `endsOnNextDay` | bool\|null | Whether the end time falls on the next day |
+
+---
+
+## Digital Work Time Status (EX_BASE_08)
+
+Retrieves the current digital work time organization (ΨΟΧΕ) status for a branch on a given date — declared work, leaves, and overtime entries. Dates are restricted to the previous month and earlier.
+
+::: warning Trial Environment Only
+This service is currently available only on the trial environment.
+:::
+
+### Usage
+
+```php
+use OxygenSuite\OxygenErgani\Http\Services\DigitalWorkTimeStatus;
+
+$service = new DigitalWorkTimeStatus($accessToken, $environment);
+
+$entries = $service->handle(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "AFM: {$entry->afm}\n";
+    echo "Type: {$entry->type}\n"; // Work / leave / overtime type code
+    echo "From: {$entry->hourFrom} To: {$entry->hourTo}\n";
+    echo "Break: {$entry->breakMinutes} minutes\n";
+}
+```
+
+### Via Ergani Facade
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+
+// With string date
+$entries = $ergani->getDigitalWorkTimeStatus(0, '15/05/2026');
+
+// With DateTime object
+$entries = $ergani->getDigitalWorkTimeStatus(0, new DateTime('2026-05-15'));
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `$branchAa` | int | Yes | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
+
+### Response: `DigitalWorkTimeResponse[]`
+
+Returns an empty array when no entries exist for the given branch and date.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `branchAa` | int\|null | Branch number |
+| `afm` | string\|null | Employee tax identification number |
+| `date` | DateTimeInterface\|null | Entry date |
+| `type` | string\|null | Work / leave / overtime type code (see [WorkTimeType](/api/enums/work-time#worktimetype)) |
+| `hourFrom` | string\|null | Start time |
+| `hourTo` | string\|null | End time |
+| `extra` | string\|null | For regular leave: year and days (e.g., `2026 - 4`) |
+| `breakMinutes` | int\|null | Break duration in minutes |
+| `breakInWork` | bool\|null | Whether the break is within the schedule (`true`) or outside it (`false`) |
 
 ---
 

@@ -1,0 +1,15 @@
+{
+    "EX_BASE_08": {
+        "Working": {
+            "Aa": "0",
+            "Afm": "123456789",
+            "Date": "2026-05-15T00:00:00+03:00",
+            "Type": "ΕΡΓ",
+            "HourFrom": "08:00",
+            "HourTo": "16:00",
+            "Extra": null,
+            "BreakMinutes": "30",
+            "BreakInWork": "1"
+        }
+    }
+}

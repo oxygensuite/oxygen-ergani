@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `RealWorkingDiary` (EX_BASE_07) service for real employment diary entries with `RealWorkingResponse` and `Ergani::getRealWorkingDiary()` (trial environment only)
+- Add `DigitalWorkTimeStatus` (EX_BASE_08) service for current digital work time organization (ΨΟΧΕ) status with `DigitalWorkTimeResponse` and `Ergani::getDigitalWorkTimeStatus()` (trial environment only)
 - Add `Ergani::make()` static constructor for fluent one-liners (e.g. `Ergani::make()->sendHiringNew($declaration)`)
 - Generate LLM-friendly documentation (`llms.txt`, `llms-full.txt`, per-page Markdown) and a sitemap for the docs site
 - Show last-updated dates and code group icons on docs pages; use clean URLs
