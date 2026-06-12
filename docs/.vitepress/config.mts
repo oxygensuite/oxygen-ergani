@@ -98,6 +98,7 @@ export default defineConfig({
             { text: 'Services & Queries', link: '/guide/services' },
             { text: 'Cancel Submissions', link: '/guide/cancel-submissions' },
             { text: 'Error Handling', link: '/guide/error-handling' },
+            { text: 'Model Factories', link: '/guide/factories' },
             { text: 'CLI Tools', link: '/guide/cli-tools' },
           ]
         }

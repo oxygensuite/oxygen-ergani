@@ -6,21 +6,24 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen)](https://phpstan.org/)
 
-> [!CAUTION]
-> This package is currently in **alpha** (v2.0.0-alpha). The API is not yet stable and **breaking changes may occur** between releases. Please pin to a specific version in production environments and review the [CHANGELOG.md](CHANGELOG.md) before upgrading.
-
 ## Features
 
 - **Work Cards** - Employee check-in/check-out submissions
 - **Work Time Declarations** - Daily and weekly work schedules
 - **Hiring Forms (E3)** - New hires, modifications, deletions, and lending arrangements
+- **Internship Declarations (E3.5)** - Internship and practical training submissions
 - **Termination Forms (E5)** - Voluntary resignations, retirements, and death terminations
 - **Dismissal Forms (E6)** - Employer-initiated terminations, transfers, and loan endings
 - **Fixed-Term Terminations (E7)** - Contract expirations and early terminations
+- **Construction Forms (E12)** - Construction work personnel declarations and censuses
 - **Employment Modifications (MA/MAD)** - Changes to employment terms
 - **Overtime Declarations** - Regular and retrospective overtime submissions
+- **Sixth Day Declarations** - Sixth day / extra shift submissions
+- **Pre-Announcement Exemptions** - Pre-announcement exemption declarations
 - **Query Services** - Employer info, branch details, parameter lookups, and employee status
 - **PSR-16 Caching** - Opt-in caching for service responses with bundled file-based and in-memory implementations
+- **Model Factories** - Laravel-inspired factories generating valid Greek test data (AFM, AMKA, names)
+- **CLI Tools** - `enum:check` and `schema:check` to verify local code stays in sync with the live API
 
 ## Requirements
 
@@ -115,8 +118,14 @@ Full documentation is available at **[oxygensuite.github.io/oxygen-ergani](https
 - [Dismissal Forms (E6)](https://oxygensuite.github.io/oxygen-ergani/guide/dismissal/)
 - [Fixed-Term Terminations (E7)](https://oxygensuite.github.io/oxygen-ergani/guide/fixed-term)
 - [Employment Modifications (MA/MAD)](https://oxygensuite.github.io/oxygen-ergani/guide/modifications)
+- [Construction Forms (E12)](https://oxygensuite.github.io/oxygen-ergani/guide/construction)
+- [Sixth Day Declarations](https://oxygensuite.github.io/oxygen-ergani/guide/sixth-day)
+- [Pre-Announcement Exemptions](https://oxygensuite.github.io/oxygen-ergani/guide/pre-announcement)
+- [Internship Declarations (E3.5)](https://oxygensuite.github.io/oxygen-ergani/guide/internship)
 - [Query Services](https://oxygensuite.github.io/oxygen-ergani/guide/services)
 - [Error Handling](https://oxygensuite.github.io/oxygen-ergani/guide/error-handling)
+- [Model Factories](https://oxygensuite.github.io/oxygen-ergani/guide/factories)
+- [CLI Tools](https://oxygensuite.github.io/oxygen-ergani/guide/cli-tools)
 
 ### API Reference
 
