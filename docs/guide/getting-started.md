@@ -39,10 +39,10 @@ In Laravel, set the token manager in a service provider or middleware to ensure 
 
 ### 2. Make API Calls
 
-Once the token manager is configured, you can make API calls without specifying credentials:
+Once the token manager is configured, you can make API calls through the `Ergani` facade without specifying credentials:
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
+use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
 use OxygenSuite\OxygenErgani\Models\WorkCard\CardDetail;
 use OxygenSuite\OxygenErgani\Enums\CardDetailType;
@@ -60,8 +60,11 @@ $card = Card::make()
             ->setDate(date('Y-m-d\TH:i:s.uP'))
     );
 
-$response = (new WorkCard())->handle($card);
+$ergani = new Ergani();
+$responses = $ergani->sendWorkCards($card);
 ```
+
+The facade exposes every ERGANI operation — hiring (E3), terminations (E5/E6/E7), work time, overtime, and more. See the [Ergani Facade reference](/api/ergani) for the full method list.
 
 ## Environments
 

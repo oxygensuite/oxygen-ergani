@@ -54,10 +54,10 @@ features:
 ## Quick Example
 
 ```php
+use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Storage\FileToken;
 use OxygenSuite\OxygenErgani\Storage\Token;
 use OxygenSuite\OxygenErgani\Enums\Environment;
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
 use OxygenSuite\OxygenErgani\Models\WorkCard\CardDetail;
 use OxygenSuite\OxygenErgani\Enums\CardDetailType;
@@ -82,8 +82,11 @@ $card = Card::make()
             ->setDate(date('Y-m-d\TH:i:s.uP'))
     );
 
-$response = (new WorkCard())->handle($card);
-echo $response[0]->protocol; // e.g., 'ΕΥΣ92'
+// Submit it through the Ergani facade
+$ergani = new Ergani();
+$responses = $ergani->sendWorkCards($card);
+
+echo $responses[0]->protocol; // e.g., 'ΕΥΣ92'
 ```
 
 ## Requirements
