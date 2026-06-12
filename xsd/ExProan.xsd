@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition (Trial) 8.1.7.2743 (http://www.liquid-technologies.com)-->
+<xs:schema xmlns="http://www.yeka.gr/ExProan" xml:lang="gr" attributeFormDefault="unqualified" targetNamespace="http://www.yeka.gr/ExProan" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="DhlwshExProanType">
+        <xs:sequence>
+            <xs:element name="f_aa_pararthmatos" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Α/Α ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{1,5}" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_is_excluded">
+			  <xs:annotation>
+				<xs:documentation>H ΕΠΙΧΕΙΡΗΣΗ ΕΞΑΙΡΕΙΤΑΙ ΑΠΟ ΠΡΟΑΝΑΓΓΕΛΙΑ (0) ΌΧΙ (1) ΝΑΙ</xs:documentation>
+			  </xs:annotation>
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+				</xs:restriction>
+			  </xs:simpleType>
+			</xs:element>
+			<xs:element name="f_month">
+				<xs:annotation>
+					<xs:documentation>ΜΗΝΑΣ ΕΞΑΙΡΕΣΗΣ ΠΡΟΑΝΑΓΓΕΛΙΑΣ</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0[1-9]|1[0-2]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="f_year">
+				<xs:annotation>
+					<xs:documentation>ΕΤΟΣ ΕΞΑΙΡΕΣΗΣ ΠΡΟΑΝΑΓΓΕΛΙΑΣ</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>		
+			<xs:element name="f_comments" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΑΡΑΤΗΡΗΣΕΙΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>   
+          
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DhlwseisExProanType">
+		<xs:sequence>
+			<xs:element name="DhlwshExProan" type="DhlwshExProanType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΔΗΛΩΣΕΙΣ ΕΞΑΙΡΕΣΗΣ ΠΡΟΑΝΑΓΓΕΛΙΑΣ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="DhlwseisExProan" type="DhlwseisExProanType">
+		<xs:annotation>
+			<xs:documentation>ΔΗΛΩΣΕΙΣ ΕΞΑΙΡΕΣΗΣ ΠΡΟΑΝΑΓΓΕΛΙΑΣ</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

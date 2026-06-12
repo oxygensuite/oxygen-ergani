@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition (Trial) 8.1.7.2743 (http://www.liquid-technologies.com)-->
+<xs:schema xmlns="http://www.yeka.gr/E5O" xml:lang="gr" attributeFormDefault="unqualified" targetNamespace="http://www.yeka.gr/E5O" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="AnaggeliaE5OType">
+    <xs:sequence>
+      <xs:element name="f_aa_pararthmatos" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Α/Α ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,5}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_rel_protocol">
+        <xs:annotation>
+          <xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΑΡΙΘ. ΠΡΩΤ.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_rel_date">
+        <xs:annotation>
+          <xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΗΜΕΡΟΜΗΝΙΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_ypiresia_sepe" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΚΩΔΙΚΟΣ ΥΠΗΡΕΣΙΑΣ ΕΠΙΘΕΩΡΗΣΗΣ ΕΡΓΑΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{5}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_ypiresia_oaed" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΚΩΔΙΚΟΣ ΥΠΗΡΕΣΙΑΣ ΔΥΠΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{6}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_kad_pararthmatos" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Κ.Α.Δ. ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{4}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_kallikratis_pararthmatos" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΔΗΜΟΤΙΚΗ / ΤΟΠΙΚΗ ΚΟΙΝΟΤΗΤΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{8}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_eponymo" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΕΠΩΝΥΜΟ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_onoma" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΝΟΜΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+		<!--<xs:element name="f_eponymo_patros">
+        <xs:annotation>
+          <xs:documentation>ΕΠΩΝΥΜΟ ΠΑΤΡΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
+      <xs:element name="f_onoma_patros" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΝΟΜΑ ΠΑΤΡΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+		<!--<xs:element name="f_eponymo_mitros">
+        <xs:annotation>
+          <xs:documentation>ΕΠΩΝΥΜΟ ΜΗΤΡΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
+      <xs:element name="f_onoma_mitros" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΝΟΜΑ ΜΗΤΡΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+		<!--<xs:element name="f_topos_gennhshs">
+        <xs:annotation>
+          <xs:documentation>ΤΟΠΟΣ ΓΕΝΝΗΣΗΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
+      <xs:element name="f_birthdate" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΓΕΝΝΗΣΗΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_sex" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΦΥΛΟ - (0) ΑΝΤΡΑΣ - (1) ΓΥΝΑΙΚΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_yphkoothta" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΥΠΗΚΟΟΤΗΤΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{3}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_typos_taytothtas" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΤΥΠΟΣ ΤΑΥΤΟΤΗΤΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[A-ZΑ-Ω]{1,10}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_ar_taytothtas" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΤΑΥΤΟΤΗΤΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_ekdousa_arxh" >
+        <xs:annotation>
+          <xs:documentation>ΕΚΔΟΥΣΑ ΑΡΧΗ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_date_ekdosis">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΕΚΔΟΣΗΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_date_ekdosis_lixi">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΛΗΞΗΣ ΙΣΧΥΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_inst">
+        <xs:annotation>
+          <xs:documentation>ΑΦΟΡΑ ΑΔΕΙΑ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ Η ΟΠΟΙΑ ΠΑΡΕΧΕΙ ΔΙΚΑΙΩΜΑ ΑΜΕΣΗΣ ΠΡΟΣΒΑΣΗΣ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ (0) ΌΧΙ (1) ΝΑΙ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_inst_type">
+        <xs:annotation>
+          <xs:documentation>ΕΙΔΟΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ Η ΟΠΟΙΑ ΠΑΡΕΧΕΙ ΔΙΚΑΙΩΜΑ ΑΜΕΣΗΣ ΠΡΟΣΒΑΣΗΣ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{0,5}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_inst_ar">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ Η ΟΠΟΙΑ ΠΑΡΕΧΕΙ ΔΙΚΑΙΩΜΑ ΑΜΕΣΗΣ ΠΡΟΣΒΑΣΗΣ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_inst_lixi">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΛΗΞΗΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ Η ΟΠΟΙΑ ΠΑΡΕΧΕΙ ΔΙΚΑΙΩΜΑ ΑΜΕΣΗΣ ΠΡΟΣΒΑΣΗΣ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_ap">
+        <xs:annotation>
+          <xs:documentation>ΑΦΟΡΑ ΑΔΕΙΑ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ ΓΙΑ ΤΗΝ ΟΠΟΙΑ ΑΠΑΙΤΕΙΤΑΙ ΕΠΙΠΛΕΟΝ ΕΓΚΡΙΣΗ ΓΙΑ ΠΡΟΣΒΑΣΗ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ (0) ΌΧΙ (1) ΝΑΙ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_ap_type">
+        <xs:annotation>
+          <xs:documentation>ΕΙΔΟΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ ΓΙΑ ΤΗΝ ΟΠΟΙΑ ΑΠΑΙΤΕΙΤΑΙ ΕΠΙΠΛΕΟΝ ΕΓΚΡΙΣΗ ΓΙΑ ΠΡΟΣΒΑΣΗ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{0,5}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_ap_ar">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ ΓΙΑ ΤΗΝ ΟΠΟΙΑ ΑΠΑΙΤΕΙΤΑΙ ΕΠΙΠΛΕΟΝ ΕΓΚΡΙΣΗ ΓΙΑ ΠΡΟΣΒΑΣΗ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ (Αρμοδίας Υπηρεσίας)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_ap_lixi">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΛΗΞΗΣ ΑΔΕΙΑΣ ΔΙΑΜΟΝΗΣ ΠΟΛΙΤΩΝ ΤΡΙΤΩΝ ΧΩΡΩΝ ΓΙΑ ΤΗΝ ΟΠΟΙΑ ΑΠΑΙΤΕΙΤΑΙ ΕΠΙΠΛΕΟΝ ΕΓΚΡΙΣΗ ΓΙΑ ΠΡΟΣΒΑΣΗ ΣΤΗΝ ΑΓΟΡΑ ΕΡΓΑΣΙΑΣ (Αρμοδίας Υπηρεσίας)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_visa">
+        <xs:annotation>
+          <xs:documentation>ΑΦΟΡΑ ΕΠΟΧΙΚΗ ΑΠΑΣΧΟΛΗΣΗ ΠΟΛΙΤΗ ΤΡΙΤΗΣ ΧΩΡΑΣ ΠΟΥ ΕΡΓΑΖΕΤΑΙ ΜΕ ΤΗΝ ΘΕΩΡΗΣΗ ΕΙΣΟΔΟΥ (0) ΌΧΙ (1) ΝΑΙ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_visa_ar">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΘΕΩΡΗΣΗΣ ΕΙΣΟΔΟΥ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_visa_from">
+        <xs:annotation>
+          <xs:documentation>ΧΡΟΝΙΚΗ ΔΙΑΡΚΕΙΑ ΙΣΧΥΟΣ ΘΕΩΡΗΣΗΣ ΕΙΣΟΔΟΥ ΑΠΟ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_res_permit_visa_to">
+        <xs:annotation>
+          <xs:documentation>ΧΡΟΝΙΚΗ ΔΙΑΡΚΕΙΑ ΙΣΧΥΟΣ ΘΕΩΡΗΣΗΣ ΕΙΣΟΔΟΥ ΕΩΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_marital_status" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΙΚΟΓ. ΚΑΤΑΣΤΑΣΗ - (0) ΑΓΑΜΟΣ - (1) ΕΓΓΑΜΟΣ - (2) ΔΙΑΖΕΥΓΜΕΝΟΣ - (3) ΧΗΡΟΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_arithmos_teknon" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΤΕΚΝΩΝ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,2}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_afm" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΦΟΡΟΛΟΓΙΚΟΥ ΜΗΤΡΩΟΥ (Α.Φ.Μ.)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]){9}" />
+            <xs:length value="9" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_doy">
+        <xs:annotation>
+          <xs:documentation>Δ.Ο.Υ.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]{4})|([ ]*)" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_amika">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΜΗΤΡΩΟΥ (Ασφαλισμένου) Ι.Κ.Α.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{0,20}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_amka" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΜΗΤΡΩΟΥ ΚΟΙΝΩΝΙΚΗΣ ΑΣΦΑΛΙΣΗΣ (Α.Μ.Κ.Α.)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{0,20}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_code_anergias">
+        <xs:annotation>
+          <xs:documentation>ΑΡΙΘΜΟΣ ΔΕΛΤΙΟΥ ΑΝΕΡΓΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_ar_vivliou_anilikou">
+        <xs:annotation>
+          <xs:documentation>ΑΡ. ΒΙΒΛΙΑΡΙΟΥ ΑΝΗΛΙΚΟΥ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_epipedo_morfosis" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΕΚΠΑΙΔΕΥΤΙΚΟ ΕΠΙΠΕΔΟ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,10}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!-- Ε5 -->
+      <xs:element name="f_xaraktirismos" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΧΑΡΑΚΤΗΡΙΣΜΟΣ ΕΡΓΑΖΟΜΕΝΟΥ ΩΣ ΠΡΟΣ ΤΗΝ ΙΔΙΟΤΗΤΑ ΤΟΥ - (0) Εργάτης - (1) Υπάλληλος</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_sxeshapasxolisis" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΣΧΕΣΗ ΕΡΓΑΣΙΑΣ (ΤΥΠΟΣ ΑΠΑΣΧΟΛΗΣΗΣ)  (0) ΑΟΡΙΣΤΟΥ (1) ΟΡΙΣΜΕΝΟΥ ΧΡΟΝΟΥ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_orismenou_apo" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΡΙΣΜΕΝΟΥ ΧΡΟΝΟΥ ΑΠΟ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_orismenou_ews" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΟΡΙΣΜΕΝΟΥ ΧΡΟΝΟΥ ΕΩΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_kathestosapasxolisis" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΚΑΘΕΣΤΩΣ ΑΠΑΣΧΟΛΗΣΗΣ (0) ΠΛΗΡΗΣ (1) ΜΕΡΙΚΗ (2) ΕΚ ΠΕΡΙΤΡΟΠΗΣ </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_eidikothta" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΕΙΔΙΚΟΤΗΤΑ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,6}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_proslipsidate" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΠΡΟΣΛΗΨΗΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_apoxwrisidate" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΕΝΑΡΞΗΣ ΑΔΙΚΑΙΟΛΟΓΗΤΗΣ ΑΠΟΥΣΙΑΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!--<xs:element name="f_apodoxes" nillable="false">
+        <xs:annotation>
+          <xs:documentation>ΣΥΝΟΛΟ ΜΕΙΚΤΩΝ ΑΠΟΔΟΧΩΝ ΚΑΤΑ ΤΗΝ ΑΠΟΧΩΡΗΣΗ  (ΜΙΣΘΟΣ Η ΗΜΕΡΟΜΙΣΘΙΟ)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]{1,3}\.([0-9]{3}\.)*[0-9]{3}|[0-9]+)(,[0-9][0-9])"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>-->
+      <xs:element name="f_tropoi_oxlhshs">
+        <xs:annotation>
+          <xs:documentation>ΤΡΟΠΟΙ ΟΧΛΗΣΗΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="500" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_comments">
+        <xs:annotation>
+          <xs:documentation>ΠΑΡΑΤΗΡΗΣΕΙΣ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="100" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <!-- END Ε5 -->    
+    
+      <xs:element name="f_foreign_file">
+        <xs:annotation>
+          <xs:documentation>Αρχείο Νομιμοποιητικών Εγγράφων Πρόσβασης στην Αγορά Εργασίας Πολιτών Τρίτων Χωρών (pdf)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:base64Binary">
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="f_young_file">
+        <xs:annotation>
+          <xs:documentation>Αρχείο Βιβλιαρίου Ανηλίκου Εργαζομένου (pdf)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:base64Binary">
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AnaggeliesE5OType">
+    <xs:sequence>
+      <xs:element name="AnaggeliaE5O" type="AnaggeliaE5OType"  minOccurs="1"  maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>ΑΝΑΓΓΕΛΙΑ ΟΙΚΕΙΟΘΕΛΟΥΣ ΑΠΟΧΩΡΗΣΗΣ ΜΙΣΘΩΤΟΥ ΟΧΛΗΣΗ</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AnaggeliesE5O" type="AnaggeliesE5OType">
+    <xs:annotation>
+      <xs:documentation>ΑΝΑΓΓΕΛΙΕΣ ΟΙΚΕΙΟΘΕΛΟΥΣ ΑΠΟΧΩΡΗΣΗΣ ΜΙΣΘΩΤΟΥ ΟΧΛΗΣΗ</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

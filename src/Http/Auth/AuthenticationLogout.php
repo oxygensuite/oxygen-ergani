@@ -13,15 +13,22 @@ class AuthenticationLogout extends Client
     /**
      * Deletes the refresh token from the api server.
      *
-     * @param  string  $refreshToken
+     * @param string $refreshToken
+     *
      * @return bool
      * @throws ErganiException
      * @throws TokenExpiredException
      */
     public function handle(string $refreshToken): bool
     {
+        $body = json_encode($refreshToken);
+
+        if ($body === false) {
+            return false;
+        }
+
         return $this->asJson()
-            ->post(self::URI, json_encode($refreshToken))
+            ->post(self::URI, $body)
             ->isSuccessful();
     }
 }

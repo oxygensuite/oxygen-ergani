@@ -1,6 +1,6 @@
 {
   "name": "oxygensuite/oxygen-ergani",
-  "type": "package",
+  "type": "library",
   "description": "A comprehensive package for seamlessly interacting with Greece’s Ergani system, enabling automated submissions for employee data such as check-ins, check-outs, and other employment-related information. This repository aims to simplify and streamline workforce management and ensure compliance with Greek labor regulations.",
   "keywords": [
     "ergani",
@@ -18,15 +18,22 @@
     }
   ],
   "require": {
-    "php": "^8.1",
-    "guzzlehttp/guzzle": "^7.9"
+    "php": "^8.2",
+    "guzzlehttp/guzzle": "^7.9",
+    "psr/simple-cache": "^3.0",
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^v1.24",
+    "infection/infection": "^0.32.2",
     "laravel/pint": "^1.20",
-    "phpunit/phpunit": "^11.0",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^12.0",
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "^v7.2"
+  },
+  "suggest": {
+    "fakerphp/faker": "Required to use the model factories, e.g. Model::factory()->make() (^1.24)"
   },
   "autoload": {
     "psr-4": {
@@ -36,15 +43,31 @@
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "analyse": "phpstan analyse",
+    "lint": "pint",
+    "infect": "infection",
+    "check": [
+      "@lint",
+      "@analyse",
+      "@test"
+    ],
+    "enum:check": "php bin/check-enum",
+    "schema:check": "php bin/check-schema"
   },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "infection/extension-installer": true
+    }
   },
   "minimum-stability": "stable",
   "prefer-stable": true

@@ -2,10 +2,17 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkCard;
 
+use OxygenSuite\OxygenErgani\Factories\WorkCard\CardFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
+/**
+ * @method static CardFactory factory(int $count = 1)
+ */
 class Card extends Model
 {
+    use HasFactory;
+    /** @var array<int, string> */
     protected array $expectedOrder = [
         'f_afm_ergodoti',
         'f_aa',
@@ -44,26 +51,27 @@ class Card extends Model
     }
 
     /**
-     * If an index is provided, it will return the card detail at the given index.
-     * Otherwise, it will return the list of card details.
+     * Returns all card details.
      *
-     * @param  int|null  $index  The index of the card detail to be returned.
-     * @return CardDetail|array|null
+     * @return array<int, CardDetail>
      */
-    public function getDetails(?int $index = null): CardDetail|array|null
+    public function getDetails(): array
     {
-        if ($index === null) {
-            return $this->get('Details')['CardDetails'] ?? null;
-        }
+        return $this->get('Details')['CardDetails'] ?? [];
+    }
 
-        return $this->get('Details')['CardDetails'][$index] ?? null;
+    /**
+     * Returns a card detail at the given index.
+     */
+    public function getDetail(int $index): ?CardDetail
+    {
+        return $this->getDetails()[$index] ?? null;
     }
 
     /**
      * Sets the list of card details.
      *
-     * @param  CardDetail[]  $cardDetails
-     * @return $this
+     * @param array<int, CardDetail> $cardDetails
      */
     public function setDetails(array $cardDetails): static
     {
@@ -71,14 +79,14 @@ class Card extends Model
     }
 
     /**
-     * Adds a card detail to the current list of details.
+     * Adds one or more card details to the current list.
      *
-     * @param  CardDetail|CardDetail[]  $cardDetail  The card detail object to be added.
-     * @return static
+     * @param CardDetail|array<int, CardDetail> $cardDetail
      */
     public function addDetails(CardDetail|array $cardDetail): static
     {
-        $details = $this->getDetails() ?? [];
+        $details = $this->getDetails();
+
         if ($cardDetail instanceof CardDetail) {
             $details[] = $cardDetail;
         } else {

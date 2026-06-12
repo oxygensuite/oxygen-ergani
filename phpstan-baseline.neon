@@ -1,0 +1,1118 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionCensusEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Construction/ConstructionEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Construction/ConstructionWorkFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/DismissalWithoutNoticeDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/EndOfLoanDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/RetirementDismissalDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TransferDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Dismissal/TrialPeriodTerminationDeclarationFactory.php
+
+		-
+			message: '#^Method OxygenSuite\\OxygenErgani\\Factories\\Factory\:\:new\(\) should return static\(OxygenSuite\\OxygenErgani\\Factories\\Factory\<TModel of OxygenSuite\\OxygenErgani\\Models\\Model\>\) but returns static\(OxygenSuite\\OxygenErgani\\Factories\\Factory\<OxygenSuite\\OxygenErgani\\Models\\Model\>\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Factories/Factory.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Factories/Factory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/DeletionDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/LendingDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Hiring/NewDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 6
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Internship/InternshipDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/BorrowedModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Modification/ModificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:time24h\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:workEndTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Overtime/OvertimeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/CompensatedExitDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/DeathTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/FixedTermTerminationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/MandatoryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/NotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/ResignationAfterNotificationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryResignationDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amika\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:amka\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekIdNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/Termination/VoluntaryRetirementDeclarationFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkCard/CardDetailFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkCard/CardDetailFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkCard/CardDetailFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkCard/CardFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:afm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkTime/WorkTimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekFirstName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkTime/WorkTimeEmployeeFactory.php
+
+		-
+			message: '#^Call to an undefined method Faker\\Generator\:\:greekLastName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factories/WorkTime/WorkTimeEmployeeFactory.php
+

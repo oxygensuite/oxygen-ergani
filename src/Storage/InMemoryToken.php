@@ -32,12 +32,14 @@ class InMemoryToken extends Token
     public function setAuthToken(AuthenticationToken $token): static
     {
         $this->token = $token;
+
         return $this;
     }
 
     public function failedAuthentication(): static
     {
         $this->token = null;
+
         return $this;
     }
 

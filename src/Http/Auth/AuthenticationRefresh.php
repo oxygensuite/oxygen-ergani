@@ -23,8 +23,9 @@ class AuthenticationRefresh extends Client
      * Refreshes the access token and the refresh token.
      * Refresh token must be expired.
      *
-     * @param  string  $accessToken
-     * @param  string  $refreshToken
+     * @param string $accessToken
+     * @param string $refreshToken
+     *
      * @return AuthenticationToken
      * @throws RefreshTokenExpiredException
      * @throws ErganiException

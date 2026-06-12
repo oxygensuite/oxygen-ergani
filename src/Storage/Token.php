@@ -27,8 +27,9 @@ abstract class Token implements TokenManager
     /**
      * Sets the active token manager.
      *
-     * @param  TokenManager|null  $tokenManager
-     * @param  Environment  $environment.
+     * @param TokenManager|null $tokenManager
+     * @param Environment $environment.
+     *
      * @return void
      */
     public static function setCurrentTokenManager(?TokenManager $tokenManager, Environment $environment = Environment::TEST): void
@@ -53,12 +54,22 @@ abstract class Token implements TokenManager
     }
 
     /**
+     * Returns a hash suitable for use as a cache prefix,
+     * derived from the username and password.
+     */
+    public function cacheIdentifier(): string
+    {
+        return hash('sha256', $this->username . ':' . $this->password);
+    }
+
+    /**
      * @throws ErganiException
      */
     public function authenticate(): ?string
     {
         if (empty($this->username) || empty($this->password)) {
             $this->failedAuthentication();
+
             return null;
         }
 
@@ -81,6 +92,7 @@ abstract class Token implements TokenManager
         // Refresh the access token and the refresh token
         try {
             $this->setAuthToken($this->refresh());
+
             return $this->getAccessToken();
         } catch (RefreshTokenExpiredException) {
             // If the refresh token has expired, re-authenticate using
@@ -96,9 +108,11 @@ abstract class Token implements TokenManager
     {
         try {
             $this->setAuthToken($this->login());
+
             return $this->getAccessToken();
         } catch (AuthenticationException $e) {
             $this->failedAuthentication();
+
             throw $e;
         }
     }
@@ -111,6 +125,7 @@ abstract class Token implements TokenManager
     protected function login(): AuthenticationToken
     {
         $login = new AuthenticationLogin();
+
         return $login->handle($this->username, $this->password);
     }
 
@@ -124,6 +139,7 @@ abstract class Token implements TokenManager
     protected function refresh(): AuthenticationToken
     {
         $refresh = new AuthenticationRefresh();
+
         return $refresh->handle($this->getAccessToken(), $this->getRefreshToken());
     }
 }

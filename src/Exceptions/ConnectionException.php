@@ -2,6 +2,4 @@
 
 namespace OxygenSuite\OxygenErgani\Exceptions;
 
-class ConnectionException extends ErganiException
-{
-}
+class ConnectionException extends ErganiException {}

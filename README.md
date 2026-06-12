@@ -1,270 +1,179 @@
-# Ergani API
+# Oxygen Ergani
 
-## Introduction
+A comprehensive PHP package for interacting with Greece's ERGANI II system, enabling automated submissions for employee data including work cards, hiring declarations, terminations, and more.
 
-A comprehensive package for seamlessly interacting with Greece’s Ergani system, enabling automated submissions for employee data such as check-ins, check-outs, and other employment-related information.
+[![PHP Version](https://img.shields.io/badge/php-%5E8.2-blue)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen)](https://phpstan.org/)
+
+## Features
+
+- **Work Cards** - Employee check-in/check-out submissions
+- **Work Time Declarations** - Daily and weekly work schedules
+- **Hiring Forms (E3)** - New hires, modifications, deletions, and lending arrangements
+- **Internship Declarations (E3.5)** - Internship and practical training submissions
+- **Termination Forms (E5)** - Voluntary resignations, retirements, and death terminations
+- **Dismissal Forms (E6)** - Employer-initiated terminations, transfers, and loan endings
+- **Fixed-Term Terminations (E7)** - Contract expirations and early terminations
+- **Construction Forms (E12)** - Construction work personnel declarations and censuses
+- **Employment Modifications (MA/MAD)** - Changes to employment terms
+- **Overtime Declarations** - Regular and retrospective overtime submissions
+- **Sixth Day Declarations** - Sixth day / extra shift submissions
+- **Pre-Announcement Exemptions** - Pre-announcement exemption declarations
+- **Query Services** - Employer info, branch details, parameter lookups, and employee status
+- **PSR-16 Caching** - Opt-in caching for service responses with bundled file-based and in-memory implementations
+- **Model Factories** - Laravel-inspired factories generating valid Greek test data (AFM, AMKA, names)
+- **CLI Tools** - `enum:check` and `schema:check` to verify local code stays in sync with the live API
 
 ## Requirements
 
-- PHP ^8.1
+- PHP ^8.2
 - Guzzle HTTP ^7.9
-- Ergani credentials (`username` and `password`)
+- ERGANI credentials (username and password)
 
 ## Installation
-
-To install the Ergani API package, run the following command in your terminal:
 
 ```bash
 composer require oxygensuite/oxygen-ergani
 ```
 
-## Usage
+## Quick Start
 
-### Authentication and getting an Access token
+### 1. Set Up Token Management
 
-All interactions with the Ergani API require a JSON Web Token (JWT) for authentication.
-To get a JWT, start by Authenticating with your Ergani credentials. After authentication, you will receive
-an object of type `\OxygenSuite\OxygenErgani\Responses\AuthenticationToken` with the following public properties:
-
-- `accessToken`: You will use this token for later API requests.
-- `accessTokenExpirationSeconds`: The duration in seconds for which the token is valid.
-- `refreshToken`: A token used to refresh the access token when it expires.
-- `accessTokenExpiresAt`: The timestamp when the access token will expire.
-- `refreshTokenExpiresAt`: The timestamp when the refresh token will expire.
+The package handles JWT authentication automatically. Configure it once at application boot:
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogin;
-
-$auth = new AuthenticationLogin();
-$response = $auth->handle('your-username', 'your-password');
-
-// $response->accessToken;
-// $response->accessTokenExpirationSeconds;
-// $response->refreshToken;
-// $response->refreshTokenExpiresAt;
-// $response->accessTokenExpiresAt;
-```
-
-### Refreshing the Access Token
-
-If your access token expires, you won't be able to make further requests until you refresh it.
-It is recommended to refresh the access token before it expires to ensure uninterrupted access to the API.
-This package provides a simple way to refresh your access token:
-
-```php
-use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationRefresh;
-
-$auth = new AuthenticationRefresh();
-$response = $auth->handle('old-access-token', 'old-refresh-token');
-```
-
-After refresh, you will receive the same object and properties as in the authentication step.
-
-### Logout
-To log out and invalidate your access token, use the following functionality by providing both your access token and refresh token.
-
-```php
-use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogout;
-
-$auth = new AuthenticationLogout('access-token');
-$response = $auth->handle('refresh-token');
-```
-
-### Using your Access Token and choosing the Environment
-
-All API requests require an access token for authentication and an environment to specify the API endpoint on each call.
-For example, to create a work card (checkin or checkout), you need to define your access token you received while authentication and
-your preferred environment (either `Environment::TEST` or `Environment::PRODUCTION`).
-
-```php
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard;
-use OxygenSuite\OxygenErgani\Enums\Environment;
-use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
-
-$workCard = new WorkCard('your-access-token', Environment::TEST); // or 'Environment::PRODUCTION' for production environment
-
-$card = new Card();
-// Populate the card with necessary data
-
-$workCard->handle($card);
-```
-
-### Token Management
-Ergani requires you to manage your tokens effectively. This means you should:
-- store your access token and refresh token,
-- use the access token for API requests until it expires,
-- refresh your access token before or after it expires,
-- log out when needed to invalidate your tokens,
-- and DO NOT authenticate (create a new JWT), every time you need to make a request!!!
-
-If these seem overwhelming to you, don't worry! The package provides two different ways that do all of this for you:
-- `FileToken`: An environment agnostic token manager that stores tokens in files and cycles them forever (recommended).
-- `InMemoryToken`: A token manager that stores tokens in the memory and lasts until the script execution ends.
-
-```php
-// Using FileToken (recommended)
-
 use OxygenSuite\OxygenErgani\Storage\FileToken;
 use OxygenSuite\OxygenErgani\Storage\Token;
 use OxygenSuite\OxygenErgani\Enums\Environment;
 
-$username = 'your-username';
-$password = 'your-password';
-$env = Environment::TEST; // or Environment::PRODUCTION
-
-Token::setCurrentTokenManager(new FileToken($username, $password), $env);
+Token::setCurrentTokenManager(
+    new FileToken('your-username', 'your-password'),
+    Environment::TEST // or Environment::PRODUCTION
+);
 ```
 
-That's it! Now set the current token manager each time you boot your application, and you won't have to worry about managing tokens manually.
-> If you are using Laravel, you can set the current token manager in a service provider or middleware to ensure it is set for every request.
-
-Now you can use the Ergani API without specifying the access token and the environment on each call.
-In the examples below, we assume the `FileToken` manager is set as the current token manager.
-
-### Creating a Work Card
+### 2. Submit a Work Card
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard;
+use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Models\WorkCard\Card;
-
-$workCard = new WorkCard(); // No need to pass access token and environment if you have set a token manager
+use OxygenSuite\OxygenErgani\Models\WorkCard\CardDetail;
+use OxygenSuite\OxygenErgani\Enums\CardDetailType;
 
 $card = Card::make()
-    ->setEmployerTin('999999999') // Company TIN
-    ->setBranchCode(0) // Company Branch Code
-    ->setComments('test-comments') // Comments are required but can be empty or null
-    ->addDetails( // Add as many details as you need, each detail represents an employee's a check-in or check-out
+    ->setEmployerTin('999999999')
+    ->setBranchCode(0)
+    ->setComments('')
+    ->addDetails(
         CardDetail::make()
-            ->setTin('888888888') // Employee TIN
-            ->setFirstName('John') // Employee First Name
-            ->setLastName('Doe') // Employee Last Name
-            ->setType(CardDetailType::CHECK_IN) // The type of the movement can be CHECK_IN or CHECK_OUT
-            ->setReferenceDate(date('Y-m-d')) // The reference date of the movement, format: Y-m-d
-            ->setDate(date('Y-m-d\TH:i:s.uP')) // The date and time of the movement, format: Y-m-d\TH:i:s.uP
-            ->setReasonCode(null) // The reason code for the movement can be null if not applicable
+            ->setTin('888888888')
+            ->setLastName('DOE')
+            ->setFirstName('JOHN')
+            ->setType(CardDetailType::CHECK_IN)
+            ->setReferenceDate(date('Y-m-d'))
+            ->setDate(date('Y-m-d\TH:i:s.uP'))
     );
 
-$response = $workCard->handle($card);
+$ergani = new Ergani();
+$response = $ergani->sendWorkCards($card);
 
-// The response array will contain as many work cards as you have added details to the card.
-$response[0]->id; // The ID of the created work card
-$response[0]->protocol; // The protocol number of the created work card (e.g. 'ΕΥΣ92')
-$response[0]->submissionDate->format('d/m/Y H:i'); // The submission date of the work card (e.g. '04/05/2022 01:13')
+echo $response[0]->protocol; // e.g., 'ΕΥΣ92'
 ```
 
-### Canceling a Submitted Document
+### 3. Submit a Hiring Declaration (E3)
 
 ```php
-use OxygenSuite\OxygenErgani\Http\Documents\CancelSubmittedDocument;
+use OxygenSuite\OxygenErgani\Ergani;
+use OxygenSuite\OxygenErgani\Models\Hiring\NewDeclaration;
 
-$cancel = new CancelSubmittedDocument();
+$declaration = NewDeclaration::make()
+    ->setEmployerTin('999999999')
+    ->setBranchCode(0)
+    ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
+    ->setFirstName('ΙΩΑΝΝΗΣ')
+    ->setTin('888888888')
+    ->setAmka('01018012345')
+    ->setHiringDate('15/01/2025')
+    // ... additional fields
+    ->withDefaults(); // Fill remaining fields with empty strings
 
-$documentType = "the-document-type";
-$protocol = "the-protocol-number"; // e.g. 'ΕΥΣ92'
-$submissionDate = "20250604"; // format: yyyymmdd
-
-$cancel->handle($documentType, $protocol, $submissionDate);
+$ergani = new Ergani();
+$response = $ergani->sendHiringNew($declaration);
 ```
 
-### Custom Token Manager
-The package also allows you to create your own token manager by implementing the `OxygenSuite\OxygenErgani\Storage\Token` abstract class.
-Here's an example of a custom token manager that stores and retrieves tokens from a database:
+## Documentation
 
-```php
+Full documentation is available at **[oxygensuite.github.io/oxygen-ergani](https://oxygensuite.github.io/oxygen-ergani)**.
 
-namespace App\Services\Ergani\TokenManagers;
+### Guides
 
-use DateTime;
-use DateTimeImmutable;
-use Error;
-use OxygenSuite\OxygenErgani\Enums\Environment;
-use OxygenSuite\OxygenErgani\Http\Client;
-use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
-use OxygenSuite\OxygenErgani\Storage\Token;
+- [Getting Started](https://oxygensuite.github.io/oxygen-ergani/guide/getting-started)
+- [Token Management](https://oxygensuite.github.io/oxygen-ergani/guide/token-management)
+- [Work Cards](https://oxygensuite.github.io/oxygen-ergani/guide/work-cards)
+- [Work Time Declarations](https://oxygensuite.github.io/oxygen-ergani/guide/work-time)
+- [Hiring Forms (E3)](https://oxygensuite.github.io/oxygen-ergani/guide/hiring/)
+- [Termination Forms (E5)](https://oxygensuite.github.io/oxygen-ergani/guide/termination/)
+- [Dismissal Forms (E6)](https://oxygensuite.github.io/oxygen-ergani/guide/dismissal/)
+- [Fixed-Term Terminations (E7)](https://oxygensuite.github.io/oxygen-ergani/guide/fixed-term)
+- [Employment Modifications (MA/MAD)](https://oxygensuite.github.io/oxygen-ergani/guide/modifications)
+- [Construction Forms (E12)](https://oxygensuite.github.io/oxygen-ergani/guide/construction)
+- [Sixth Day Declarations](https://oxygensuite.github.io/oxygen-ergani/guide/sixth-day)
+- [Pre-Announcement Exemptions](https://oxygensuite.github.io/oxygen-ergani/guide/pre-announcement)
+- [Internship Declarations (E3.5)](https://oxygensuite.github.io/oxygen-ergani/guide/internship)
+- [Query Services](https://oxygensuite.github.io/oxygen-ergani/guide/services)
+- [Error Handling](https://oxygensuite.github.io/oxygen-ergani/guide/error-handling)
+- [Model Factories](https://oxygensuite.github.io/oxygen-ergani/guide/factories)
+- [CLI Tools](https://oxygensuite.github.io/oxygen-ergani/guide/cli-tools)
 
-class DatabaseToken extends Token
-{
-    private ?AuthenticationToken $token = null;
+### API Reference
 
-    private function loadTokenFromDatabase(): void
-    {
-        // Implement your logic to retrieve the token from the database
+- [Ergani Facade](https://oxygensuite.github.io/oxygen-ergani/api/ergani)
+- [Enums](https://oxygensuite.github.io/oxygen-ergani/api/enums)
+- [Responses](https://oxygensuite.github.io/oxygen-ergani/api/responses)
+- [Exceptions](https://oxygensuite.github.io/oxygen-ergani/api/exceptions)
 
-        $username = $this->username;
-        $password = $this->password;
-        $environment = Client::getDefaultEnvironment()->name;
+## Upgrading
 
-//      Use md5 of the username, password, and environment to create a unique string for the client
-//        $dbToken = ""; // Replace with the actual database retrieval logic
+If you're upgrading from v1.x, please see the [UPGRADING.md](UPGRADING.md) guide for breaking changes and migration instructions.
 
-        if (empty($dbToken)) {
-            // There isn't a token stored in the database for the current user
-            return;
-        }
+## Development
 
-        $this->token = new AuthenticationToken();
-        $this->token->accessToken = $dbToken->accessToken;
-        $this->token->accessTokenExpiresAt = $dbToken->accessTokenExpiresAt;
-        $this->token->refreshToken = $dbToken->refreshToken;
-        $this->token->refreshTokenExpiresAt = $dbToken->refreshTokenExpiresAt;
-    }
+```bash
+# Install dependencies
+composer install
 
-    public function getAccessToken(): ?string
-    {
-        if (empty($this->token)) {
-            $this->loadTokenFromDatabase();
-        }
+# Run tests
+composer test
 
-        return $this->token?->accessToken;
-    }
+# Static analysis (PHPStan level 7)
+composer analyse
 
-    public function getRefreshToken(): string
-    {
-        return $this->token?->refreshToken;
-    }
+# Code style (PER)
+composer lint
 
-    public function isAccessTokenExpired(): bool
-    {
-        return $this->token?->accessTokenExpiresAt < new DateTime();
-    }
+# Mutation testing
+composer infect
 
-    public function isRefreshTokenExpired(): bool
-    {
-        return $this->token?->refreshTokenExpiresAt < new DateTime();
-    }
-
-    public function setAuthToken(AuthenticationToken $token): static
-    {
-        $this->token = $token;
-        // Implement your logic to save the token to the database
-        return $this;
-    }
-
-    public function failedAuthentication(): static
-    {
-        $this->token = null;
-        // Implement your logic to handle failed authentication, such as logging or deleting the token from the database
-        return $this;
-    }
-
-    public function authToken(string $token): ?AuthenticationToken
-    {
-        return $this->token;
-    }
-}
+# Run all checks
+composer check
 ```
 
-> [!CAUTION]
-> Since usernames are not unique, if you are storing tokens for multiple users, you need to implement a way to differentiate between them.
-> FileToken does this by storing tokens in files by using the md5 of the username, password, and environment for the filename.
+## Security
+
+If you discover a security vulnerability, please send an email to [security@oxygen.gr](mailto:security@oxygen.gr). All security vulnerabilities will be promptly addressed. Please see [SECURITY.md](SECURITY.md) for more details.
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions for improvements or find bugs, please open an issue or submit a pull request.
-- [PSR-12 Coding Standard](https://www.php-fig.org/psr/psr-12/) is followed for code style.
-- [PHPUnit](https://phpunit.de/) is used for testing.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Changelog
+
+Please see [CHANGELOG.md](CHANGELOG.md) for information about recent changes.
 
 ## License
-This package is open-source software licensed under the [MIT License](https://opensource.org/license/mit/).
 
-Copyright 2025 © [Oxygen Suite](https://github.com/oxygensuite).
+This package is open-source software licensed under the [MIT License](LICENSE).
+
+Copyright 2025 [Oxygen Suite](https://github.com/oxygensuite).

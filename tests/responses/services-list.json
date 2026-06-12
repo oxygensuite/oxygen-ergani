@@ -2,7 +2,7 @@
     {
         "name": "EX_BASE_01",
         "description": "ΣΤΟΙΧΕΙΑ ΕΡΓΟΔΟΤΗ",
-        "instructions": null,
+        "instructions": "IsInCardSector (Όχι:0,Ναι:1): Ο εργοδότης είναι σε Κλάδο Ένταξης στην Κάρτα Εργασίας (Στο περιβάλλον δοκιμών οι εργοδότες δεν είναι ενταγμένοι σε Κλάδους Ένταξης).",
         "parameters": []
     },
     {
@@ -14,13 +14,76 @@
     {
         "name": "EX_BASE_03",
         "description": "ΣΤΟΙΧΕΙΑ ΠΑΡΑΜΕΤΡΙΚΩΝ",
-        "instructions": "Parameter:Λίστα Τιμών Sepe: Υπηρεσίες ΣΕΠΕ, Oaed: Υπηρεσίες ΟΑΕΔ, Stakod: Κ.Α.Δ., KallikratisKoinothta: Κοινότητες Καλλικράτη, KallikratisDhmos: Δήμοι Καλλικράτη, KallikratisPerifereiaEnothta: Περιφερειακές Ενότητες Καλλικράτη, KallikratisPerifereia: Περιφέρειες, Nationality: Εθνικότητες, TyposTaytotitas: Τύποι Ταυτοτήτων, ResidencePermit: Άδειες Παραμονής, Doy: ΔΟΥ, EpipedoMorfosis: Επίπεδα Μόρφωσης, SubjectArea: Θεματικά Πεδία, SubjectGroup: Θεματικές Ενότητες, EducationAgency: Φορείς Κατάρτισης, Language: Ξένες Γλώσσες, Step92: Ειδικότητες, ProgramaOaed: Προγράμματα ΟΑΕΔ, TraficEmploymentSpecialties: Ειδικότητες Προσωπικού ΚΤΕΛ, OvertimeAitiologia: Αιτιολογίες Υπερωριών, LogosApolyshs: Αιτιολογίες Απόλυσης, Bank: Τράπεζες, RapidExceptionReason: Λόγοι εξαίρεσης από την υποχρέωση υποβολής εβδομαδιαίων διαγνωστικών ελέγχων, OneParentCase: Περιπτώσεις μονού γονέα, WorkCardDelayReason: Λόγοι εκπρόθεσμης δήλωσης έναρξης/λήξης εργασίας, WorkTimeType: Τύποι Αναλυτικών Οργάνωσης Χρόνου Εργασίας, SixthDayKAD: ΚΑΔ 6ης Μέρας",
+        "instructions": "Parameter:Λίστα Τιμών Sepe: Υπηρεσίες ΣΕΠΕ, Oaed: Υπηρεσίες ΟΑΕΔ, Stakod: Κ.Α.Δ., KallikratisKoinothta: Κοινότητες Καλλικράτη, KallikratisDhmos: Δήμοι Καλλικράτη, KallikratisPerifereiaEnothta: Περιφερειακές Ενότητες Καλλικράτη, KallikratisPerifereia: Περιφέρειες, Nationality: Εθνικότητες, TyposTaytotitas: Τύποι Ταυτοτήτων, ResidencePermit: Άδειες Παραμονής, Doy: ΔΟΥ, EpipedoMorfosis: Επίπεδα Μόρφωσης, SubjectArea: Θεματικά Πεδία, SubjectGroup: Θεματικές Ενότητες, EducationAgency: Φορείς Κατάρτισης, Language: Ξένες Γλώσσες, Step92: Ειδικότητες, ProgramaOaed: Προγράμματα ΟΑΕΔ, TraficEmploymentSpecialties: Ειδικότητες Προσωπικού ΚΤΕΛ, OvertimeAitiologia: Αιτιολογίες Υπερωριών, LogosApolyshs: Αιτιολογίες Απόλυσης, Bank: Τράπεζες, RapidExceptionReason: Λόγοι εξαίρεσης από την υποχρέωση υποβολής εβδομαδιαίων διαγνωστικών ελέγχων, OneParentCase: Περιπτώσεις μονού γονέα, WorkCardDelayReason: Λόγοι εκπρόθεσμης δήλωσης έναρξης/λήξης εργασίας, WorkTimeType: Τύποι Αναλυτικών Οργάνωσης Χρόνου Εργασίας, SixthDayKAD: ΚΑΔ 6ης Μέρας, TypeMetabolon: Τύποι Μεταβολών, ForeisKyriasAsfalisis: Φορείς Κύριας Ασφάλισης, ForeisEpikourikisAsfalisis: Φορείς Επικουρικής Ασφάλισης",
         "parameters": [
             {
                 "name": "Parameter",
                 "description": null,
                 "isRequired": true,
                 "type": "Text",
+                "maxLength": 0
+            }
+        ]
+    },
+    {
+        "name": "EX_BASE_04",
+        "description": "ΣΤΟΙΧΕΙΑ ΜΗΝΙΑΙΑΣ ΚΑΤΑΣΤΑΣΗΣ",
+        "instructions": null,
+        "parameters": [
+            {
+                "name": "ReportYear",
+                "description": "ΕΤΟΣ",
+                "isRequired": true,
+                "type": "Decimal",
+                "maxLength": 0
+            },
+            {
+                "name": "ReportMonth",
+                "description": "ΜΗΝΑΣ",
+                "isRequired": true,
+                "type": "Decimal",
+                "maxLength": 0
+            }
+        ]
+    },
+    {
+        "name": "EX_BASE_05",
+        "description": "ΣΤΟΙΧΕΙΑ ΤΡΕΧΟΥΣΑΣ ΚΑΤΑΣΤΑΣΗΣ ΔΥΝΑΜΙΚΟΥ",
+        "instructions": null,
+        "parameters": [
+            {
+                "name": "afm",
+                "description": null,
+                "isRequired": false,
+                "type": "Text",
+                "maxLength": 0
+            }
+        ]
+    },
+    {
+        "name": "EX_BASE_06",
+        "description": "ΣΤΟΙΧΕΙΑ ΚΑΤΑΣΤΑΣΗΣ ΑΠΟΔΟΧΗΣ ΟΥΣΙΩΔΩΝ ΟΡΩΝ",
+        "instructions": "Στοιχεία Εισόδου\r\nafm: ΑΦΜ ΕΡΓΑΖΟΜΕΝΟΥ που εκκρεμεί αποδοχή από myErgani\r\nprotocol: Αρ. Πρωτοκόλλου Δήλωσης που εκκρεμεί αποδοχή από myErgani\r\ndate: Ημ/νια Υποβολής Δήλωσης που εκκρεμεί αποδοχή από myErgani(DD/MM/YYYY)\r\nΣτοιχεία Εξόδου\r\nMainStatus: Κατάσταση Δήλωσης που εκκρεμεί αποδοχή από myErgani(1 Υποβληθείσα 2 Ανακληθείσα)\r\nAnswerStatus: Κατάσταση Υποβολής Αποδοχής (0 Εκκρεμεί 1 Υποβλήθηκε)\r\nAnswerAccept: Αποδοχή (0 Απόρριψη 1 Αποδοχή 2 Αυτοδίκαιη αποδοχή λόγω παρέλευσης προθεσμίας 3 Απόρριψη λόγω παρέλευσης προθεσμίας (Obsolete) )\r\nAnswerProtocol: Αρ. Πρωτοκόλλου Αποδοχής\r\nAnswerDate: Ημ/νια Υποβολής Αποδοχής",
+        "parameters": [
+            {
+                "name": "afm",
+                "description": null,
+                "isRequired": true,
+                "type": "Text",
+                "maxLength": 0
+            },
+            {
+                "name": "protocol",
+                "description": null,
+                "isRequired": true,
+                "type": "Text",
+                "maxLength": 0
+            },
+            {
+                "name": "date",
+                "description": null,
+                "isRequired": true,
+                "type": "Date",
                 "maxLength": 0
             }
         ]

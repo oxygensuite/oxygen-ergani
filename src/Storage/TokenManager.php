@@ -38,13 +38,15 @@ interface TokenManager
     /**
      * Sets the access token, refresh token, and their expiration times.
      *
-     * @param  AuthenticationToken  $token
+     * @param AuthenticationToken $token
+     *
      * @return static
      */
     public function setAuthToken(AuthenticationToken $token): static;
 
     /**
      * Authenticates the user and returns the access token.
+     *
      * @return string|null
      */
     public function authenticate(): ?string;

@@ -16,16 +16,16 @@ class LookupSubmissionsTest extends TestCase
         $response = $lookup->handle();
 
         $this->assertIsArray($response);
-        $this->assertCount(14, $response);
+        $this->assertCount(35, $response);
 
-        $row0 = $response[0];
-        $this->assertSame(89, $row0['id']);
-        $this->assertSame('SixthDay', $row0['code']);
-        $this->assertSame('Δηλώση Απασχόλησης την Έκτη Ημέρα', $row0['description']);
+        $firstRow = $response[array_key_first($response)];
+        $this->assertSame(64, $firstRow['id']);
+        $this->assertSame('E12', $firstRow['code']);
+        $this->assertSame('ΑΝΑΓΓΕΛΙΑ ΤΟΥ ΑΠΑΣΧΟΛΟΥΜΕΝΟΥ ΠΡΟΣΩΠΙΚΟΥ ΕΠΙ ΕΚΤΕΛΕΣΗΣ ΟΙΚΟΔΟΜΙΚΗΣ ΕΡΓΑΣΙΑΣ Η ΤΕΧΝΙΚΟΥ ΕΡΓΟΥ', $firstRow['description']);
 
-        $lastRow = $response[13];
-        $this->assertSame(80, $lastRow['id']);
-        $this->assertSame('WTOWeek', $lastRow['code']);
-        $this->assertSame('Οργάνωση Χρόνου Εργασίας - Σταθερό Εβδομαδιαίο', $lastRow['description']);
+        $lastRow = $response[array_key_last($response)];
+        $this->assertSame(129, $lastRow['id']);
+        $this->assertSame('WebMAD', $lastRow['code']);
+        $this->assertSame('ΨΗΦΙΑΚΗ ΔΗΛΩΣΗ ΜΕΤΑΒΟΛΗΣ ΣΤΟΙΧΕΙΩΝ ΕΡΓΑΣΙΑΚΗΣ ΣΧΕΣΗΣ - Δανειζόμενου Προσωπικού', $lastRow['description']);
     }
 }

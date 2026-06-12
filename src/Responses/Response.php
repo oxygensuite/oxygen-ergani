@@ -19,4 +19,21 @@ abstract class Response
     }
 
     abstract protected function processData(): void;
+
+    /**
+     * Get the response as an array of public properties.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        $result = [];
+        $reflection = new \ReflectionClass($this);
+
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+            $result[$property->getName()] = $property->getValue($this);
+        }
+
+        return $result;
+    }
 }

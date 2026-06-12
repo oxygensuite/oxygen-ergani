@@ -1,6 +1,26 @@
 {
-  "preset": "psr12",
-  "rules": {
-    "new_with_parentheses": false
-  }
+    "preset": "per",
+    "rules": {
+        "ordered_imports": {
+            "sort_algorithm": "alpha",
+            "imports_order": ["const", "class", "function"]
+        },
+        "no_unused_imports": true,
+        "single_quote": true,
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "blank_line_before_statement": {
+            "statements": ["return", "throw", "try"]
+        },
+        "phpdoc_separation": {
+            "groups": [
+                ["param", "var"],
+                ["return", "throws"]
+            ]
+        },
+        "phpdoc_align": {
+            "align": "left"
+        }
+    }
 }

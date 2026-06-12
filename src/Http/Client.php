@@ -27,9 +27,9 @@ class Client
      * Create a new client instance. If no environment is provided, the client
      * will default to the test environment.
      *
-     * @param  string|null  $accessToken  Access token for the API
-     * @param  Environment|null  $environment  Environment for the client
-     * @param  ClientConfig|null  $config  Configuration for the client
+     * @param string|null $accessToken Access token for the API
+     * @param Environment|null $environment Environment for the client
+     * @param ClientConfig|null $config Configuration for the client
      */
     public function __construct(?string $accessToken = null, ?Environment $environment = null, ?ClientConfig $config = null)
     {
@@ -61,12 +61,14 @@ class Client
     /**
      * Set the environment for the client.
      *
-     * @param  Environment  $environment
-     * @return $this
+     * @param Environment $environment
+     *
+     * @return static
      */
     public function setEnvironment(Environment $environment): static
     {
         $this->environment = $environment;
+
         return $this;
     }
 
@@ -83,12 +85,14 @@ class Client
     /**
      * Set the configuration for the client.
      *
-     * @param  ClientConfig  $config
-     * @return $this
+     * @param ClientConfig $config
+     *
+     * @return static
      */
     public function setConfig(ClientConfig $config): static
     {
         $this->config = $config;
+
         return $this;
     }
 
@@ -98,17 +102,19 @@ class Client
     public function asJson(): static
     {
         $this->config->asJson();
+
         return $this;
     }
 
     /**
      * Accepts JSON responses from the server.
      *
-     * @return $this
+     * @return static
      */
     public function acceptJson(): static
     {
         $this->config->acceptJson();
+
         return $this;
     }
 
@@ -125,11 +131,11 @@ class Client
     /**
      * Make a GET request to the API.
      *
-     * @param  string  $uri  The URI to make the request to
-     * @param  array|null  $query  The query parameters
-     * @param  string|array|null  $body  The body of the request
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|null $query The query parameters
+     * @param string|array<string, mixed>|null $body The body of the request
      *
-     * @return $this
+     * @return static
      * @throws ErganiException
      */
     protected function get(string $uri, ?array $query = null, string|array|null $body = null): static
@@ -140,11 +146,11 @@ class Client
     /**
      * Make a POST request to the API.
      *
-     * @param  string  $uri  The URI to make the request to
-     * @param  array|string|null  $body  The body of the request
-     * @param  array|null  $query  The query parameters
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|string|null $body The body of the request
+     * @param array<string, mixed>|null $query The query parameters
      *
-     * @return $this
+     * @return static
      * @throws ErganiException
      */
     protected function post(string $uri, array|string|null $body = null, ?array $query = null): static
@@ -155,6 +161,12 @@ class Client
     /**
      * Make a request to the API.
      *
+     * @param string $method The HTTP method
+     * @param string $uri The URI to make the request to
+     * @param array<string, mixed>|string|null $body The body of the request
+     * @param array<string, mixed>|null $query The query parameters
+     *
+     * @return static
      * @throws ErganiException
      */
     protected function request(string $method, string $uri, array|string|null $body = null, ?array $query = null): static
@@ -166,11 +178,13 @@ class Client
         try {
             $this->response = $client->request($method, $uri, $this->buildRequestOptions($query, $body));
             $this->validateResponse();
+
             return $this;
         } catch (TokenExpiredException $e) {
             // Access token has expired, try to refresh it
             if (Token::hasTokenManager()) {
                 Token::currentTokenManager()->authenticate();
+
                 return $this->request($method, $uri, $body, $query);
             }
 
@@ -199,6 +213,7 @@ class Client
         // Set the access token if provided, overrides the current token manager
         if (!empty($this->accessToken)) {
             $this->config->setBearerToken($this->accessToken);
+
             return;
         }
 
@@ -211,7 +226,8 @@ class Client
     /**
      * Validate the URI.
      *
-     * @param  string  $uri
+     * @param string $uri
+     *
      * @return void
      */
     protected function validateUri(string $uri): void
@@ -241,6 +257,11 @@ class Client
 
     /**
      * Build the request options.
+     *
+     * @param array<string, mixed>|null $query
+     * @param array<string, mixed>|string|null $body
+     *
+     * @return array<string, mixed>
      */
     protected function buildRequestOptions(?array $query = null, array|string|null $body = null): array
     {
@@ -261,6 +282,7 @@ class Client
 
     /**
      * Returns the status code of the response.
+     *
      * @return int|null
      */
     public function getStatusCode(): ?int
@@ -290,6 +312,7 @@ class Client
         // Bad request
         if ($code === 400) {
             $bodyMessage = $this->extractMessageFromResponse() ?: $message;
+
             throw new ErganiException($bodyMessage, $code);
         }
 
@@ -303,6 +326,7 @@ class Client
 
     /**
      * Handle authentication errors.
+     *
      * @throws TokenExpiredException
      * @throws AuthenticationException
      */
@@ -318,11 +342,13 @@ class Client
         // This means that the username/password combination is no
         // longer valid, and thus we need to clear the active token
         Token::currentTokenManager()?->failedAuthentication();
+
         throw new AuthenticationException($message, 401);
     }
 
     /**
      * Extract the message from the response.
+     *
      * @return string
      */
     private function extractMessageFromResponse(): string
@@ -337,25 +363,31 @@ class Client
 
     /**
      * Check if the API token has expired.
+     *
      * @return bool
      */
     protected function apiTokenExpired(): bool
     {
-        return $this->response->getHeaderLine("api-token-expired") === 'true';
+        return $this->response->getHeaderLine('api-token-expired') === 'true';
     }
 
     /**
      * Morphs the JSON response to an array of objects.
-     * @param  string  $morphClass  The class to morph the JSON to
-     * @return array The array of morphed objects
+     *
+     * @template T of object
+     *
+     * @param class-string<T> $morphClass The class to morph the JSON to
+     *
+     * @return array<int, T> The array of morphed objects
      */
     protected function morphToArray(string $morphClass): array
     {
-        return array_map(fn ($item) => new $morphClass($item), $this->json());
+        return array_map(fn($item) => new $morphClass($item), $this->json());
     }
 
     /**
      * Convert the response to JSON.
+     *
      * @return mixed The JSON response or empty array if invalid
      */
     protected function json(): mixed
@@ -368,7 +400,8 @@ class Client
     /**
      * Get the response of the request.
      *
-     * @param  mixed|null  $default  The default value to return
+     * @param mixed|null $default The default value to return
+     *
      * @return string The response content
      */
     protected function contents(mixed $default = null): string
@@ -378,7 +411,9 @@ class Client
 
     /**
      * Morphs the JSON response to an object.
-     * @param  string  $morphClass  The class to morph the JSON to
+     *
+     * @param string $morphClass The class to morph the JSON to
+     *
      * @return mixed The morphed object
      */
     protected function morphTo(string $morphClass): mixed

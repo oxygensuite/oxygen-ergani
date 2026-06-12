@@ -28,7 +28,7 @@ class AuthenticationToken extends Response
     {
         try {
             $now = new DateTimeImmutable();
-            $this->accessTokenExpiresAt = $now->add(new DateInterval('PT'.$this->accessTokenExpirationSeconds.'S'));
+            $this->accessTokenExpiresAt = $now->add(new DateInterval('PT' . $this->accessTokenExpirationSeconds . 'S'));
         } catch (Throwable) {
             $this->refreshTokenExpiresAt = null;
         }

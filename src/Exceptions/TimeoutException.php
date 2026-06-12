@@ -2,6 +2,4 @@
 
 namespace OxygenSuite\OxygenErgani\Exceptions;
 
-class TimeoutException extends ErganiException
-{
-}
+class TimeoutException extends ErganiException {}

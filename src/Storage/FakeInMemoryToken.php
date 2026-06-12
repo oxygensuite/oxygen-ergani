@@ -18,12 +18,14 @@ class FakeInMemoryToken extends InMemoryToken
     public function setLoginHandler(MockHandler $loginHandler): static
     {
         $this->loginHandler = $loginHandler;
+
         return $this;
     }
 
     public function setRefreshHandler(MockHandler $refreshHandler): static
     {
         $this->refreshHandler = $refreshHandler;
+
         return $this;
     }
 

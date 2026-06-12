@@ -13,7 +13,7 @@ class CancelSubmissionsTest extends TestCase
     {
         $cancel = new CancelSubmittedDocument('test-access-token');
         $cancel->getConfig()->setHandler($this->mockResponse(200, 'empty.json'));
-        $cancel->handle("00009", "TA123", "19800410");
+        $cancel->handle('00009', 'TA123', '19800410');
 
         $this->assertTrue($cancel->isSuccessful());
     }

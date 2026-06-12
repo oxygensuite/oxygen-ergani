@@ -11,6 +11,8 @@ abstract class Documents extends Client
     private const URI = 'Documents';
 
     /**
+     * @param array<string, mixed> $body
+     *
      * @throws ErganiException
      */
     protected function submit(array $body): static
@@ -19,6 +21,7 @@ abstract class Documents extends Client
     }
 
     /**
+     * @return array<string, mixed>
      * @throws ErganiException
      */
     public function schema(): array
@@ -27,6 +30,12 @@ abstract class Documents extends Client
     }
 
     /**
+     * Retrieve the PDF of a submitted document.
+     *
+     * @param string $protocol Protocol number from submission response
+     * @param DateTime|int|string $submittedDate Submission date (DateTime, Ymd integer, or Ymd string)
+     *
+     * @return string Base64-encoded PDF content
      * @throws ErganiException
      */
     public function pdf(string $protocol, DateTime|int|string $submittedDate): string
@@ -34,12 +43,12 @@ abstract class Documents extends Client
         return $this->get($this->uri(), [
             'protocol' => $protocol,
             'submittedDate' => $submittedDate instanceof DateTime ? $submittedDate->format('Ymd') : $submittedDate,
-        ])->contents("");
+        ])->contents();
     }
 
     protected function uri(): string
     {
-        return self::URI.'/'.$this->action();
+        return self::URI . '/' . $this->action();
     }
 
     abstract protected function action(): string;

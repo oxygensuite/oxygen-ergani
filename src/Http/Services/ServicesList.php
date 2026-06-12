@@ -10,9 +10,9 @@ class ServicesList extends Client
     private const URI = 'WebServices/ServicesList';
 
     /**
-     * Retrieves all available services
+     * Retrieves all available services.
      *
-     * @return array
+     * @return array<string, mixed>
      * @throws ErganiException
      */
     public function handle(): array

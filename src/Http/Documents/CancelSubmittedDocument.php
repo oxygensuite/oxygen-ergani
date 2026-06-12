@@ -17,9 +17,10 @@ class CancelSubmittedDocument extends Client
      * - Οργάνωση Χρόνου Εργασίας – Άδειες
      * - Οργάνωση Χρόνου Εργασίας – Άδειες ΟΡΘΗ ΕΠΑΝΑΛΗΨΗ
      *
-     * @param  string  $documentType  Ο τύπος της δήλωσης (κωδικός ενεργής υποβολής)
-     * @param  string  $protocol  Ο αριθμός πρωτοκόλλου της δήλωσης
-     * @param  DateTime|int|string  $submissionDate  Η ημερομηνία υποβολής της δήλωσης yyyymmdd
+     * @param string $documentType Ο τύπος της δήλωσης (κωδικός ενεργής υποβολής)
+     * @param string $protocol Ο αριθμός πρωτοκόλλου της δήλωσης
+     * @param DateTime|int|string $submissionDate Η ημερομηνία υποβολής της δήλωσης yyyymmdd
+     *
      * @return bool Επιστρέφει true αν η ανάκληση ήταν επιτυχής
      * @throws ErganiException
      */

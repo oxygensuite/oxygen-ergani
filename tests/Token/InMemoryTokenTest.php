@@ -6,7 +6,7 @@ namespace Tests\Token;
 
 use DateTimeImmutable;
 use Exception;
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard;
+use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 use OxygenSuite\OxygenErgani\Storage\InMemoryToken;
 use OxygenSuite\OxygenErgani\Storage\Token;
@@ -139,7 +139,7 @@ class InMemoryTokenTest extends TestCase
         $this->assertSame('new-access-token', $newToken->accessToken);
         $this->assertSame('new-refresh-token', $newToken->refreshToken);
         $this->assertNotNull($newToken->accessTokenExpiresAt->getTimestamp());
-        $this->assertSame((new DateTimeImmutable("2025-02-21T14:44:28.2731304+02:00"))->getTimestamp(), $newToken->refreshTokenExpiresAt->getTimestamp());
+        $this->assertSame((new DateTimeImmutable('2025-02-21T14:44:28.2731304+02:00'))->getTimestamp(), $newToken->refreshTokenExpiresAt->getTimestamp());
     }
 
     /**

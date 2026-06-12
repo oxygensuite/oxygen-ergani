@@ -9,7 +9,7 @@ use Exception;
 use OxygenSuite\OxygenErgani\Enums\Environment;
 use OxygenSuite\OxygenErgani\Exceptions\AuthenticationException;
 use OxygenSuite\OxygenErgani\Http\Client;
-use OxygenSuite\OxygenErgani\Http\Documents\WorkCard;
+use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 use OxygenSuite\OxygenErgani\Storage\FileToken;
 use OxygenSuite\OxygenErgani\Storage\Token;
@@ -20,11 +20,14 @@ class FileTokenTest extends TestCase
     protected function setUp(): void
     {
         FileToken::forgetAllTokens();
+        Token::setCurrentTokenManager(null);
     }
 
     protected function tearDown(): void
     {
         FileToken::forgetAllTokens();
+        FileToken::resetDirectory();
+        Token::setCurrentTokenManager(null);
     }
 
     public function test_token_is_cached_on_test(): void
@@ -41,8 +44,8 @@ class FileTokenTest extends TestCase
         $fileToken->setAuthToken($token);
 
         $this->assertFileExists($fileToken->path());
-        $this->assertSame(md5('username-password-TEST'), $fileToken->getFilename());
-        $this->assertSame(md5('username-password-TEST'), $fileToken->generateFilename());
+        $this->assertSame(hash('sha256', 'username-password-TEST'), $fileToken->getFilename());
+        $this->assertSame(hash('sha256', 'username-password-TEST'), $fileToken->generateFilename());
 
         $cachedToken = json_decode(file_get_contents($fileToken->path()), true)['token'];
         $this->assertIsArray($cachedToken);
@@ -68,8 +71,8 @@ class FileTokenTest extends TestCase
         $fileToken->setAuthToken($token);
 
         $this->assertFileExists($fileToken->path());
-        $this->assertSame(md5('username-password-PRODUCTION'), $fileToken->getFilename());
-        $this->assertSame(md5('username-password-PRODUCTION'), $fileToken->generateFilename());
+        $this->assertSame(hash('sha256', 'username-password-PRODUCTION'), $fileToken->getFilename());
+        $this->assertSame(hash('sha256', 'username-password-PRODUCTION'), $fileToken->generateFilename());
 
         $cachedToken = json_decode(file_get_contents($fileToken->path()), true)['token'];
         $this->assertIsArray($cachedToken);
@@ -239,7 +242,7 @@ class FileTokenTest extends TestCase
         $this->assertSame('new-access-token', $newToken->accessToken);
         $this->assertSame('new-refresh-token', $newToken->refreshToken);
         $this->assertNotNull($newToken->accessTokenExpiresAt->getTimestamp());
-        $this->assertSame((new DateTimeImmutable("2025-02-21T14:44:28.2731304+02:00"))->getTimestamp(), $newToken->refreshTokenExpiresAt->getTimestamp());
+        $this->assertSame((new DateTimeImmutable('2025-02-21T14:44:28.2731304+02:00'))->getTimestamp(), $newToken->refreshTokenExpiresAt->getTimestamp());
     }
 
     /**
@@ -271,5 +274,129 @@ class FileTokenTest extends TestCase
 
         $this->assertFalse($fake->refreshCalled());
         $this->assertTrue($fake->loginCalled());
+    }
+
+    /**
+     * Ensures the default cache directory name ends with '.cache'.
+     *
+     * This is a safety contract: forgetAllTokens() relies on this naming
+     * to prevent accidental deletion of project files. If you need to
+     * change the directory name, update forgetAllTokens() safety check too.
+     */
+    public function test_cache_directory_ends_with_dot_cache(): void
+    {
+        $dir = FileToken::dir();
+
+        $this->assertStringEndsWith('.cache', $dir, sprintf(
+            'Cache directory must end with ".cache" for safety. Got: %s. '
+            . 'See forgetAllTokens() safety check.',
+            $dir,
+        ));
+    }
+
+    public function test_custom_directory_can_be_set(): void
+    {
+        $customDir = sys_get_temp_dir() . '/oxygen-ergani-test-tokens';
+
+        FileToken::setDirectory($customDir);
+
+        $this->assertSame($customDir, FileToken::dir());
+
+        // Verify tokens are stored in the custom directory
+        $token = new AuthenticationToken();
+        $token->accessToken = 'test-access-token';
+        $token->accessTokenExpiresAt = new \DateTimeImmutable('tomorrow');
+
+        $fileToken = new FileToken('username', 'password');
+        $fileToken->setAuthToken($token);
+
+        $this->assertStringStartsWith($customDir, $fileToken->path());
+        $this->assertFileExists($fileToken->path());
+
+        // Cleanup
+        FileToken::forgetAllTokens();
+        if (is_dir($customDir)) {
+            rmdir($customDir);
+        }
+    }
+
+    public function test_reset_directory_restores_default(): void
+    {
+        $defaultDir = FileToken::dir();
+
+        FileToken::setDirectory('/custom/path');
+        $this->assertSame('/custom/path', FileToken::dir());
+
+        FileToken::resetDirectory();
+        $this->assertSame($defaultDir, FileToken::dir());
+    }
+
+    public function test_instance_cache_dir_option(): void
+    {
+        $instanceDir = sys_get_temp_dir() . '/oxygen-ergani-instance-test';
+
+        $fileToken = new FileToken('username', 'password', [
+            'cache_dir' => $instanceDir,
+        ]);
+
+        $this->assertSame($instanceDir, $fileToken->getDirectory());
+        $this->assertStringStartsWith($instanceDir, $fileToken->path());
+
+        // Verify tokens are stored in the instance directory
+        $token = new AuthenticationToken();
+        $token->accessToken = 'test-access-token';
+        $token->accessTokenExpiresAt = new \DateTimeImmutable('tomorrow');
+
+        $fileToken->setAuthToken($token);
+        $this->assertFileExists($fileToken->path());
+
+        // Cleanup
+        $fileToken->deleteFile();
+        if (is_dir($instanceDir)) {
+            rmdir($instanceDir);
+        }
+    }
+
+    public function test_instance_cache_dir_overrides_static_directory(): void
+    {
+        $staticDir = sys_get_temp_dir() . '/oxygen-static-dir';
+        $instanceDir = sys_get_temp_dir() . '/oxygen-instance-dir';
+
+        FileToken::setDirectory($staticDir);
+
+        $fileToken = new FileToken('username', 'password', [
+            'cache_dir' => $instanceDir,
+        ]);
+
+        // Instance directory should take precedence over static
+        $this->assertSame($instanceDir, $fileToken->getDirectory());
+        $this->assertStringStartsWith($instanceDir, $fileToken->path());
+
+        // Static dir() should still return the static directory
+        $this->assertSame($staticDir, FileToken::dir());
+    }
+
+    public function test_instance_without_options_uses_static_directory(): void
+    {
+        $staticDir = sys_get_temp_dir() . '/oxygen-static-dir';
+
+        FileToken::setDirectory($staticDir);
+
+        $fileToken = new FileToken('username', 'password');
+
+        $this->assertSame($staticDir, $fileToken->getDirectory());
+    }
+
+    public function test_default_directory_used_when_no_configuration(): void
+    {
+        // Ensure no custom directory is set
+        FileToken::resetDirectory();
+
+        $fileToken = new FileToken('username', 'password');
+        $defaultDir = dirname(__DIR__, 2) . '/.cache';
+
+        // Both static and instance should return the default
+        $this->assertSame($defaultDir, FileToken::dir());
+        $this->assertSame($defaultDir, $fileToken->getDirectory());
     }
 }
