@@ -130,6 +130,6 @@ Services query ERGANI data:
 ## API Reference Pages
 
 - [Ergani Facade](/api/ergani) - Main facade class methods
-- [Enums](/api/enums) - Enumeration classes with values
+- [Enums](/api/enums/) - Enumeration classes with values
 - [Responses](/api/responses) - Response wrapper classes
 - [Exceptions](/api/exceptions) - Exception classes

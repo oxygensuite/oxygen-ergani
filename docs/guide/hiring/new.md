@@ -329,4 +329,4 @@ foreach ($response as $result) {
 
 - [Hiring Overview](./index) - Common fields and enums
 - [Transfer (E3M)](./transfer) - Employee transfer from another company
-- [Termination (E5)](/guide/termination) - Employee termination
+- [Termination (E5)](/guide/termination/) - Employee termination

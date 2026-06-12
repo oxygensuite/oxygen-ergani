@@ -238,7 +238,7 @@ The `WorkTimeType` enum defines all available time entry types. Codes are source
 | `LEAVE_OTHER` | ΑΔΑΛ | Other leave | Άδεια Άλλη |
 
 ::: tip More Leave Types
-The enum includes 28+ leave types. See the [Enums API reference](/api/enums#worktimetype) for the complete list.
+The enum includes 28+ leave types. See the [Enums API reference](/api/enums/work-time#worktimetype) for the complete list.
 :::
 
 ### Leave Types (Hourly)

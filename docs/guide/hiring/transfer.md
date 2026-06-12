@@ -227,4 +227,4 @@ foreach ($response as $result) {
 
 - [Hiring Overview](./index) - Common fields and enums
 - [New Hire (E3N)](./new) - Standard new employee hiring
-- [Dismissal Transfer (E6M)](/guide/dismissal) - Reporting the departure from the old employer's side
+- [Dismissal Transfer (E6M)](/guide/dismissal/) - Reporting the departure from the old employer's side

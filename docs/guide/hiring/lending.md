@@ -263,10 +263,10 @@ foreach ($response as $result) {
 
 2. **Paired with E3PD**: When you submit E3D, the borrowing company must also submit E3PD.
 
-3. **End of Lending**: When the lending period ends, submit E6LD (End of Loan) - see [Dismissal documentation](/guide/dismissal).
+3. **End of Lending**: When the lending period ends, submit E6LD (End of Loan) - see [Dismissal documentation](/guide/dismissal/).
 
 ## See Also
 
 - [Hiring Overview](./index) - Common fields and enums
 - [Borrowed (E3PD)](./borrowed) - The borrower's side of the arrangement
-- [End of Loan (E6LD)](/guide/dismissal) - Ending a lending arrangement
+- [End of Loan (E6LD)](/guide/dismissal/) - Ending a lending arrangement

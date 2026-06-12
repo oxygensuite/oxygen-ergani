@@ -80,4 +80,4 @@ Always use `Environment::TEST` during development. Production submissions are re
 
 - [Token Management](/guide/token-management) - Learn about automatic token handling
 - [Work Cards](/guide/work-cards) - Submit employee check-ins and check-outs
-- [Hiring (E3)](/guide/hiring) - Handle employee hiring declarations
+- [Hiring (E3)](/guide/hiring/) - Handle employee hiring declarations

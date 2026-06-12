@@ -294,10 +294,10 @@ foreach ($response as $result) {
 
 3. **Employment Type**: Use `EmploymentType::BORROWED` (value 3) for the `f_sxeshapasxolisis` field.
 
-4. **End of Lending**: When the lending period ends, submit E6LD (End of Loan) - see [Dismissal documentation](/guide/dismissal).
+4. **End of Lending**: When the lending period ends, submit E6LD (End of Loan) - see [Dismissal documentation](/guide/dismissal/).
 
 ## See Also
 
 - [Hiring Overview](./index) - Common fields and enums
 - [Lending (E3D)](./lending) - The lender's side of the arrangement
-- [End of Loan (E6LD)](/guide/dismissal) - Ending a lending arrangement
+- [End of Loan (E6LD)](/guide/dismissal/) - Ending a lending arrangement
