@@ -1,9 +1,25 @@
 import { defineConfig } from 'vitepress'
+import llmstxt from 'vitepress-plugin-llms'
+import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 
 export default defineConfig({
   title: 'Oxygen Ergani',
   description: 'PHP package for interacting with Greece\'s ERGANI system',
   base: '/oxygen-ergani/',
+
+  cleanUrls: true,
+  lastUpdated: true,
+
+  sitemap: {
+    hostname: 'https://oxygensuite.github.io/oxygen-ergani/'
+  },
+
+  vite: {
+    plugins: [
+      llmstxt({ domain: 'https://oxygensuite.github.io' }),
+      groupIconVitePlugin()
+    ]
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
@@ -154,6 +170,9 @@ export default defineConfig({
   },
 
   markdown: {
-    lineNumbers: true
+    lineNumbers: true,
+    config(md) {
+      md.use(groupIconMdPlugin)
+    }
   }
 })
