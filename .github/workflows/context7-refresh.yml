@@ -13,7 +13,19 @@ jobs:
     steps:
       - name: Trigger Context7 Refresh
         run: |
-          curl -s --fail-with-body -X POST https://context7.com/api/v1/refresh \
+          response=$(curl -s -X POST https://context7.com/api/v1/refresh \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.CONTEXT7_API_KEY }}" \
-            -d '{"libraryName": "/${{ github.repository }}"}'
+            -d '{"libraryName": "/${{ github.repository }}"}')
+          echo "$response"
+
+          # Context7 allows one refresh per 10 days; skip quietly when rate-limited
+          if echo "$response" | grep -q '"too-early"'; then
+            echo "::notice::Context7 refresh skipped (rate-limited to one refresh per 10 days)."
+            exit 0
+          fi
+
+          if echo "$response" | grep -q '"error"'; then
+            echo "::error::Context7 refresh failed."
+            exit 1
+          fi
