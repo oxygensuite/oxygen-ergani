@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-06-12
+
+> [!NOTE]
+> The `v2.0.0` tag exists on GitHub but is not installable via Packagist (the tag was re-created during release and Packagist blocks re-tagged versions). Use `^2.0.1` instead.
+
+### Changed
+
+- Allow PHPUnit `^11.5` and Infection `^0.29.14` as dev dependency alternatives so the test suite can run on PHP 8.2 (PHPUnit 12 and Infection 0.32 require PHP 8.3)
+- CI test matrix resolves dependencies per PHP version instead of installing the lock file
+
 ## [2.0.0] - 2026-06-12
 
 ### Added
@@ -224,6 +234,7 @@ Initial alpha release.
 - Renamed `Authentication` class to `AuthenticationLogin`
 - Renamed `clear` method to `failedAuthentication` in Token
 
+[2.0.1]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.0.0...v1.1.0
