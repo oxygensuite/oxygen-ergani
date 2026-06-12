@@ -114,6 +114,23 @@ $response = $workCard->handle($card);
 
 This approach requires you to handle token refresh and expiration manually.
 
+## Logging Out
+
+To invalidate a session server-side, revoke the refresh token through the `Ergani` facade:
+
+```php
+use OxygenSuite\OxygenErgani\Ergani;
+
+$ergani = new Ergani($accessToken);
+$ergani->logout($refreshToken);
+```
+
+After logout, the refresh token can no longer be used to obtain new access tokens. A new session requires re-authentication with username and password.
+
+::: warning
+If you use a token manager, it does not know the token was revoked. The stored refresh token will fail on next use, triggering automatic re-authentication.
+:::
+
 ## Laravel Integration
 
 Set up the token manager in a service provider:
