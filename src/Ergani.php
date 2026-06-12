@@ -17,6 +17,7 @@ use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsTerminationDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsWorkTimeDocuments;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogin;
+use OxygenSuite\OxygenErgani\Http\Auth\AuthenticationLogout;
 use OxygenSuite\OxygenErgani\Http\ClientConfig;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Http\Services\AcceptanceStatus;
@@ -95,6 +96,20 @@ class Ergani
         $auth = new AuthenticationLogin($this->environment, $this->config);
 
         return $auth->handle($username, $password, $userType);
+    }
+
+    /**
+     * Invalidate the session by deleting the refresh token from the API server.
+     *
+     * @param string $refreshToken The refresh token to revoke
+     *
+     * @throws ErganiException
+     */
+    public function logout(string $refreshToken): bool
+    {
+        $auth = new AuthenticationLogout($this->accessToken, $this->environment, $this->config);
+
+        return $auth->handle($refreshToken);
     }
 
     /**

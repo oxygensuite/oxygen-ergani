@@ -75,6 +75,38 @@ echo $token->accessTokenExpiresAt->format('Y-m-d H:i:s');
 
 ---
 
+### logout()
+
+Invalidate the session by deleting the refresh token from the API server.
+
+```php
+public function logout(string $refreshToken): bool
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `$refreshToken` | string | - | The refresh token to revoke |
+
+**Returns:** `bool` - `true` if the refresh token was revoked
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$ergani->logout($refreshToken);
+```
+
+::: tip
+After logging out, the refresh token can no longer be used to obtain new access tokens. Call `authenticate()` again to start a new session.
+:::
+
+---
+
 ### getServices()
 
 Get list of available services for the authenticated user.

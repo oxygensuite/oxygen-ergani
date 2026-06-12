@@ -409,6 +409,14 @@ class ErganiTest extends TestCase
         $this->assertIsArray($schema);
     }
 
+    public function test_logout(): void
+    {
+        $config = (new ClientConfig())->setHandler($this->mockResponse(200, 'empty.json'));
+        $ergani = new Ergani('test-access-token', config: $config);
+
+        $this->assertTrue($ergani->logout('test-refresh-token'));
+    }
+
     public function test_cancel_document(): void
     {
         $config = (new ClientConfig())->setHandler(new MockHandler([
