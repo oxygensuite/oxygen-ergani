@@ -1,0 +1,14 @@
+{
+    "$schema": "https://context7.com/schema/context7.json",
+    "projectTitle": "Oxygen Ergani",
+    "description": "PHP package for Greece's ERGANI employment system API: work cards, hiring (E3), terminations (E5/E6/E7), employment modifications (MA), work time declarations, and query services",
+    "folders": ["docs"],
+    "excludeFolders": ["vendor", "tests", "storage", "node_modules", "docs/.vitepress"],
+    "excludeFiles": ["CHANGELOG.md"],
+    "rules": [
+        "Use the Ergani facade for common operations instead of instantiating document classes directly",
+        "Set up a TokenManager via Token::setCurrentTokenManager() instead of passing access tokens manually",
+        "Date setters accept both DateTime objects and DD/MM/YYYY strings",
+        "Decimal fields are formatted automatically to Greek format (1.234,56) via the casts system; pass plain floats to setters"
+    ]
+}
