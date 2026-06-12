@@ -23,7 +23,7 @@ class VoluntaryResignationDeclarationFactory extends Factory
     {
         return array_merge($this->baseDefinition(), [
             // Salary (HasSalary)
-            'f_apodoxes' => fake()->randomFloat(2, 800, 3000),
+            'f_apodoxes' => self::fake()->randomFloat(2, 800, 3000),
 
             // Form File (HasFormFile)
             'f_file' => '',

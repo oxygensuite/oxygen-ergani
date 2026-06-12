@@ -31,7 +31,7 @@ class ModificationDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $gender = $fake->randomElement(['male', 'female']);
         $birthDate = $fake->dateTimeBetween('-55 years', '-20 years');
         $hiringDate = new DateTimeImmutable('today');
@@ -221,7 +221,7 @@ class ModificationDeclarationFactory extends Factory
         return $this->state([
             'f_kathestosapasxolisis' => (string) EmploymentStatus::PARTIAL->value,
             'f_week_hours' => $weeklyHours,
-            'f_apodoxes' => fn() => fake()->randomFloat(2, 400, 1500),
+            'f_apodoxes' => fn() => self::fake()->randomFloat(2, 400, 1500),
         ]);
     }
 

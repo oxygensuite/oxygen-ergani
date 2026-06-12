@@ -18,7 +18,7 @@ class ConstructionCensusFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $month = $fake->numberBetween(1, 12);
 
         return [

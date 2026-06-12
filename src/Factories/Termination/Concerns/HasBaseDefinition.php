@@ -21,7 +21,7 @@ trait HasBaseDefinition
      */
     protected function baseDefinition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $gender = $fake->randomElement(['male', 'female']);
         $birthDate = $fake->dateTimeBetween('-55 years', '-20 years');
         $hiringDate = $fake->dateTimeBetween('-10 years', '-1 month');
@@ -135,7 +135,7 @@ trait HasBaseDefinition
      */
     public function foreignNational(string $nationality = '002'): static
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return $this->state([
             'f_yphkoothta' => $nationality,
@@ -164,7 +164,7 @@ trait HasBaseDefinition
     {
         return $this->state([
             'f_sex' => (string) ($gender === 'male' ? Sex::MALE->value : Sex::FEMALE->value),
-            'f_onoma' => fn() => fake()->greekFirstName($gender),
+            'f_onoma' => fn() => self::fake()->greekFirstName($gender),
         ]);
     }
 

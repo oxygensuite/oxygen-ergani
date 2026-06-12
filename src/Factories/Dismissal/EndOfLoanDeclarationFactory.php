@@ -26,7 +26,7 @@ class EndOfLoanDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $loanFrom = new DateTimeImmutable('-6 months');
         $loanTo = new DateTimeImmutable('today');
 

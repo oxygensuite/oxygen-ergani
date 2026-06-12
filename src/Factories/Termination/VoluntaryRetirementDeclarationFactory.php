@@ -22,7 +22,7 @@ class VoluntaryRetirementDeclarationFactory extends Factory
     public function definition(): array
     {
         // Override base definition for retirement age
-        $fake = fake();
+        $fake = self::fake();
         $gender = $fake->randomElement(['male', 'female']);
         $birthDate = $fake->dateTimeBetween('-67 years', '-62 years'); // Retirement age
 
@@ -32,10 +32,10 @@ class VoluntaryRetirementDeclarationFactory extends Factory
 
         return array_merge($base, [
             // Salary (HasSalary)
-            'f_apodoxes' => fake()->randomFloat(2, 800, 3000),
+            'f_apodoxes' => self::fake()->randomFloat(2, 800, 3000),
 
             // Compensation (HasCompensation)
-            'f_posoapozimiosis' => fake()->randomFloat(2, 5000, 50000),
+            'f_posoapozimiosis' => self::fake()->randomFloat(2, 5000, 50000),
 
             // Form File (HasFormFile)
             'f_file' => '',

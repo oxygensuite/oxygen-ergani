@@ -18,7 +18,7 @@ class ConstructionEmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $startTime = $fake->time24h();
 
         return [

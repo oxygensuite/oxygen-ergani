@@ -18,7 +18,7 @@ class ConstructionWorkFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return [
             'f_aa_pararthmatos' => (string) $fake->numberBetween(0, 99),

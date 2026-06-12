@@ -26,7 +26,7 @@ class FixedTermTerminationDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $hiringDate = $fake->dateTimeBetween('-2 years', '-6 months');
         $contractEndDate = new DateTimeImmutable('+1 month');
         $terminationDate = new DateTimeImmutable('today');

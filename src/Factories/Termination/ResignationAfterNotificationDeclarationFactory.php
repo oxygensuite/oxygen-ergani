@@ -25,11 +25,11 @@ class ResignationAfterNotificationDeclarationFactory extends Factory
     {
         return array_merge($this->baseDefinition(), [
             // Salary (HasSalary)
-            'f_apodoxes' => fake()->randomFloat(2, 800, 3000),
+            'f_apodoxes' => self::fake()->randomFloat(2, 800, 3000),
 
             // Notification Reference (HasNotificationReference)
-            'f_oxlhsh_protocol' => 'Ε5Ο' . fake()->numberBetween(10000, 99999),
-            'f_oxlhsh_date_ypovolis' => fake()->greekDate('-1 month', '-1 week'),
+            'f_oxlhsh_protocol' => 'Ε5Ο' . self::fake()->numberBetween(10000, 99999),
+            'f_oxlhsh_date_ypovolis' => self::fake()->greekDate('-1 month', '-1 week'),
         ]);
     }
 

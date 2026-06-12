@@ -33,7 +33,7 @@ class SupplementaryInsuranceSelectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'f_kod_epikourikis' => fake()->randomElement(self::CODES),
+            'f_kod_epikourikis' => self::fake()->randomElement(self::CODES),
         ];
     }
 

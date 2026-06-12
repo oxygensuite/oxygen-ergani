@@ -23,10 +23,10 @@ class CompensatedExitDeclarationFactory extends Factory
     {
         return array_merge($this->baseDefinition(), [
             // Salary (HasSalary)
-            'f_apodoxes' => fake()->randomFloat(2, 800, 3000),
+            'f_apodoxes' => self::fake()->randomFloat(2, 800, 3000),
 
             // Compensation (HasCompensation)
-            'f_posoapozimiosis' => fake()->randomFloat(2, 1000, 20000),
+            'f_posoapozimiosis' => self::fake()->randomFloat(2, 1000, 20000),
 
             // Form File (HasFormFile)
             'f_file' => '',

@@ -33,7 +33,7 @@ class ModificationTypeSelectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'f_typos_metabolhs' => fake()->randomElement(self::CODES),
+            'f_typos_metabolhs' => self::fake()->randomElement(self::CODES),
         ];
     }
 

@@ -22,9 +22,9 @@ class SixthDayDeclarationFactory extends Factory
         $date = new DateTimeImmutable('next saturday');
 
         return [
-            'f_aa_pararthmatos' => (string) fake()->numberBetween(0, 99),
+            'f_aa_pararthmatos' => (string) self::fake()->numberBetween(0, 99),
             'f_continuous_operation' => '0',
-            'f_kad_kyria' => (string) fake()->numberBetween(10000, 99999),
+            'f_kad_kyria' => (string) self::fake()->numberBetween(10000, 99999),
             'f_special_occasion_description' => '',
             'f_date_special_from' => $date->format('d/m/Y'),
             'f_date_special_to' => $date->format('d/m/Y'),

@@ -26,7 +26,7 @@ class RetirementDismissalDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         // For retirement, employees typically have longer tenure
         $hiringDate = $fake->dateTimeBetween('-30 years', '-15 years');
         $dismissalDate = new DateTimeImmutable('today');

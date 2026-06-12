@@ -31,7 +31,7 @@ class ModificationDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $gender = $fake->randomElement(['male', 'female']);
         $birthDate = $fake->dateTimeBetween('-55 years', '-20 years');
         $changeDate = new DateTimeImmutable('today');
@@ -205,7 +205,7 @@ class ModificationDeclarationFactory extends Factory
      */
     public function borrowed(): static
     {
-        $fake = fake();
+        $fake = self::fake();
         $from = new DateTimeImmutable('today');
         $to = new DateTimeImmutable('+3 months');
 
@@ -229,7 +229,7 @@ class ModificationDeclarationFactory extends Factory
         return $this->state([
             'f_kathestosapasxolisis' => (string) EmploymentStatus::PARTIAL->value,
             'f_week_hours' => $weeklyHours,
-            'f_apodoxes' => fn() => fake()->randomFloat(2, 400, 1500),
+            'f_apodoxes' => fn() => self::fake()->randomFloat(2, 400, 1500),
         ]);
     }
 
@@ -345,7 +345,7 @@ class ModificationDeclarationFactory extends Factory
      */
     public function foreignNationalDirectAccess(string $nationality = '002'): static
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return $this->state([
             'f_yphkoothta' => $nationality,
@@ -366,7 +366,7 @@ class ModificationDeclarationFactory extends Factory
     {
         return $this->state([
             'f_responsible_position' => ResponsiblePosition::MANAGERIAL_AUTHORITY->value,
-            'f_apodoxes' => fn() => fake()->randomFloat(2, 3000, 8000),
+            'f_apodoxes' => fn() => self::fake()->randomFloat(2, 3000, 8000),
         ]);
     }
 
@@ -405,7 +405,7 @@ class ModificationDeclarationFactory extends Factory
     {
         return $this->state([
             'f_sex' => (string) ($gender === 'male' ? Sex::MALE->value : Sex::FEMALE->value),
-            'f_onoma' => fn() => fake()->greekFirstName($gender),
+            'f_onoma' => fn() => self::fake()->greekFirstName($gender),
         ]);
     }
 

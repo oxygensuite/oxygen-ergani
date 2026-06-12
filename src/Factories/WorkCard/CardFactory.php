@@ -19,8 +19,8 @@ class CardFactory extends Factory
     public function definition(): array
     {
         return [
-            'f_afm_ergodoti' => fake()->afm(),
-            'f_aa' => fake()->numberBetween(0, 99),
+            'f_afm_ergodoti' => self::fake()->afm(),
+            'f_aa' => self::fake()->numberBetween(0, 99),
             'f_comments' => null,
             'Details' => fn() => ['CardDetails' => [CardDetailFactory::new()->make()]],
         ];

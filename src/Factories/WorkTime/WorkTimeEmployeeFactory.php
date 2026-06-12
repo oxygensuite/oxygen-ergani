@@ -19,12 +19,12 @@ class WorkTimeEmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $date = fake()->dateTimeBetween('-1 week', 'now');
+        $date = self::fake()->dateTimeBetween('-1 week', 'now');
 
         return [
-            'f_afm' => fake()->afm(),
-            'f_eponymo' => fake()->greekLastName(),
-            'f_onoma' => fake()->greekFirstName(),
+            'f_afm' => self::fake()->afm(),
+            'f_eponymo' => self::fake()->greekLastName(),
+            'f_onoma' => self::fake()->greekFirstName(),
             'f_date' => $date->format('d/m/Y'),
             'f_day' => '',
             'ErgazomenosAnalytics' => fn() => ['ErgazomenosWTOAnalytics' => [WorkTimeEntryFactory::new()->make()]],

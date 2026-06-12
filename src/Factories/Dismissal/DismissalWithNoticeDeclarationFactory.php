@@ -25,7 +25,7 @@ class DismissalWithNoticeDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $hiringDate = $fake->dateTimeBetween('-10 years', '-1 month');
         $noticeDate = new DateTimeImmutable('-1 month');
         $dismissalDate = new DateTimeImmutable('today');
@@ -134,7 +134,7 @@ class DismissalWithNoticeDeclarationFactory extends Factory
     {
         return $this->state([
             'f_omadiki' => '1',
-            'f_omadikiarithmos' => $number ?? fake()->bothify('ΑΠ-######'),
+            'f_omadikiarithmos' => $number ?? self::fake()->bothify('ΑΠ-######'),
             'f_omadikidate' => $date ?? (new DateTimeImmutable('-1 week'))->format('d/m/Y'),
         ]);
     }

@@ -19,9 +19,9 @@ class ExemptionDeclarationFactory extends Factory
     public function definition(): array
     {
         return [
-            'f_aa_pararthmatos' => (string) fake()->numberBetween(0, 99),
+            'f_aa_pararthmatos' => (string) self::fake()->numberBetween(0, 99),
             'f_is_excluded' => '1',
-            'f_month' => str_pad((string) fake()->numberBetween(1, 12), 2, '0', STR_PAD_LEFT),
+            'f_month' => str_pad((string) self::fake()->numberBetween(1, 12), 2, '0', STR_PAD_LEFT),
             'f_year' => (string) date('Y'),
             'f_comments' => '',
         ];

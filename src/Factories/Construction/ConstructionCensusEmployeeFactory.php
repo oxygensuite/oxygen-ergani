@@ -18,7 +18,7 @@ class ConstructionCensusEmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return [
             'f_afm' => $fake->afm(),

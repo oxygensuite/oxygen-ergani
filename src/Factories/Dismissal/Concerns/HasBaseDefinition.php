@@ -22,7 +22,7 @@ trait HasBaseDefinition
      */
     protected function baseDefinition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $gender = $fake->randomElement(['male', 'female']);
         $birthDate = $fake->dateTimeBetween('-55 years', '-20 years');
 
@@ -101,7 +101,7 @@ trait HasBaseDefinition
     {
         return $this->state([
             'f_sex' => (string) ($gender === 'male' ? Sex::MALE->value : Sex::FEMALE->value),
-            'f_onoma' => fn() => fake()->greekFirstName($gender),
+            'f_onoma' => fn() => self::fake()->greekFirstName($gender),
         ]);
     }
 
@@ -126,7 +126,7 @@ trait HasBaseDefinition
      */
     public function foreignNationalDirectAccess(string $nationality = '002'): static
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return $this->state([
             'f_yphkoothta' => $nationality,
@@ -143,7 +143,7 @@ trait HasBaseDefinition
      */
     public function foreignNationalApproval(string $nationality = '002'): static
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return $this->state([
             'f_yphkoothta' => $nationality,
@@ -160,7 +160,7 @@ trait HasBaseDefinition
      */
     public function withSeasonalVisa(string $nationality = '002'): static
     {
-        $fake = fake();
+        $fake = self::fake();
         $from = new DateTimeImmutable('-3 months');
         $to = new DateTimeImmutable('+3 months');
 

@@ -18,11 +18,11 @@ class WorkTimeFactory extends Factory
      */
     public function definition(): array
     {
-        $fromDate = fake()->dateTimeBetween('-1 week', 'now');
+        $fromDate = self::fake()->dateTimeBetween('-1 week', 'now');
         $toDate = clone $fromDate;
 
         return [
-            'f_aa_pararthmatos' => (string) fake()->numberBetween(0, 99),
+            'f_aa_pararthmatos' => (string) self::fake()->numberBetween(0, 99),
             'f_rel_protocol' => '',
             'f_rel_date' => '',
             'f_comments' => '',

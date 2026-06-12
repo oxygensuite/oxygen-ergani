@@ -18,7 +18,7 @@ class InternshipDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $birthDate = $fake->dateTimeBetween('-25 years', '-18 years');
         $hireDate = $fake->greekDate('-3 months', 'now');
 
@@ -175,7 +175,7 @@ class InternshipDeclarationFactory extends Factory
     {
         return $this->state([
             'f_sex' => '0',
-            'f_onoma' => fake()->greekFirstName('male'),
+            'f_onoma' => self::fake()->greekFirstName('male'),
         ]);
     }
 
@@ -186,7 +186,7 @@ class InternshipDeclarationFactory extends Factory
     {
         return $this->state([
             'f_sex' => '1',
-            'f_onoma' => fake()->greekFirstName('female'),
+            'f_onoma' => self::fake()->greekFirstName('female'),
         ]);
     }
 

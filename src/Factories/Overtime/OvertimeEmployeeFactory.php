@@ -20,7 +20,7 @@ class OvertimeEmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         $birthDate = $fake->dateTimeBetween('-55 years', '-20 years');
         $overtimeDate = new DateTimeImmutable('today');
         $startTime = $fake->time24h();

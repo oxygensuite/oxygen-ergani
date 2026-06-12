@@ -25,7 +25,7 @@ class TransferDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
 
         return array_merge($this->baseDefinition(), [
             // Transfer Details

@@ -24,7 +24,7 @@ class TrialPeriodTerminationDeclarationFactory extends Factory
      */
     public function definition(): array
     {
-        $fake = fake();
+        $fake = self::fake();
         // Trial period is typically 12 months maximum
         $hiringDate = $fake->dateTimeBetween('-12 months', '-1 month');
         $terminationDate = new DateTimeImmutable('today');

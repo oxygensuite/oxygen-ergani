@@ -163,6 +163,13 @@ abstract class Factory
      */
     public static function fake(): Generator
     {
+        if (! class_exists(\Faker\Factory::class)) {
+            throw new \RuntimeException(
+                'Model factories require the "fakerphp/faker" package, which is not installed. '
+                . 'Install it with: composer require --dev fakerphp/faker',
+            );
+        }
+
         if (self::$faker === null) {
             self::$faker = \Faker\Factory::create('el_GR');
             self::$faker->addProvider(new GreekProvider(self::$faker));

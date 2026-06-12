@@ -19,13 +19,13 @@ class CardDetailFactory extends Factory
      */
     public function definition(): array
     {
-        $date = fake()->dateTimeBetween('-1 week', 'now');
+        $date = self::fake()->dateTimeBetween('-1 week', 'now');
 
         return [
-            'f_afm' => fake()->afm(),
-            'f_eponymo' => fake()->greekLastName(),
-            'f_onoma' => fake()->greekFirstName(),
-            'f_type' => fake()->randomElement([CardDetailType::CHECK_IN, CardDetailType::CHECK_OUT])->value,
+            'f_afm' => self::fake()->afm(),
+            'f_eponymo' => self::fake()->greekLastName(),
+            'f_onoma' => self::fake()->greekFirstName(),
+            'f_type' => self::fake()->randomElement([CardDetailType::CHECK_IN, CardDetailType::CHECK_OUT])->value,
             'f_reference_date' => $date->format('Y-m-d'),
             'f_date' => $date->format('Y-m-d\TH:i:s.000000+00:00'),
             'f_aitiologia' => null,
