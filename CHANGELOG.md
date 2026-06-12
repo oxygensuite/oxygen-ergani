@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2026-06-12
 
 ### Added
 
@@ -99,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `GreekProvider` for Faker with valid Greek identifiers (AFM, AMKA, ID numbers)
 - Factory state methods for common scenarios (fixed-term, part-time, foreign nationals, etc.)
 - Factories for all model types (WorkCard, WorkTime, Hiring, Termination, Dismissal, Modification, Overtime, Construction, SixthDay, PreAnnouncement, Internship)
+- Factories require the dev-only `fakerphp/faker` package (listed in composer `suggest`); `Factory::fake()` throws a clear `RuntimeException` when Faker is not installed
 
 #### Developer Experience
 - `withDefaults()` method on models to auto-fill missing fields with empty strings
@@ -108,12 +109,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DateTime support** for all date setter methods - accept both `DateTime` objects and strings, automatically formatted to the expected format
 - `Collection::toArray()` and `Response::toArray()` methods for easy serialization
 - `bin/check-enum` CLI tool to compare enums against the live ERGANI API (use `composer enum:check -- --all`)
+- `bin/check-schema` CLI tool to compare document schemas against local XSD files (use `composer schema:check -- --all`), with `--errors-only`, `--show-order`, `--list`, and `--coverage` options
+- CLI tools cache API responses (use `--fresh` to bypass) and share a common `bin/bootstrap.php` for credential loading from `.env` or environment variables
+- `.env.example` template for CLI tool credentials
 
 #### Documentation
 - VitePress documentation site with guides and API reference
 - Full coverage of all document types, models, enums, and services
 - Documentation for `pdf()` method to retrieve submitted documents as PDF
 - Restructured API reference with separate pages for each enum and model category
+- Model Factories guide page (`docs/guide/factories.md`)
 
 #### Quality Assurance
 - PHPStan level 7 static analysis
@@ -141,6 +146,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Models reorganized into subfolders matching document structure
 - Extracted shared traits for declaration models (`HasExtendedEmploymentDetails`, `HasDypaPrograms`, `HasTrialPeriod`, `HasInsurance`, `HasWagePayment`, `HasAcceptanceFiles`, `HasSalary`, `HasCompensation`, `HasFormFile`, etc.)
 - Generic `Collection` base class extracted for response collections
+- Updated MAD (WebMAD) and E3PD XSD schemas to match the live ERGANI API
+- composer.json `type` corrected from `package` to `library`
 
 ### Removed
 
@@ -217,7 +224,7 @@ Initial alpha release.
 - Renamed `Authentication` class to `AuthenticationLogin`
 - Renamed `clear` method to `failedAuthentication` in Token
 
-[Unreleased]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.1.1...HEAD
+[2.0.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v0.1.1-alpha...v1.0.0
