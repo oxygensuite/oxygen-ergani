@@ -17,7 +17,12 @@ export default defineConfig({
   vite: {
     plugins: [
       llmstxt({ domain: 'https://oxygensuite.github.io' }),
-      groupIconVitePlugin()
+      groupIconVitePlugin({
+        customIcon: {
+          bash: 'vscode-icons:file-type-shell',
+          powershell: 'vscode-icons:file-type-powershell'
+        }
+      })
     ]
   },
 
