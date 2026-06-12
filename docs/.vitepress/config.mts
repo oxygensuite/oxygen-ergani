@@ -20,7 +20,8 @@ export default defineConfig({
       groupIconVitePlugin({
         customIcon: {
           bash: 'vscode-icons:file-type-shell',
-          powershell: 'vscode-icons:file-type-powershell'
+          powershell: 'vscode-icons:file-type-powershell',
+          php: 'vscode-icons:file-type-php'
         }
       })
     ]
