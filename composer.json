@@ -13,8 +13,19 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Oxygen Suite",
-      "email": "info@pelatologio.gr"
+      "name": "Ilias Sarantoglou",
+      "email": "isarantoglou@oxygen.gr",
+      "role": "Developer"
+    },
+    {
+      "name": "Okan Giritli",
+      "email": "ogiritli@oxygen.gr",
+      "role": "Developer"
+    },
+    {
+      "name": "Oxygen Pelatologio",
+      "homepage": "https://www.oxygen.gr",
+      "role": "Maintainer"
     }
   ],
   "require": {
