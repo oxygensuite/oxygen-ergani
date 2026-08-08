@@ -83,7 +83,7 @@ class Ergani
     ) {
         $this->accessToken = $accessToken;
         $this->environment = $environment;
-        $this->config = $config ?? new ClientConfig();
+        $this->config = $config ?? ClientConfig::getDefault();
         $this->cache = $cache;
         $this->cachePrefix = $cachePrefix ?? $this->deriveCachePrefix();
         $this->cacheTtl = $cacheTtl;

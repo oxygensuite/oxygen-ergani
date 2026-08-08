@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Storage;
 
 use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Exceptions\AuthenticationException;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Exceptions\RefreshTokenExpiredException;
@@ -17,11 +18,13 @@ abstract class Token implements TokenManager
 
     protected string $username;
     protected string $password;
+    protected UserType $userType;
 
-    public function __construct(string $username, string $password)
+    public function __construct(string $username, string $password, UserType $userType = UserType::EXTERNAL)
     {
         $this->username = $username;
         $this->password = $password;
+        $this->userType = $userType;
     }
 
     /**
@@ -54,12 +57,17 @@ abstract class Token implements TokenManager
     }
 
     /**
-     * Returns a hash suitable for use as a cache prefix,
-     * derived from the username and password.
+     * Returns a hash suitable for use as a cache prefix, derived from
+     * the username, password and user type.
      */
     public function cacheIdentifier(): string
     {
-        return hash('sha256', $this->username . ':' . $this->password);
+        return hash('sha256', sprintf(
+            '%s:%s:%s',
+            $this->username,
+            $this->password,
+            $this->userType->value,
+        ));
     }
 
     /**
@@ -126,7 +134,7 @@ abstract class Token implements TokenManager
     {
         $login = new AuthenticationLogin();
 
-        return $login->handle($this->username, $this->password);
+        return $login->handle($this->username, $this->password, $this->userType);
     }
 
     /**

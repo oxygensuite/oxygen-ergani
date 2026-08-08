@@ -26,7 +26,7 @@ Token::setCurrentTokenManager(
 
 ### Unique Token Files
 
-Tokens are stored in files named using a SHA-256 hash of the username, password, and environment. This ensures:
+Tokens are stored in files named using a SHA-256 hash of the username, password, user type, and environment. This ensures:
 
 - Multiple users can have separate token files
 - Test and production environments use different tokens
@@ -55,7 +55,7 @@ $manager = new FileToken('username', 'password');
 - Recommended: Store tokens outside the web root
 
 **Hashing:**
-- Filenames use SHA-256 hash of `username + password + environment`
+- Filenames use SHA-256 hash of `username + password + userType + environment`
 - This prevents exposing credentials in filenames while ensuring uniqueness
 
 **Storage Format:**
@@ -97,6 +97,27 @@ Token::setCurrentTokenManager(
     new FakeFileToken('test-user', 'test-pass'),
     Environment::TEST
 );
+```
+
+## Choosing the User Type
+
+Token managers authenticate as `UserType::EXTERNAL` (`01`) by default —
+correct for third-party software. ERGANI (`02`) and EFKA (`03`) users pass
+the type explicitly:
+
+```php
+use OxygenSuite\OxygenErgani\Enums\UserType;
+
+Token::setCurrentTokenManager(
+    new FileToken('username', 'password', userType: UserType::ERGANI),
+    Environment::PRODUCTION,
+);
+
+// In-memory manager:
+$manager = new InMemoryToken('username', 'password', UserType::ERGANI);
+
+// The explicit login path accepts it too:
+$token = $ergani->authenticate('username', 'password', UserType::ERGANI);
 ```
 
 ## Using Without Token Manager

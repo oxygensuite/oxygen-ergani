@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Storage;
 
 use DateTime;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 
 class InMemoryToken extends Token
@@ -48,8 +49,8 @@ class InMemoryToken extends Token
         return $this->token;
     }
 
-    public static function fake(string $username, string $password): FakeInMemoryToken
+    public static function fake(string $username, string $password, UserType $userType = UserType::EXTERNAL): FakeInMemoryToken
     {
-        return new FakeInMemoryToken($username, $password);
+        return new FakeInMemoryToken($username, $password, $userType);
     }
 }

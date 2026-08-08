@@ -72,6 +72,27 @@ $manager = new FileToken($username, $password);
 $manager = new FileToken($username, $password);
 ```
 
+## Global HTTP Client Configuration
+
+Set a default `ClientConfig` once during bootstrap. Every client created
+without an explicit config uses it — including the automatic login and
+token-refresh requests made by token managers:
+
+```php
+use OxygenSuite\OxygenErgani\Http\ClientConfig;
+
+ClientConfig::setDefault(
+    (new ClientConfig())
+        ->setTimeout(30)
+        ->setVerifyClient('/path/to/ca-bundle.pem')
+);
+```
+
+An explicitly passed config always takes precedence. Call
+`ClientConfig::resetDefault()` to remove the default (useful in tests).
+
+An `Ergani` instance captures the default at construction time, so call `ClientConfig::setDefault()` during bootstrap before creating `Ergani` instances; by contrast, token-manager login and refresh requests resolve the default at call time.
+
 ## Manual Token Handling
 
 For advanced use cases, you can handle authentication manually:

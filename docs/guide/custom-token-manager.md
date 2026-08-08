@@ -18,8 +18,8 @@ class DatabaseToken extends Token
 
     private function loadTokenFromDatabase(): void
     {
-        // Create unique key from username, password, and environment
-        $key = hash('sha256', $this->username . '-' . $this->password . '-' . Client::getDefaultEnvironment()->name);
+        // Create unique key from username, password, user type, and environment
+        $key = hash('sha256', $this->username . '-' . $this->password . '-' . $this->userType->value . '-' . Client::getDefaultEnvironment()->name);
 
         // Retrieve from your database
         $dbToken = DB::table('ergani_tokens')
@@ -65,7 +65,7 @@ class DatabaseToken extends Token
     {
         $this->token = $token;
 
-        $key = hash('sha256', $this->username . '-' . $this->password . '-' . Client::getDefaultEnvironment()->name);
+        $key = hash('sha256', $this->username . '-' . $this->password . '-' . $this->userType->value . '-' . Client::getDefaultEnvironment()->name);
 
         DB::table('ergani_tokens')->updateOrInsert(
             ['token_key' => $key],
@@ -85,7 +85,7 @@ class DatabaseToken extends Token
     {
         $this->token = null;
 
-        $key = hash('sha256', $this->username . '-' . $this->password . '-' . Client::getDefaultEnvironment()->name);
+        $key = hash('sha256', $this->username . '-' . $this->password . '-' . $this->userType->value . '-' . Client::getDefaultEnvironment()->name);
 
         DB::table('ergani_tokens')
             ->where('token_key', $key)
@@ -145,5 +145,5 @@ Token::setCurrentTokenManager(
 ```
 
 ::: warning Multi-User Environments
-Usernames alone are not unique identifiers. The built-in `FileToken` uses a SHA-256 hash of `username + password + environment` to create unique storage keys. Implement a similar approach in your custom manager to avoid token conflicts.
+Usernames alone are not unique identifiers. The built-in `FileToken` uses a SHA-256 hash of `username + password + userType + environment` to create unique storage keys. Implement a similar approach in your custom manager to avoid token conflicts.
 :::

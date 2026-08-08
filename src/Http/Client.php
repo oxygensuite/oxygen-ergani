@@ -35,7 +35,7 @@ class Client
     {
         $this->accessToken = $accessToken;
         $this->environment = $environment ?? self::$defaultEnvironment;
-        $this->config = $config ?? new ClientConfig();
+        $this->config = $config ?? ClientConfig::getDefault();
     }
 
     public static function setDefaultEnvironment(Environment $environment): void

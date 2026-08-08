@@ -81,7 +81,7 @@ public function authenticate(
 |-----------|------|---------|-------------|
 | `$username` | string | - | ERGANI username |
 | `$password` | string | - | ERGANI password |
-| `$userType` | UserType | `UserType::EXTERNAL` | Type of user |
+| `$userType` | UserType | `UserType::EXTERNAL` | Type of user authenticating |
 
 **Returns:** `AuthenticationToken`
 

@@ -48,7 +48,7 @@ class FakeInMemoryToken extends InMemoryToken
             $login->getConfig()->setHandler($this->loginHandler);
         }
 
-        return $login->handle($this->username, $this->password);
+        return $login->handle($this->username, $this->password, $this->userType);
     }
 
     protected function refresh(): AuthenticationToken

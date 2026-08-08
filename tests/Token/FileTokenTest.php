@@ -7,6 +7,7 @@ namespace Tests\Token;
 use DateTimeImmutable;
 use Exception;
 use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Exceptions\AuthenticationException;
 use OxygenSuite\OxygenErgani\Http\Client;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
@@ -44,8 +45,8 @@ class FileTokenTest extends TestCase
         $fileToken->setAuthToken($token);
 
         $this->assertFileExists($fileToken->path());
-        $this->assertSame(hash('sha256', 'username-password-TEST'), $fileToken->getFilename());
-        $this->assertSame(hash('sha256', 'username-password-TEST'), $fileToken->generateFilename());
+        $this->assertSame(hash('sha256', 'username-password-01-TEST'), $fileToken->getFilename());
+        $this->assertSame(hash('sha256', 'username-password-01-TEST'), $fileToken->generateFilename());
 
         $cachedToken = json_decode(file_get_contents($fileToken->path()), true)['token'];
         $this->assertIsArray($cachedToken);
@@ -71,8 +72,8 @@ class FileTokenTest extends TestCase
         $fileToken->setAuthToken($token);
 
         $this->assertFileExists($fileToken->path());
-        $this->assertSame(hash('sha256', 'username-password-PRODUCTION'), $fileToken->getFilename());
-        $this->assertSame(hash('sha256', 'username-password-PRODUCTION'), $fileToken->generateFilename());
+        $this->assertSame(hash('sha256', 'username-password-01-PRODUCTION'), $fileToken->getFilename());
+        $this->assertSame(hash('sha256', 'username-password-01-PRODUCTION'), $fileToken->generateFilename());
 
         $cachedToken = json_decode(file_get_contents($fileToken->path()), true)['token'];
         $this->assertIsArray($cachedToken);
@@ -398,5 +399,28 @@ class FileTokenTest extends TestCase
         // Both static and instance should return the default
         $this->assertSame($defaultDir, FileToken::dir());
         $this->assertSame($defaultDir, $fileToken->getDirectory());
+    }
+
+    public function test_filename_differs_per_user_type(): void
+    {
+        Client::setDefaultEnvironment(Environment::TEST);
+
+        $external = new FileToken('username', 'password');
+        $ergani = new FileToken('username', 'password', [], UserType::ERGANI);
+
+        $this->assertSame(hash('sha256', 'username-password-01-TEST'), $external->generateFilename());
+        $this->assertSame(hash('sha256', 'username-password-02-TEST'), $ergani->generateFilename());
+    }
+
+    public function test_login_sends_selected_user_type(): void
+    {
+        $mock = $this->mockResponse(200, 'new-authentication.json');
+
+        $fake = FileToken::fake('username', 'password', userType: UserType::ERGANI);
+        $fake->setLoginHandler($mock);
+        $fake->authenticate();
+
+        $body = json_decode((string) $mock->getLastRequest()->getBody(), true);
+        $this->assertSame('02', $body['Usertype']);
     }
 }

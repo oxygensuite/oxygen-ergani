@@ -6,6 +6,7 @@ namespace Tests\Token;
 
 use DateTimeImmutable;
 use Exception;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 use OxygenSuite\OxygenErgani\Storage\InMemoryToken;
@@ -169,5 +170,27 @@ class InMemoryTokenTest extends TestCase
 
         $this->assertFalse($fake->refreshCalled());
         $this->assertTrue($fake->loginCalled());
+    }
+
+    public function test_cache_identifier_includes_user_type(): void
+    {
+        $external = new InMemoryToken('username', 'password');
+        $efka = new InMemoryToken('username', 'password', UserType::EFKA);
+
+        $this->assertSame(hash('sha256', 'username:password:01'), $external->cacheIdentifier());
+        $this->assertSame(hash('sha256', 'username:password:03'), $efka->cacheIdentifier());
+        $this->assertNotSame($external->cacheIdentifier(), $efka->cacheIdentifier());
+    }
+
+    public function test_login_sends_selected_user_type(): void
+    {
+        $mock = $this->mockResponse(200, 'new-authentication.json');
+
+        $fake = InMemoryToken::fake('username', 'password', UserType::ERGANI);
+        $fake->setLoginHandler($mock);
+        $fake->authenticate();
+
+        $body = json_decode((string) $mock->getLastRequest()->getBody(), true);
+        $this->assertSame('02', $body['Usertype']);
     }
 }

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-08-08
+
+### Added
+
+- Optional `UserType` parameter on `Token`, `FileToken`, `InMemoryToken` and their `fake()` helpers, so token managers can authenticate as ERGANI (`02`) or EFKA (`03`) users (`UserType::EXTERNAL` remains the default)
+- `ClientConfig::setDefault()` / `getDefault()` / `resetDefault()` global default HTTP configuration, applied to every client created without an explicit config — including the automatic login/refresh calls inside token managers
+
+### Changed
+
+- Include the user type in `Token::cacheIdentifier()` and `FileToken::generateFilename()` hashes; stored tokens and cache prefixes are refreshed once on upgrade (the package re-authenticates automatically; `FileToken::forgetAllTokens()` can remove stale token files — it sweeps only the static/default token directory, not instance-level `cache_dir` directories, and also removes current tokens; similarly, orphaned PSR-16 data-cache entries under the old prefix can be removed with `Ergani::flushCache($cache)`)
+- Consumer subclasses that override the static `FileToken::fake()` / `InMemoryToken::fake()` helpers must add the new optional `UserType` parameter to their override signature to remain declaration-compatible
+
 ## [2.0.3] - 2026-06-13
 
 ### Added

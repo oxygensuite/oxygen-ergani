@@ -8,6 +8,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response as HttpResponse;
 use OxygenSuite\OxygenErgani\Cache\InMemoryCache;
 use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Ergani;
 use OxygenSuite\OxygenErgani\Http\ClientConfig;
 use OxygenSuite\OxygenErgani\Http\Documents\Hiring\HiringNew;
@@ -444,5 +445,18 @@ class ErganiTest extends TestCase
         $result = $ergani->cancelDocument('WTOLeave', 'WTO12345', 20250115);
 
         $this->assertTrue($result);
+    }
+
+    public function test_authenticate_accepts_user_type(): void
+    {
+        $mock = $this->mockResponse(200, 'authentication.json');
+        $config = (new ClientConfig())->setHandler($mock);
+        $ergani = new Ergani(config: $config);
+
+        $token = $ergani->authenticate('username', 'password', UserType::ERGANI);
+
+        $this->assertSame('test-access-token', $token->accessToken);
+        $body = json_decode((string) $mock->getLastRequest()->getBody(), true);
+        $this->assertSame('02', $body['Usertype']);
     }
 }

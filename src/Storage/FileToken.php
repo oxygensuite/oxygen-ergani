@@ -5,6 +5,7 @@ namespace OxygenSuite\OxygenErgani\Storage;
 use DateTime;
 use DateTimeImmutable;
 use Error;
+use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Http\Client;
 use OxygenSuite\OxygenErgani\Responses\AuthenticationToken;
 
@@ -20,10 +21,11 @@ class FileToken extends Token
      * @param string $username
      * @param string $password
      * @param array{cache_dir?: string} $options
+     * @param UserType $userType
      */
-    public function __construct(string $username, string $password, array $options = [])
+    public function __construct(string $username, string $password, array $options = [], UserType $userType = UserType::EXTERNAL)
     {
-        parent::__construct($username, $password);
+        parent::__construct($username, $password, $userType);
 
         if (isset($options['cache_dir'])) {
             $this->instanceDirectory = rtrim($options['cache_dir'], '/\\');
@@ -86,7 +88,13 @@ class FileToken extends Token
         $defaultEnv = Client::getDefaultEnvironment();
         $env = $defaultEnv !== null ? $defaultEnv->name : '';
 
-        return hash('sha256', $this->username . '-' . $this->password . '-' . $env);
+        return hash('sha256', sprintf(
+            '%s-%s-%s-%s',
+            $this->username,
+            $this->password,
+            $this->userType->value,
+            $env,
+        ));
     }
 
     public function saveToFile(): void
@@ -231,9 +239,10 @@ class FileToken extends Token
      * @param string $username
      * @param string $password
      * @param array{cache_dir?: string} $options
+     * @param UserType $userType
      */
-    public static function fake(string $username, string $password, array $options = []): FakeFileToken
+    public static function fake(string $username, string $password, array $options = [], UserType $userType = UserType::EXTERNAL): FakeFileToken
     {
-        return new FakeFileToken($username, $password, $options);
+        return new FakeFileToken($username, $password, $options, $userType);
     }
 }

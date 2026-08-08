@@ -15,16 +15,6 @@ class FakeFileToken extends FileToken
     private MockHandler $loginHandler;
     private MockHandler $refreshHandler;
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param array{cache_dir?: string} $options
-     */
-    public function __construct(string $username, string $password, array $options = [])
-    {
-        parent::__construct($username, $password, $options);
-    }
-
     public function setLoginHandler(MockHandler $loginHandler): static
     {
         $this->loginHandler = $loginHandler;
@@ -58,7 +48,7 @@ class FakeFileToken extends FileToken
             $login->getConfig()->setHandler($this->loginHandler);
         }
 
-        return $login->handle($this->username, $this->password);
+        return $login->handle($this->username, $this->password, $this->userType);
     }
 
     protected function refresh(): AuthenticationToken

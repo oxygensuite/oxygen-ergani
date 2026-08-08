@@ -12,6 +12,45 @@ class ClientConfig
         'timeout' => 10,
     ];
 
+    private static ?ClientConfig $default = null;
+
+    /**
+     * Set a global default configuration used by every client that is
+     * not given an explicit ClientConfig — including the automatic
+     * login/refresh requests made by token managers.
+     *
+     * Clients receive a shallow clone of this default: the options array
+     * (including headers) is copied per client, but any handler object
+     * stored here is shared by every client and must not be mutated
+     * per-client.
+     */
+    public static function setDefault(?ClientConfig $config): void
+    {
+        self::$default = $config;
+    }
+
+    /**
+     * Returns a clone of the global default configuration, or a fresh
+     * instance when no default has been set. A clone is returned because
+     * clients mutate their config (e.g. setBearerToken()); the clone is
+     * shallow, so options are isolated per client while a stored handler
+     * object is shared across clients.
+     */
+    public static function getDefault(): ClientConfig
+    {
+        return self::$default !== null ? clone self::$default : new ClientConfig();
+    }
+
+    /**
+     * Remove the global default configuration.
+     *
+     * Primarily used for testing.
+     */
+    public static function resetDefault(): void
+    {
+        self::setDefault(null);
+    }
+
     /**
      * Create a new client configuration instance.
      *
