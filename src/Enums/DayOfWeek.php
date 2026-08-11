@@ -33,5 +33,5 @@ enum DayOfWeek: string
     case SATURDAY = '6';
 
     #[Label('Sunday', 'Κυριακή')]
-    case SUNDAY = '7';
+    case SUNDAY = '0';
 }
