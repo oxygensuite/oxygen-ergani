@@ -157,7 +157,7 @@ class WorkTimeEmployeeFactoryTest extends TestCase
     public function testOnSundayState(): void
     {
         $employee = WorkTimeEmployeeFactory::new()->onSunday()->make();
-        $this->assertEquals('7', $employee->getDay());
+        $this->assertEquals('0', $employee->getDay());
     }
 
     public function testWithEntriesState(): void
