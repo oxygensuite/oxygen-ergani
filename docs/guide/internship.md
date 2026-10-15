@@ -1,15 +1,24 @@
 # Internship Declaration (E3.5)
 
-The E3.5 form (action code `57`) is used to declare internship placements. It is a comprehensive form covering personal information, education, internship terms, weekly schedule, and certifier details.
+The E3.5 form (action code `WebE35`) is used to declare internship placements. It is a comprehensive form covering personal information, education, internship terms, weekly schedule, and certifier details.
 
 ## Overview
 
-| Property | Value |
-|----------|-------|
-| Document Class | `Internship` |
-| Action Code | `57` |
-| Declaration Model | `InternshipDeclaration` |
-| Use Case | Internship start or modification |
+Follow-up forms correct the declaration, stop the internship early, or change its weekly schedule.
+
+| Form | Action Code | Document Class | Declaration Model | Use Case |
+|------|-------------|----------------|-------------------|----------|
+| E3.5 | `WebE35` | `Internship` | `InternshipDeclaration` | Internship start or modification |
+| E3.5 Correction | `WebE35C` | `InternshipCorrection` | `InternshipDeclaration` | Correct a submitted E3.5 |
+| E3.5 Stop | `WebE35D` | `InternshipTermination` | `InternshipTerminationDeclaration` | Early termination (interruption) of an internship |
+| E3.5 Schedule Change | `WebE35T` | `InternshipScheduleChange` | `InternshipScheduleChangeDeclaration` | New weekly schedule for an internship |
+
+| Facade Method | Form |
+|---------------|------|
+| `sendInternshipDeclaration()` | E3.5 |
+| `sendInternshipCorrection()` | E3.5 Correction |
+| `sendInternshipTermination()` | E3.5 Stop |
+| `sendInternshipScheduleChange()` | E3.5 Schedule Change |
 
 ## Basic Usage
 
@@ -145,6 +154,7 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 |--------|-----------|------|----------|-------------|
 | `setAfm()` | `f_afm` | string | Yes | Tax ID (AFM) |
 | `setTaxOffice()` | `f_doy` | string | No | Tax office code |
+| `setInsuranceAgency()` | `f_insurance_agency` | string | No | Main insurance agency code (`ParameterLookup::PRIMARY_INSURANCE`) |
 | `setAmika()` | `f_amika` | string | No | IKA number |
 | `setAmka()` | `f_amka` | string | Yes | Social security number |
 | `setMinorBookNumber()` | `f_ar_vivliou_anilikou` | string | No | Minor work permit book |
@@ -205,6 +215,8 @@ Each day (1-7) has six underlying API fields. The helper methods set them in pai
 | `setBreakSchedule($day, $from, $to)` | `f_break_time_from_{day}`, `f_break_time_to_{day}` |
 
 Where `{day}` is the day number (1=Monday, 7=Sunday).
+
+Read a day back with `getSchedule($day)`, `getSplitSchedule($day)` or `getBreakSchedule($day)`, each returning `['from' => ..., 'to' => ...]`.
 
 ### Certifier
 
@@ -307,6 +319,131 @@ $declaration = InternshipDeclaration::make()
 
 ---
 
+## E3.5 Correction (WebE35C)
+
+A correction resubmits the full `InternshipDeclaration` and references the original declaration through `setRelatedProtocol()` and `setRelatedDate()`.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Internship\InternshipCorrection;
+
+$declaration
+    ->setRelatedProtocol($original->protocol)
+    ->setRelatedDate($original->submissionDate->format('d/m/Y'));
+
+$response = (new InternshipCorrection())->handle($declaration);
+
+// or via the facade
+$responses = $ergani->sendInternshipCorrection($declaration);
+```
+
+---
+
+## E3.5 Stop (WebE35D)
+
+Reports the early termination of an internship declared with a previous E3.5.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Internship\InternshipTermination;
+use OxygenSuite\OxygenErgani\Models\Internship\InternshipTerminationDeclaration;
+
+$declaration = InternshipTerminationDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedProtocol('ΠΡ1')            // Protocol of the original E3.5
+    ->setRelatedDate('10/04/2026')         // Submission date of the original E3.5
+    ->setAfm('555666777')                  // Intern's AFM
+    ->setTerminationDate('08/09/2026')
+    ->setTerminationReason('001')
+    ->setCertifierLastName('ΓΕΩΡΓΙΟΥ')
+    ->setCertifierFirstName('ΚΩΝΣΤΑΝΤΙΝΟΣ')
+    ->setCertifierCapacity('ΛΟΓΙΣΤΗΣ')
+    ->setCertifierAddress('ΕΓΝΑΤΙΑ 45, ΘΕΣΣΑΛΟΝΙΚΗ')
+    ->setCertifierAfm('987654321')
+    ->setLegalRepresentativeAfm('123456789')
+    ->withDefaults();                      // Send unset file fields as empty strings
+
+$response = (new InternshipTermination())->handle($declaration);
+
+// or via the facade
+$responses = $ergani->sendInternshipTermination($declaration);
+```
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
+| `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
+| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes | Submission date of the original E3.5 |
+| `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
+| `setTerminationDate()` | `f_diakoph_date` | DateTime\|string | Yes | Termination date (DD/MM/YYYY) |
+| `setTerminationReason()` | `f_diakoph_aitiologia` | string | Yes | Termination reason code (3 digits) |
+| `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |
+| `setCertifierFirstName()` | `f_onoma` | string | Yes | Certifier first name |
+| `setCertifierCapacity()` | `f_idiotita` | string | Yes | Certifier role/capacity |
+| `setCertifierAddress()` | `f_dieythinsi` | string | Yes | Certifier home address |
+| `setCertifierAfm()` | `f_afm_bebaiwn` | string | Yes | Certifier tax ID |
+| `setLegalRepresentativeAfm()` | `f_afm_proswpoy` | string | Yes | Legal representative's AFM |
+| `setFormFile()` | `f_file` | string | No | Signed form (Base64 PDF) |
+| `setForeignFile()` | `f_foreign_file` | string | No | Third-country national docs (Base64 PDF) |
+| `setMinorFile()` | `f_young_file` | string | No | Minor's work booklet (Base64 PDF) |
+
+::: info Certifier fields
+The stop form uses different API fields for the certifier (`f_eponymo`, `f_onoma`, ...) than E3.5 (`f_eponymo_idiotitas`, ...), but the setter names are the same.
+:::
+
+---
+
+## E3.5 Schedule Change (WebE35T)
+
+Reports a new weekly schedule for an internship declared with a previous E3.5. It uses the same schedule helpers and certifier setters as `InternshipDeclaration`.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Internship\InternshipScheduleChange;
+use OxygenSuite\OxygenErgani\Models\Internship\InternshipScheduleChangeDeclaration;
+
+$declaration = InternshipScheduleChangeDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedProtocol('ΠΡ1')            // Protocol of the original E3.5
+    ->setRelatedDate('10/04/2026')         // Submission date of the original E3.5
+    ->setAfm('555666777')                  // Intern's AFM
+    ->setChangeDate('13/09/2026')          // Date of the schedule change
+    ->setSchedule(1, '10:00', '16:00')
+    ->setSchedule(3, '10:00', '16:00')
+    ->setBreakSchedule(1, '13:00', '13:15')
+    ->setCertifierLastName('ΓΕΩΡΓΙΟΥ')
+    ->setCertifierFirstName('ΚΩΝΣΤΑΝΤΙΝΟΣ')
+    ->setCertifierCapacity('ΛΟΓΙΣΤΗΣ')
+    ->setCertifierAddress('ΕΓΝΑΤΙΑ 45, ΘΕΣΣΑΛΟΝΙΚΗ')
+    ->setCertifierAfm('987654321')
+    ->setLegalRepresentativeAfm('123456789')
+    ->withDefaults();                      // Send unused time and file fields as empty strings
+
+$response = (new InternshipScheduleChange())->handle($declaration);
+
+// or via the facade
+$responses = $ergani->sendInternshipScheduleChange($declaration);
+```
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
+| `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
+| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes | Submission date of the original E3.5 |
+| `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
+| `setChangeDate()` | `f_trpopoihsh_date` | DateTime\|string | Yes | Date of the schedule change (DD/MM/YYYY) |
+| `setSchedule()` / `setSplitSchedule()` / `setBreakSchedule()` | `f_time_*`, `f_second_time_*`, `f_break_time_*` | string | Yes | Weekly schedule (see [Weekly Schedule](#weekly-schedule)) |
+| `setCertifierLastName()` | `f_eponymo_idiotitas` | string | Yes | Certifier last name |
+| `setCertifierFirstName()` | `f_onoma_idiotitas` | string | Yes | Certifier first name |
+| `setCertifierCapacity()` | `f_idiotita_idiotitas` | string | Yes | Certifier role/capacity |
+| `setCertifierAddress()` | `f_dieythinsi_idiotitas` | string | Yes | Certifier home address |
+| `setCertifierAfm()` | `f_afm_idiotitas` | string | Yes | Certifier tax ID |
+| `setLegalRepresentativeAfm()` | `f_afm_proswpoy` | string | Yes | Legal representative's AFM |
+| `setFormFile()` / `setForeignFile()` / `setMinorFile()` | `f_file`, `f_foreign_file`, `f_young_file` | string | No | Attached files (Base64 PDF) |
+
+::: tip All fields are sent
+The XSD lists every time field as required (an empty string means "no time"). Call `withDefaults()` after setting the days you need, so the remaining fields are sent as empty strings.
+:::
+
+---
+
 ## Response Handling
 
 ```php
@@ -348,6 +485,8 @@ file_put_contents('internship.pdf', base64_decode($pdfBase64));
 
 ```php
 use OxygenSuite\OxygenErgani\Models\Internship\InternshipDeclaration;
+use OxygenSuite\OxygenErgani\Models\Internship\InternshipScheduleChangeDeclaration;
+use OxygenSuite\OxygenErgani\Models\Internship\InternshipTerminationDeclaration;
 
 $declaration = InternshipDeclaration::factory()->make();
 
@@ -366,6 +505,18 @@ $declaration = InternshipDeclaration::factory()
 // OAED placement
 $declaration = InternshipDeclaration::factory()
     ->withOaedPlacement()
+    ->make();
+
+// Stop (WebE35D)
+$termination = InternshipTerminationDeclaration::factory()
+    ->forDeclaration('ΠΡ1', '10/04/2026')
+    ->terminatedOn('08/09/2026', '001')
+    ->make();
+
+// Schedule change (WebE35T)
+$change = InternshipScheduleChangeDeclaration::factory()
+    ->forDeclaration('ΠΡ1', '10/04/2026')
+    ->withSchedule('10:00', '16:00', [1, 3, 5])
     ->make();
 ```
 

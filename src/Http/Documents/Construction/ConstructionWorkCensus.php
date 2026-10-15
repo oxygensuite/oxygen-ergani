@@ -8,7 +8,7 @@ use OxygenSuite\OxygenErgani\Models\Construction\ConstructionCensus;
 use OxygenSuite\OxygenErgani\Responses\SubmissionResponse;
 
 /**
- * Handler for construction work census (E12Apogr) submissions.
+ * Handler for construction work census (WebE12Ap) submissions.
  *
  * Used for reporting monthly construction site personnel census to ERGANI.
  *
@@ -16,7 +16,7 @@ use OxygenSuite\OxygenErgani\Responses\SubmissionResponse;
  */
 class ConstructionWorkCensus extends Documents
 {
-    private const ACTION = 'E12Apogr';
+    private const ACTION = 'WebE12Ap';
 
     /**
      * @param ConstructionCensus|ConstructionCensus[] $declarations

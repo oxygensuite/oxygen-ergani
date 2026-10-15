@@ -23,6 +23,10 @@ class EmploymentModification extends Documents
 
     private const SUPPLEMENTARY_INSURANCE_KEY = 'EpikourikesMA';
 
+    private const SUPPLEMENTARY_INSURANCE_WRAPPER = 'Epikourikes';
+
+    private const SUPPLEMENTARY_INSURANCE_CODE = 'f_epikouriki_kod';
+
     private const MODIFICATION_TYPES_KEY = 'TypesMetabolonMA';
 
     /**
@@ -63,7 +67,12 @@ class EmploymentModification extends Documents
 
         // Transform nested arrays
         $array = $this->transformModificationTypeSelections($array, self::MODIFICATION_TYPES_KEY);
-        $array = $this->transformSupplementaryInsuranceSelections($array, self::SUPPLEMENTARY_INSURANCE_KEY);
+        $array = $this->transformSupplementaryInsuranceSelections(
+            $array,
+            self::SUPPLEMENTARY_INSURANCE_KEY,
+            self::SUPPLEMENTARY_INSURANCE_WRAPPER,
+            self::SUPPLEMENTARY_INSURANCE_CODE,
+        );
 
         return $array;
     }

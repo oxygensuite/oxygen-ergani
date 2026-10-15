@@ -6,7 +6,7 @@ use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertime;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertimeDrivers;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertimeRetrospective;
-use OxygenSuite\OxygenErgani\Models\Overtime\Overtime;
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTime;
 use OxygenSuite\OxygenErgani\Responses\OvertimeResponse;
 
 trait SendsOvertimeDocuments
@@ -14,42 +14,42 @@ trait SendsOvertimeDocuments
     /**
      * Submit overtime declaration.
      *
-     * @param Overtime|Overtime[] $overtime
+     * @param WorkTime|WorkTime[] $workTime (entries of type WorkTimeType::OVERTIME)
      *
      * @return OvertimeResponse[]
      * @throws ErganiException
      */
-    public function sendOvertime(Overtime|array $overtime): array
+    public function sendOvertime(WorkTime|array $workTime): array
     {
         return (new WorkTimeOvertime($this->accessToken, $this->environment, $this->config))
-            ->handle($overtime);
+            ->handle($workTime);
     }
 
     /**
      * Submit overtime declaration for drivers.
      *
-     * @param Overtime|Overtime[] $overtime
+     * @param WorkTime|WorkTime[] $workTime (entries of type WorkTimeType::OVERTIME)
      *
      * @return OvertimeResponse[]
      * @throws ErganiException
      */
-    public function sendOvertimeDrivers(Overtime|array $overtime): array
+    public function sendOvertimeDrivers(WorkTime|array $workTime): array
     {
         return (new WorkTimeOvertimeDrivers($this->accessToken, $this->environment, $this->config))
-            ->handle($overtime);
+            ->handle($workTime);
     }
 
     /**
      * Submit overtime declaration retrospective.
      *
-     * @param Overtime|Overtime[] $overtime
+     * @param WorkTime|WorkTime[] $workTime (entries of type WorkTimeType::OVERTIME)
      *
      * @return OvertimeResponse[]
      * @throws ErganiException
      */
-    public function sendOvertimeRetrospective(Overtime|array $overtime): array
+    public function sendOvertimeRetrospective(WorkTime|array $workTime): array
     {
         return (new WorkTimeOvertimeRetrospective($this->accessToken, $this->environment, $this->config))
-            ->handle($overtime);
+            ->handle($workTime);
     }
 }

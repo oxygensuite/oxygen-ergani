@@ -91,10 +91,38 @@ class GreekProvider extends Base
         // First 6 digits are birth date in DDMMYY format
         $datePart = $birthDate->format('dmy');
 
-        // Last 5 digits are a random sequence
-        $sequence = str_pad((string) $this->generator->numberBetween(0, 99999), 5, '0', STR_PAD_LEFT);
+        // Next 4 digits are a random sequence
+        $sequence = str_pad((string) $this->generator->numberBetween(0, 9999), 4, '0', STR_PAD_LEFT);
 
-        return $datePart . $sequence;
+        // Last digit is a Luhn check digit, which ERGANI validates
+        $partial = $datePart . $sequence;
+
+        return $partial . $this->luhnCheckDigit($partial);
+    }
+
+    /**
+     * Calculate the Luhn check digit for a numeric string.
+     */
+    private function luhnCheckDigit(string $number): int
+    {
+        $sum = 0;
+        $double = true;
+
+        for ($i = strlen($number) - 1; $i >= 0; $i--) {
+            $digit = (int) $number[$i];
+
+            if ($double) {
+                $digit *= 2;
+                if ($digit > 9) {
+                    $digit -= 9;
+                }
+            }
+
+            $sum += $digit;
+            $double = ! $double;
+        }
+
+        return (10 - $sum % 10) % 10;
     }
 
     /**

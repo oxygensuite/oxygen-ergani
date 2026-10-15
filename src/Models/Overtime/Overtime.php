@@ -6,6 +6,10 @@ use DateTime;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
+/**
+ * @deprecated since 2.2.0, will be removed in 3.0. ERGANI II overtime (WTOOv) uses the work time structure:
+ *             build a WorkTime with WorkTimeType::OVERTIME entries and send it with sendOvertime().
+ */
 class Overtime extends Model
 {
     use HasFactory;

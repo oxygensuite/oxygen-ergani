@@ -1,0 +1,245 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Live structure check against ERGANI's own validator (maintainer tool).
+ *
+ * For every document in bin/schema-map.php, the package builds its normal payload from the model
+ * factory (captured through a mock, nothing sent yet). Business identifiers are then replaced with
+ * values that pass the XSD but can never pass ERGANI's business rules:
+ *   - every *afm* field  -> 123456789   (wrong check digit)
+ *   - every *amka* field -> 01010101011 (wrong Luhn check digit)
+ *   - f_aa_pararthmatos  -> 999 (branch that does not exist)
+ *   - f_ypiresia_sepe    -> 99999, f_ypiresia_oaed -> 999999 (services that do not exist)
+ * and the payload is submitted. ERGANI validates the XSD first, so:
+ *   - a business-rule rejection  = the package's structure is accepted   (OK)
+ *   - an XSD rejection           = the package sends an invalid structure (FAIL)
+ *   - "Type ... not valid" / "XSD File not found" = form not available in that environment
+ * Documents with fewer than two replaceable values are skipped. Anything accepted is cancelled at once.
+ *
+ * Usage:
+ *   composer submit:check                         (trial environment)
+ *   composer submit:check -- --production         (production environment)
+ *   composer submit:check -- --only=E14,FastAna   (document names from composer schema:check -- --list)
+ *   composer submit:check -- --list
+ *
+ * Credentials: ERGANI_USERNAME / ERGANI_PASSWORD from .env or environment variables.
+ * ERGANI_ENV is ignored: the environment is chosen only by --production.
+ */
+
+require __DIR__ . '/bootstrap.php';
+
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Response;
+use OxygenSuite\OxygenErgani\Enums\Environment;
+use OxygenSuite\OxygenErgani\Http\ClientConfig;
+use OxygenSuite\OxygenErgani\Http\Documents\CancelSubmittedDocument;
+use OxygenSuite\OxygenErgani\Http\Documents\Documents;
+use OxygenSuite\OxygenErgani\Models\Model;
+use OxygenSuite\OxygenErgani\Storage\FileToken;
+use OxygenSuite\OxygenErgani\Storage\Token;
+
+const BAD_AFM = '123456789';
+const BAD_AMKA = '01010101011';
+
+$args = array_slice($argv, 1);
+$schemaMap = require __DIR__ . '/schema-map.php';
+
+$factoryOverrides = require __DIR__ . '/factory-overrides.php';
+
+/** @var array<string, class-string<Documents>> $documents */
+$documents = [];
+foreach ($schemaMap as $group) {
+    foreach ($group['documents'] as $name => $class) {
+        $documents[$name] = $class;
+    }
+}
+
+if (in_array('--help', $args, true) || in_array('-h', $args, true)) {
+    echo "Usage: composer submit:check -- [--production] [--only=Name,Name] [--list]\n";
+    exit(0);
+}
+
+if (in_array('--list', $args, true)) {
+    foreach ($documents as $name => $class) {
+        echo "  {$name}  ({$class})\n";
+    }
+    exit(0);
+}
+
+$only = [];
+foreach ($args as $arg) {
+    if (str_starts_with($arg, '--only=')) {
+        $only = array_filter(array_map('trim', explode(',', substr($arg, 7))));
+    }
+}
+foreach ($only as $name) {
+    if (! isset($documents[$name])) {
+        echo "\033[31mUnknown document '{$name}'. Use --list.\033[0m\n";
+        exit(1);
+    }
+}
+
+// Self-check: the replacement values must really be invalid
+$afmSum = 0;
+for ($i = 0; $i < 8; $i++) {
+    $afmSum += (int) BAD_AFM[$i] * (1 << (8 - $i));
+}
+$luhn = 0;
+foreach (str_split(strrev(BAD_AMKA)) as $position => $char) {
+    $digit = (int) $char * ($position % 2 ? 2 : 1);
+    $luhn += $digit > 9 ? $digit - 9 : $digit;
+}
+if ((($afmSum % 11) % 10) === (int) BAD_AFM[8] || $luhn % 10 === 0) {
+    echo "\033[31mABORT: the replacement AFM/AMKA values are valid\033[0m\n";
+    exit(1);
+}
+
+$environment = in_array('--production', $args, true) ? Environment::PRODUCTION : Environment::TEST;
+
+$envFile = loadEnvFile(dirname(__DIR__) . '/.env');
+$username = getConfig($envFile, 'ERGANI_USERNAME');
+$password = getConfig($envFile, 'ERGANI_PASSWORD');
+if (! $username || ! $password) {
+    echo "\033[31mERGANI_USERNAME and ERGANI_PASSWORD are required (.env or environment).\033[0m\n";
+    exit(1);
+}
+
+Token::setCurrentTokenManager(new FileToken($username, $password), $environment);
+ClientConfig::setDefault((new ClientConfig())->setTimeout(90));
+
+$color = $environment === Environment::PRODUCTION ? "\033[1;31m" : "\033[1;32m";
+echo "Environment: {$color}{$environment->name}\033[0m -> {$environment->getApiUrl()}\n";
+echo "Payloads carry invalid AFM/AMKA/branch/service values; nothing can be filed.\n\n";
+
+/**
+ * Replace business identifiers with invalid-but-well-formed values.
+ */
+function sabotage(mixed $value, string $key, int &$replaced): mixed
+{
+    if (is_array($value)) {
+        $out = [];
+        foreach ($value as $k => $v) {
+            $out[$k] = sabotage($v, is_string($k) ? $k : $key, $replaced);
+        }
+
+        return $out;
+    }
+
+    $k = strtolower($key);
+    $new = match (true) {
+        $k === 'f_aa_pararthmatos' => '999',
+        $k === 'f_ypiresia_sepe' => '99999',
+        $k === 'f_ypiresia_oaed' => '999999',
+        str_contains($k, 'amka') && $value !== '' && $value !== null => BAD_AMKA,
+        str_contains($k, 'afm') && $value !== '' && $value !== null => BAD_AFM,
+        default => $value,
+    };
+    if ($new !== $value) {
+        $replaced++;
+    }
+
+    return $new;
+}
+
+/**
+ * Resolve the model class a document's handle() accepts.
+ *
+ * @param class-string<Documents> $documentClass
+ *
+ * @return class-string<Model>|null
+ */
+function modelFor(string $documentClass): ?string
+{
+    $type = (new ReflectionMethod($documentClass, 'handle'))->getParameters()[0]->getType();
+    $types = $type instanceof ReflectionUnionType ? $type->getTypes() : [$type];
+    foreach ($types as $t) {
+        if ($t instanceof ReflectionNamedType && ! $t->isBuiltin() && is_subclass_of($t->getName(), Model::class)) {
+            return $t->getName();
+        }
+    }
+
+    return null;
+}
+
+$sender = new class extends Documents {
+    public string $code = '';
+
+    /** @param array<string, mixed> $body */
+    public function send(array $body): string
+    {
+        return $this->submit($body)->contents();
+    }
+
+    protected function action(): string
+    {
+        return $this->code;
+    }
+};
+
+$results = ['ok' => 0, 'xsd' => 0, 'unavailable' => 0, 'skipped' => 0, 'accepted' => 0];
+
+foreach ($documents as $name => $documentClass) {
+    if ($only !== [] && ! in_array($name, $only, true)) {
+        continue;
+    }
+
+    $label = str_pad($name, 28);
+    $modelClass = modelFor($documentClass);
+    if ($modelClass === null || ! method_exists($modelClass, 'factory')) {
+        $results['skipped']++;
+        echo "{$label} \033[33mSKIPPED\033[0m no model factory\n";
+        continue;
+    }
+
+    // Capture the package's payload without sending it
+    $capture = new $documentClass('capture-only', Environment::TEST);
+    $mock = new MockHandler([new Response(200, [], '[]')]);
+    $capture->getConfig()->setHandler($mock);
+    $capture->handle(isset($factoryOverrides[$name]) ? $factoryOverrides[$name]() : $modelClass::factory()->make());
+    $code = (new ReflectionMethod($capture, 'action'))->invoke($capture);
+
+    $replaced = 0;
+    $body = sabotage(json_decode((string) $mock->getLastRequest()->getBody(), true), '', $replaced);
+
+    if ($replaced < 2) {
+        $results['skipped']++;
+        echo "{$label} \033[33mSKIPPED\033[0m only {$replaced} value(s) could be made invalid; not safe to send\n";
+        continue;
+    }
+
+    $sender->code = $code;
+    try {
+        $response = $sender->send($body);
+        $results['accepted']++;
+        echo "{$label} \033[1;31mACCEPTED\033[0m {$response}\n";
+        foreach (json_decode($response, true) ?: [] as $submission) {
+            $date = DateTime::createFromFormat('d/m/Y H:i', $submission['submitDate'] ?? '') ?: new DateTime();
+            $cancelled = (new CancelSubmittedDocument())->handle($code, $submission['protocol'], $date->format('Ymd'));
+            echo '    cancel ' . $submission['protocol'] . ': '
+                . ($cancelled ? "\033[32mOK\033[0m" : "\033[1;31mFAILED - CANCEL MANUALLY\033[0m") . "\n";
+        }
+    } catch (Throwable $e) {
+        $message = preg_replace('/\s+/', ' ', $e->getMessage()) ?? '';
+        $short = mb_strimwidth($message, 0, 150, '…');
+
+        if (stripos($message, 'xsd file not found') !== false || preg_match('/Type: \S+ not valid/', $message)) {
+            $results['unavailable']++;
+            echo "{$label} \033[33mNOT AVAILABLE\033[0m {$short}\n";
+        } elseif (stripos($message, 'xsd') !== false) {
+            $results['xsd']++;
+            echo "{$label} \033[1;31mXSD REJECTED\033[0m " . mb_strimwidth($message, 0, 300, '…') . "\n";
+        } else {
+            $results['ok']++;
+            echo "{$label} \033[32mSTRUCTURE OK\033[0m {$short}\n";
+        }
+    }
+}
+
+echo "\nSummary: \033[32m{$results['ok']} structure OK\033[0m, "
+    . ($results['xsd'] ? "\033[31m" : "\033[32m") . "{$results['xsd']} XSD rejected\033[0m, "
+    . "{$results['unavailable']} not available, {$results['skipped']} skipped"
+    . ($results['accepted'] ? ", \033[31m{$results['accepted']} accepted (cancelled)\033[0m" : '')
+    . "\n";
+
+exit($results['xsd'] > 0 || $results['accepted'] > 0 ? 1 : 0);

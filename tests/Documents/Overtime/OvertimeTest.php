@@ -4,69 +4,99 @@
 
 namespace Tests\Documents\Overtime;
 
+use OxygenSuite\OxygenErgani\Enums\WorkTimeType;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\OvertimeDocument;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertime;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertimeDrivers;
 use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertimeRetrospective;
 use OxygenSuite\OxygenErgani\Models\Overtime\Overtime;
 use OxygenSuite\OxygenErgani\Models\Overtime\OvertimeEmployee;
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTime;
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTimeEmployee;
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTimeEntry;
 use Tests\TestCase;
 
 class OvertimeTest extends TestCase
 {
-    private function createSampleOvertime(): Overtime
+    private function createSampleOvertime(): WorkTime
     {
-        $employee = OvertimeEmployee::factory()->make([
-            'f_afm' => '999999999',
-            'f_amka' => '01010101010',
-            'f_eponymo' => 'Doe',
-            'f_onoma' => 'John',
-            'f_date' => '06/06/2025',
-            'f_from' => '17:00',
-            'f_to' => '19:00',
-            'f_cancellation' => '0',
-            'f_step' => '11',
-            'f_reason' => '002',
-            'f_weekdates' => '5',
-            'f_asee' => '',
-        ]);
+        return WorkTime::make()
+            ->setBranchCode('0')
+            ->setRelatedProtocol('')
+            ->setRelatedDate('')
+            ->setComments('f_comments')
+            ->setFromDate('07/04/2025')
+            ->setToDate('08/04/2025')
+            ->addEmployee(
+                WorkTimeEmployee::make()
+                    ->setTin('151619217')
+                    ->setLastName('f_eponymo')
+                    ->setFirstName('f_onoma')
+                    ->setDate('07/04/2025')
+                    ->addAnalytics(
+                        WorkTimeEntry::make()
+                            ->setType(WorkTimeType::OVERTIME)
+                            ->setFromTime('08:00')
+                            ->setToTime('10:00'),
+                    ),
+            );
+    }
 
-        return Overtime::factory()
-            ->forBranch(0)
-            ->withSepeService('21040')
-            ->withEmployerOrganization('TEST')
-            ->withPrimaryKad('0001')
-            ->withComments('test')
-            ->withRepresentative('111111111')
-            ->withEmployees([$employee])
-            ->make();
+    /**
+     * ERGANI II overtime uses the WTO structure (ERGANI's WTOOv.json sample).
+     */
+    public function test_overtime_payload_matches_ergani_sample(): void
+    {
+        $document = new WorkTimeOvertime('test-access-token');
+        $mock = $this->mockResponse(200, 'work-card.json');
+        $document->getConfig()->setHandler($mock);
+        $document->handle($this->createSampleOvertime());
+
+        $this->assertStringEndsWith('Documents/WTOOv', $mock->getLastRequest()->getUri()->getPath());
+        $body = json_decode((string) $mock->getLastRequest()->getBody(), true);
+
+        $this->assertSame(['WTOS'], array_keys($body));
+        $wto = $body['WTOS']['WTO'][0];
+        $this->assertSame(['f_aa_pararthmatos', 'f_rel_protocol', 'f_rel_date', 'f_comments', 'f_from_date', 'f_to_date', 'Ergazomenoi'], array_keys($wto));
+        $employee = $wto['Ergazomenoi']['ErgazomenoiWTO'][0];
+        $this->assertSame(['f_afm', 'f_eponymo', 'f_onoma', 'f_date', 'ErgazomenosAnalytics'], array_keys($employee));
+        $this->assertSame(
+            [['f_type' => 'ΥΠ', 'f_from' => '08:00', 'f_to' => '10:00']],
+            $employee['ErgazomenosAnalytics']['ErgazomenosWTOAnalytics'],
+        );
     }
 
     public function test_overtime_submit(): void
     {
         $document = new WorkTimeOvertime('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'work-card.json'));
+        $mock = $this->mockResponse(200, 'work-card.json');
+        $document->getConfig()->setHandler($mock);
         $document->handle($this->createSampleOvertime());
 
         $this->assertTrue($document->isSuccessful());
+        $this->assertStringEndsWith('Documents/WTOOv', $mock->getLastRequest()->getUri()->getPath());
     }
 
     public function test_overtime_retrospective_submit(): void
     {
         $document = new WorkTimeOvertimeRetrospective('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'work-card.json'));
+        $mock = $this->mockResponse(200, 'work-card.json');
+        $document->getConfig()->setHandler($mock);
         $document->handle($this->createSampleOvertime());
 
         $this->assertTrue($document->isSuccessful());
+        $this->assertStringEndsWith('Documents/WTOOvA', $mock->getLastRequest()->getUri()->getPath());
     }
 
     public function test_overtime_drivers_submit(): void
     {
         $document = new WorkTimeOvertimeDrivers('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'work-card.json'));
+        $mock = $this->mockResponse(200, 'work-card.json');
+        $document->getConfig()->setHandler($mock);
         $document->handle($this->createSampleOvertime());
 
         $this->assertTrue($document->isSuccessful());
+        $this->assertStringEndsWith('Documents/WTOOvD', $mock->getLastRequest()->getUri()->getPath());
     }
 
     public function test_overtime_model(): void
@@ -137,24 +167,6 @@ class OvertimeTest extends TestCase
         $this->assertSame('002', $employee->getReason());
         $this->assertSame('5', $employee->getWeekDates());
         $this->assertSame('12345', $employee->getAsee());
-    }
-
-    public function test_overtime_to_sorted_array(): void
-    {
-        $overtime = $this->createSampleOvertime();
-        $array = $overtime->toSortedArray();
-
-        $this->assertArrayHasKey('f_aa_pararthmatos', $array);
-        $this->assertArrayHasKey('f_ypiresia_sepe', $array);
-        $this->assertArrayHasKey('f_ergodotikh_organwsh', $array);
-        $this->assertArrayHasKey('f_kad_kyria', $array);
-        $this->assertArrayHasKey('f_kallikratis_pararthmatos', $array);
-        $this->assertArrayHasKey('Ergazomenoi', $array);
-
-        $employees = $array['Ergazomenoi']['OvertimeErgazomenosDate'];
-        $this->assertCount(1, $employees);
-        $this->assertSame('999999999', $employees[0]['f_afm']);
-        $this->assertSame('01010101010', $employees[0]['f_amka']);
     }
 
     public function test_all_overtime_variants_extend_overtime_document(): void

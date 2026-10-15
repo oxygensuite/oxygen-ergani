@@ -96,7 +96,7 @@ Factories mirror the model namespace structure:
 |----------|-----------|
 | Work Cards | `Card`, `CardDetail` |
 | Work Time | `WorkTime`, `WorkTimeEmployee`, `WorkTimeEntry` |
-| Overtime | `Overtime`, `OvertimeEmployee` |
+| Overtime | Use `WorkTime::factory()->overtime()` (`Overtime`, `OvertimeEmployee` are deprecated) |
 | Hiring (E3) | `NewDeclaration`, `ModificationDeclaration`, `DeletionDeclaration`, `LendingDeclaration`, `SupplementaryInsuranceSelection` |
 | Termination (E5/E7) | `VoluntaryResignationDeclaration`, `NotificationDeclaration`, `ResignationAfterNotificationDeclaration`, `DeathTerminationDeclaration`, `CompensatedExitDeclaration`, `VoluntaryRetirementDeclaration`, `MandatoryRetirementDeclaration`, `FixedTermTerminationDeclaration` |
 | Dismissal (E6) | `DismissalWithoutNoticeDeclaration`, `DismissalWithNoticeDeclaration`, `RetirementDismissalDeclaration`, `EndOfLoanDeclaration`, `TrialPeriodTerminationDeclaration`, `TransferDeclaration` |

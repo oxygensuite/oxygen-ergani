@@ -18,7 +18,12 @@ OxygenSuite\OxygenErgani
 │   │   ├── Termination/            # E5/E7 termination forms
 │   │   ├── Dismissal/              # E6 dismissal forms
 │   │   ├── Modification/           # MA modification forms
+│   │   ├── CommunityProgram/       # E3.1 community-benefit program forms
 │   │   ├── Construction/           # E12 construction forms
+│   │   ├── Motorcycle/             # E13 motorcycle use forms
+│   │   ├── ParentalLeave/          # E14 parental leave forms
+│   │   ├── Training/               # E3.2 theoretical training forms
+│   │   ├── UrgentHiring/           # FastAna urgent hiring forms
 │   │   ├── SixthDay/              # Sixth day declarations
 │   │   ├── PreAnnouncement/       # Pre-announcement exemptions
 │   │   └── Internship/            # E3.5 internship forms
@@ -52,7 +57,9 @@ Documents handle submissions to the ERGANI API:
 | `WorkCard` | - | Employee check-ins/check-outs |
 | `DailyWorkTime` | WTODaily | Daily work time declarations |
 | `WeeklyWorkTime` | WTOWeek | Weekly work time declarations |
-| `Overtime` | OVT | Overtime declarations |
+| `WorkTimeOvertime` | WTOOv | Overtime declarations (`WorkTime` model) |
+| `WorkTimeOvertimeRetrospective` | WTOOvA | Retrospective overtime declarations |
+| `WorkTimeOvertimeDrivers` | WTOOvD | Overtime declarations for drivers |
 
 ### Hiring Documents (E3)
 
@@ -103,8 +110,42 @@ Documents handle submissions to the ERGANI API:
 
 | Class | Action | Description |
 |-------|--------|-------------|
-| `ConstructionWorkDeclaration` | E12 | Construction work personnel declaration |
-| `ConstructionWorkCensus` | E12Apogr | Construction work census |
+| `ConstructionWorkDeclaration` | WebE12 | Construction work personnel declaration |
+| `ConstructionWorkCensus` | WebE12Ap | Construction work census |
+
+### Community Program Documents (E3.1)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `CommunityProgramEmployment` | WebE31 | Community-benefit program employment |
+| `CommunityProgramEmploymentCorrection` | WebE31C | E3.1 correction |
+
+### Training Documents (E3.2)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `TheoreticalTraining` | WebE32 | Theoretical training start |
+| `TheoreticalTrainingCorrection` | WebE32C | E3.2 correction |
+
+### Motorcycle Documents (E13)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `MotorcycleUse` | WebE13 | Moped/motorcycle use declaration |
+
+### Parental Leave Documents (E14)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `ParentalLeave` | WebE14 | Parental leave declaration |
+| `ParentalLeaveCorrection` | WebE14C | Parental leave correction / change |
+
+### Urgent Hiring Documents (FastAna)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `UrgentHiring` | FastAna | Hiring to cover urgent needs |
+| `UrgentHiringCorrection` | FastAnaC | Urgent hiring correction / change |
 
 ### Other Documents
 
@@ -112,7 +153,10 @@ Documents handle submissions to the ERGANI API:
 |-------|--------|-------------|
 | `SixthDay` | SixthDay | Sixth day / extra shift declaration |
 | `PreAnnouncementExemption` | ExProan | Pre-announcement exemption |
-| `Internship` | 57 | E3.5 internship declaration |
+| `Internship` | WebE35 | E3.5 internship declaration |
+| `InternshipCorrection` | WebE35C | E3.5 internship declaration correction |
+| `InternshipTermination` | WebE35D | E3.5 internship stop (early termination) |
+| `InternshipScheduleChange` | WebE35T | E3.5 internship schedule change |
 
 ## Services
 
@@ -126,6 +170,8 @@ Services query ERGANI data:
 | `MonthlyStatus` | EX_BASE_04 | Monthly employee status |
 | `WorkforceStatus` | EX_BASE_05 | Workforce status |
 | `AcceptanceStatus` | EX_BASE_06 | Acceptance status |
+| `RealWorkingDiary` | EX_BASE_07 | Real employment diary |
+| `DigitalWorkTimeStatus` | EX_BASE_08 | Digital work time organization status |
 
 ## API Reference Pages
 

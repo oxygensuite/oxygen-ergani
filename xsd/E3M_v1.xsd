@@ -538,12 +538,14 @@
       </xs:element>
       <xs:element name="f_sxeshapasxolisis" nillable="false">
         <xs:annotation>
-          <xs:documentation>ΣΧΕΣΗ ΕΡΓΑΣΙΑΣ (ΤΥΠΟΣ ΑΠΑΣΧΟΛΗΣΗΣ) (0) ΑΟΡΙΣΤΟΥ ΧΡΟΝΟΥ (1) ΟΡΙΣΜΕΝΟΥ ΧΡΟΝΟΥ </xs:documentation>
+          <xs:documentation>ΣΧΕΣΗ ΕΡΓΑΣΙΑΣ (ΤΥΠΟΣ ΑΠΑΣΧΟΛΗΣΗΣ) (0) ΑΟΡΙΣΤΟΥ ΧΡΟΝΟΥ (1) ΟΡΙΣΜΕΝΟΥ ΧΡΟΝΟΥ (2) ΕΡΓΟΥ (3) ΔΑΝΕΙΖΟΜΕΝΟΣ </xs:documentation>
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:string">
             <xs:enumeration value="0"/>
             <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
@@ -569,14 +571,13 @@
       </xs:element>
       <xs:element name="f_kathestosapasxolisis" nillable="false">
         <xs:annotation>
-          <xs:documentation>ΚΑΘΕΣΤΩΣ ΑΠΑΣΧΟΛΗΣΗΣ (0) ΠΛΗΡΗΣ (1) ΜΕΡΙΚΗ (2) ΕΚ ΠΕΡΙΤΡΟΠΗΣ (3) ΚΑΤΑ ΠΑΡΑΓΓΕΛΙΑ </xs:documentation>
+          <xs:documentation>ΚΑΘΕΣΤΩΣ ΑΠΑΣΧΟΛΗΣΗΣ (0) ΠΛΗΡΗΣ (1) ΜΕΡΙΚΗ (2) ΕΚ ΠΕΡΙΤΡΟΠΗΣ</xs:documentation>
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:string">
             <xs:enumeration value="0"/>
             <xs:enumeration value="1"/>
             <xs:enumeration value="2"/>
-            <xs:enumeration value="3"/>
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
@@ -602,7 +603,7 @@
             <xs:enumeration value="3"/>
           </xs:restriction>
         </xs:simpleType>
-      </xs:element>     
+      </xs:element>      
       <xs:element name="f_responsible_position" minOccurs="0">
         <xs:annotation>
           <xs:documentation>ΚΑΤΕΧΕΙ ΘΕΣΗ ΕΠΟΠΤΕΙΑΣ Ή ΔΙΕΥΘΥΝΣΗΣ Ή ΕΜΠΙΣΤΕΥΤΙΚΗ (1) ΟΧΙ (2) ΘΕΣΗ ΜΕ ΔΙΕΥΘΥΝΤΙΚΟ ΔΙΚΑΙΩΜΑ (3) ΘΕΣΗ ΜΕ ΑΠΟΔΟΧΕΣ ΤΟΥΛΑΧΙΣΤΟΝ ΤΟΥ ΤΕΤΡΑΠΛΑΣΙΟΥ ΤΟΥ ΕΛΑΧΙΣΤΟΥ ΝΟΜΟΘΕΤΗΜΕΝΟΥ ΜΙΣΘΟΥ (4) ΘΕΣΗ ΜΕ ΑΠΟΔΟΧΕΣ ΤΟΥΛΑΧΙΣΤΟΝ ΤΟΥ ΕΞΑΠΛΑΣΙΟΥ ΤΟΥ ΕΛΑΧΙΣΤΟΥ ΝΟΜΟΘΕΤΗΜΕΝΟΥ ΜΙΣΘΟΥ </xs:documentation>

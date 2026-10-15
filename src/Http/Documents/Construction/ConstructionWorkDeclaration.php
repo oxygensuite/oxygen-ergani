@@ -8,7 +8,7 @@ use OxygenSuite\OxygenErgani\Models\Construction\ConstructionWork;
 use OxygenSuite\OxygenErgani\Responses\SubmissionResponse;
 
 /**
- * Handler for construction work personnel declaration (E12) submissions.
+ * Handler for construction work personnel declaration (WebE12) submissions.
  *
  * Used for reporting daily construction site personnel to ERGANI.
  *
@@ -16,7 +16,7 @@ use OxygenSuite\OxygenErgani\Responses\SubmissionResponse;
  */
 class ConstructionWorkDeclaration extends Documents
 {
-    private const ACTION = 'E12';
+    private const ACTION = 'WebE12';
 
     /**
      * @param ConstructionWork|ConstructionWork[] $declarations

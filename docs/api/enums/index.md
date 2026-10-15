@@ -42,7 +42,7 @@ $leaveDropdown = WorkTimeType::labelsFor(WorkTimeType::leaves(), 'greek');
 | Category | Enums |
 |----------|-------|
 | [Personal Information](./personal) | Sex, MaritalStatus |
-| [Employment](./employment) | EmploymentStatus, WorkerType, EmploymentType, WorkLocation, ResponsiblePosition, IndividualContract, SpecialCase |
+| [Employment](./employment) | EmploymentStatus, WorkerType, EmploymentType, WorkLocation, ResponsiblePosition, IndividualContract, SpecialCase, ParentalLeaveCategory, LeaveGrantMethod, VehicleOwner |
 | [Work Time](./work-time) | WorkTimeType, WorkCardDelayReason, CardDetailType, DayOfWeek, WeekDays |
 | [Loan/Borrowing](./loan) | LoanType, SalaryPaymentSource |
 | [Termination](./termination) | FixedTermTerminationReason, NoticePeriodMonths |

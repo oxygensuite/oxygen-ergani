@@ -6,18 +6,27 @@ use DateTime;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasCertifier;
+use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
+use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasLegalRepresentative;
+use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasWeeklySchedule;
 use OxygenSuite\OxygenErgani\Models\Model;
 
 /**
- * Internship declaration model for E35_v2 schema.
+ * Internship declaration model for E35_v3 schema.
  *
  * Used for reporting internship start or modification to ERGANI.
  *
- * @see xsd/E35_v2.xsd
+ * @see xsd/E35_v3.xsd
  */
 class InternshipDeclaration extends Model
 {
+    use HasCertifier;
     use HasFactory;
+    use HasInternshipFiles;
+    use HasLegalRepresentative;
+    use HasWeeklySchedule;
+
     /** @var array<string, string> */
     protected array $casts = [
         'f_week_hours' => 'greek_float:1',
@@ -62,6 +71,7 @@ class InternshipDeclaration extends Model
         'f_arithmos_teknon',
         'f_afm',
         'f_doy',
+        'f_insurance_agency',
         'f_amika',
         'f_amka',
         'f_ar_vivliou_anilikou',
@@ -515,6 +525,21 @@ class InternshipDeclaration extends Model
         return $this->set('f_doy', $doy);
     }
 
+    public function getInsuranceAgency(): ?string
+    {
+        return $this->get('f_insurance_agency');
+    }
+
+    /**
+     * Set the main insurance agency of the intern.
+     *
+     * @param string $code Agency code (see ParameterLookup::PRIMARY_INSURANCE)
+     */
+    public function setInsuranceAgency(string $code): static
+    {
+        return $this->set('f_insurance_agency', $code);
+    }
+
     public function getAmika(): ?string
     {
         return $this->get('f_amika');
@@ -749,125 +774,5 @@ class InternshipDeclaration extends Model
     public function setComments(string $comments): static
     {
         return $this->set('f_comments', $comments);
-    }
-
-    /**
-     * Set primary schedule for a day (1=Monday, 7=Sunday).
-     */
-    public function setSchedule(int $day, string $from, string $to): static
-    {
-        return $this
-            ->set("f_time_from_{$day}", $from)
-            ->set("f_time_to_{$day}", $to);
-    }
-
-    /**
-     * Set split-shift schedule for a day (1=Monday, 7=Sunday).
-     */
-    public function setSplitSchedule(int $day, string $from, string $to): static
-    {
-        return $this
-            ->set("f_second_time_from_{$day}", $from)
-            ->set("f_second_time_to_{$day}", $to);
-    }
-
-    /**
-     * Set break schedule for a day (1=Monday, 7=Sunday).
-     */
-    public function setBreakSchedule(int $day, string $from, string $to): static
-    {
-        return $this
-            ->set("f_break_time_from_{$day}", $from)
-            ->set("f_break_time_to_{$day}", $to);
-    }
-
-    public function getCertifierLastName(): ?string
-    {
-        return $this->get('f_eponymo_idiotitas');
-    }
-
-    public function setCertifierLastName(string $lastName): static
-    {
-        return $this->set('f_eponymo_idiotitas', $lastName);
-    }
-
-    public function getCertifierFirstName(): ?string
-    {
-        return $this->get('f_onoma_idiotitas');
-    }
-
-    public function setCertifierFirstName(string $firstName): static
-    {
-        return $this->set('f_onoma_idiotitas', $firstName);
-    }
-
-    public function getCertifierCapacity(): ?string
-    {
-        return $this->get('f_idiotita_idiotitas');
-    }
-
-    public function setCertifierCapacity(string $capacity): static
-    {
-        return $this->set('f_idiotita_idiotitas', $capacity);
-    }
-
-    public function getCertifierAddress(): ?string
-    {
-        return $this->get('f_dieythinsi_idiotitas');
-    }
-
-    public function setCertifierAddress(string $address): static
-    {
-        return $this->set('f_dieythinsi_idiotitas', $address);
-    }
-
-    public function getCertifierAfm(): ?string
-    {
-        return $this->get('f_afm_idiotitas');
-    }
-
-    public function setCertifierAfm(string $afm): static
-    {
-        return $this->set('f_afm_idiotitas', $afm);
-    }
-
-    public function getLegalRepresentativeAfm(): ?string
-    {
-        return $this->get('f_afm_proswpoy');
-    }
-
-    public function setLegalRepresentativeAfm(string $afm): static
-    {
-        return $this->set('f_afm_proswpoy', $afm);
-    }
-
-    public function getFormFile(): ?string
-    {
-        return $this->get('f_file');
-    }
-
-    public function setFormFile(string $base64): static
-    {
-        return $this->set('f_file', $base64);
-    }
-
-    public function getForeignFile(): ?string
-    {
-        return $this->get('f_foreign_file');
-    }
-
-    public function setForeignFile(string $base64): static
-    {
-        return $this->set('f_foreign_file', $base64);
-    }
-
-    public function getMinorFile(): ?string
-    {
-        return $this->get('f_young_file');
-    }
-
-    public function setMinorFile(string $base64): static
-    {
-        return $this->set('f_young_file', $base64);
     }
 }

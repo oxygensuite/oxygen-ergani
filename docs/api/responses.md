@@ -377,6 +377,80 @@ foreach ($employees as $emp) {
 
 ---
 
+### RealWorkingResponse
+
+Response item from `RealWorkingDiary` service (EX_BASE_07).
+
+```php
+namespace OxygenSuite\OxygenErgani\Responses;
+
+class RealWorkingResponse extends Response
+```
+
+**Properties:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `branchAa` | int\|null | Branch number |
+| `afm` | string\|null | Employee tax identification number |
+| `date` | DateTimeInterface\|null | Entry date |
+| `hourFrom` | string\|null | Start time |
+| `hourTo` | string\|null | End time |
+| `endsOnNextDay` | bool\|null | Whether the end time falls on the next day |
+
+**Example:**
+
+```php
+use OxygenSuite\OxygenErgani\Http\Services\RealWorkingDiary;
+
+$entries = (new RealWorkingDiary($token))->handle(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->hourFrom} - {$entry->hourTo}";
+    echo $entry->endsOnNextDay ? " (next day)\n" : "\n";
+}
+```
+
+---
+
+### DigitalWorkTimeResponse
+
+Response item from `DigitalWorkTimeStatus` service (EX_BASE_08).
+
+```php
+namespace OxygenSuite\OxygenErgani\Responses;
+
+class DigitalWorkTimeResponse extends Response
+```
+
+**Properties:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `branchAa` | int\|null | Branch number |
+| `afm` | string\|null | Employee tax identification number |
+| `date` | DateTimeInterface\|null | Entry date |
+| `type` | string\|null | Work / leave / overtime type code |
+| `hourFrom` | string\|null | Start time |
+| `hourTo` | string\|null | End time |
+| `extra` | string\|null | For regular leave: year and days (e.g., `2026 - 4`) |
+| `breakMinutes` | int\|null | Break duration in minutes |
+| `breakInWork` | bool\|null | Break within (`true`) or outside (`false`) the schedule |
+
+**Example:**
+
+```php
+use OxygenSuite\OxygenErgani\Http\Services\DigitalWorkTimeStatus;
+
+$entries = (new DigitalWorkTimeStatus($token))->handle(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->type} {$entry->hourFrom} - {$entry->hourTo}\n";
+}
+```
+
+---
+
 ## Collections
 
 ### Collection
@@ -397,11 +471,13 @@ abstract class Collection implements ArrayAccess, Countable, IteratorAggregate
 | `has($key)` | bool | Check if key exists |
 | `filter(callable $callback)` | static | Filter items with callback |
 | `keys()` | array | Get all keys |
-| `values()` | array | Get all values |
+| `all()` | array | Get all items, keyed |
+| `toArray()` | array | Convert items to arrays |
 | `count()` | int | Get item count |
 | `first()` | object\|null | Get first item |
 | `last()` | object\|null | Get last item |
 | `isEmpty()` | bool | Check if empty |
+| `isNotEmpty()` | bool | Check if not empty |
 
 ---
 

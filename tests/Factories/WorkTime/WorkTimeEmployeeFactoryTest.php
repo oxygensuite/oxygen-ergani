@@ -96,7 +96,7 @@ class WorkTimeEmployeeFactoryTest extends TestCase
             ->make();
 
         $this->assertEquals('15/01/2025', $employee->getDate());
-        $this->assertEquals('', $employee->getDay());
+        $this->assertNull($employee->getDay());
     }
 
     public function testForDayStateWithEnum(): void
@@ -106,7 +106,7 @@ class WorkTimeEmployeeFactoryTest extends TestCase
             ->make();
 
         $this->assertEquals('1', $employee->getDay());
-        $this->assertEquals('', $employee->getDate());
+        $this->assertNull($employee->getDate());
     }
 
     public function testForDayStateWithString(): void

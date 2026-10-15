@@ -106,7 +106,7 @@ class LendingDeclarationFactory extends Factory
             'f_proipiresia' => $fake->numberBetween(0, 20),
             'f_apodoxes' => $fake->randomFloat(2, 800, 3000),
             'f_hour_apodoxes' => $fake->randomFloat(2, 5, 20),
-            'f_sxeshapasxolisis' => (string) EmploymentType::BORROWED->value,
+            'f_sxeshapasxolisis' => (string) EmploymentType::INDEFINITE->value, // E3PD_v1.xsd allows only 0/1
             'f_orismenou_apo' => '',
             'f_orismenou_ews' => '',
             'f_kathestosapasxolisis' => (string) EmploymentStatus::FULL->value,
@@ -143,7 +143,6 @@ class LendingDeclarationFactory extends Factory
             // Acceptance and Files
             'f_basics_acceptance' => (string) BasicsAcceptance::AWAIT_MY_ERGANI->value,
             'f_file' => '',
-            'f_atomikh_symbash' => '0',
             'f_file_symbash' => '',
             'f_comments' => '',
             'f_foreign_file' => '',

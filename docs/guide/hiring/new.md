@@ -62,7 +62,7 @@ $declaration = NewDeclaration::make()
 
     // Acceptance (required for E3N)
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 
 $response = (new HiringNew())->handle($declaration);
 ```
@@ -105,9 +105,9 @@ In addition to [common fields](./index#common-fields), E3N includes:
 |--------|-----------|------|----------|-------------|
 | `setDypaPlacement()` | `f_topothetisioaed` | bool | No | DYPA program placement |
 | `setDypaProgram()` | `f_programaoaed` | string | Cond. | Program code |
-| `setReplacementProgram()` | `f_replaceprograma` | bool | No | Replacing another employee |
-| `setReplacementAfm()` | `f_replaceprograma_afm` | string | Cond. | Replaced employee's AFM |
-| `setReplacementAmka()` | `f_replaceprograma_amka` | string | Cond. | Replaced employee's AMKA |
+| `setReplaceProgram()` | `f_replaceprograma` | string\|bool | No | Replacing another employee |
+| `setReplacedEmployeeAfm()` | `f_replaceprograma_afm` | string | Cond. | Replaced employee's AFM |
+| `setReplacedEmployeeAmka()` | `f_replaceprograma_amka` | string | Cond. | Replaced employee's AMKA |
 
 ### Wage Payment
 
@@ -123,7 +123,7 @@ In addition to [common fields](./index#common-fields), E3N includes:
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
 | `setBasicsAcceptance()` | `f_basics_acceptance` | bool | Yes | Essential terms accepted |
-| `setAcceptanceFile()` | `f_file` | string | Yes | Base64 PDF of acceptance form |
+| `setFile()` | `f_file` | string | Yes | Base64 PDF of acceptance form |
 | `setContractFile()` | `f_file_symbash` | string | No | Base64 PDF of employment contract |
 
 ## Complete Examples
@@ -186,7 +186,7 @@ $declaration = NewDeclaration::make()
     // Work Organization
     ->setWorkingTimeDigitalOrganization(true)
     ->setFullEmploymentHours(40.0)
-    ->setWeekDays(WeekDays::FIVE)
+    ->setWeekDays(WeekDays::FIVE_DAY)
     ->setWorkingCard(true)
     ->setBreakMinutes(30)
     ->setBreakWithinSchedule(true)
@@ -205,7 +205,7 @@ $declaration = NewDeclaration::make()
 
     // Acceptance
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 
 $response = (new HiringNew())->handle($declaration);
 ```
@@ -249,7 +249,7 @@ $declaration = NewDeclaration::make()
 
     ->setMainInsurance('101')
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 ```
 
 ### Foreign Worker
@@ -279,7 +279,7 @@ $declaration = NewDeclaration::make()
 
     ->setMainInsurance('101')
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')))
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')))
 
     // Attach work authorization documents
     ->setForeignWorkerFile(base64_encode(file_get_contents('work_permit.pdf')));

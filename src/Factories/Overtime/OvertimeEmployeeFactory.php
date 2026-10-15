@@ -10,6 +10,8 @@ use OxygenSuite\OxygenErgani\Models\Overtime\OvertimeEmployee;
  * Factory for generating fake OvertimeEmployee models.
  *
  * @extends Factory<OvertimeEmployee>
+ *
+ * @deprecated since 2.2.0, will be removed in 3.0 together with the legacy OvertimeEmployee model.
  */
 class OvertimeEmployeeFactory extends Factory
 {

@@ -70,7 +70,9 @@
       "@test"
     ],
     "enum:check": "php bin/check-enum",
-    "schema:check": "php bin/check-schema"
+    "schema:check": "php bin/check-schema",
+    "xsd:sync": "php bin/check-xsd-sync",
+    "submit:check": "php bin/check-submission"
   },
   "config": {
     "optimize-autoloader": true,

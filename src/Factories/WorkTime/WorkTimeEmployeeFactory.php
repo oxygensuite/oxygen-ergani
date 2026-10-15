@@ -26,7 +26,6 @@ class WorkTimeEmployeeFactory extends Factory
             'f_eponymo' => self::fake()->greekLastName(),
             'f_onoma' => self::fake()->greekFirstName(),
             'f_date' => $date->format('d/m/Y'),
-            'f_day' => '',
             'ErgazomenosAnalytics' => fn() => ['ErgazomenosWTOAnalytics' => [WorkTimeEntryFactory::new()->make()]],
         ];
     }
@@ -59,7 +58,6 @@ class WorkTimeEmployeeFactory extends Factory
     {
         return $this->state([
             'f_date' => $date,
-            'f_day' => '',
         ]);
     }
 
@@ -72,9 +70,9 @@ class WorkTimeEmployeeFactory extends Factory
             $day = $day->value;
         }
 
-        return $this->state([
+        // Weekly submissions must not send f_date at all
+        return $this->except(['f_date'])->state([
             'f_day' => $day,
-            'f_date' => '',
         ]);
     }
 

@@ -5,6 +5,7 @@
 namespace Tests\Documents\Internship;
 
 use OxygenSuite\OxygenErgani\Http\Documents\Internship\Internship;
+use OxygenSuite\OxygenErgani\Http\Documents\Internship\InternshipCorrection;
 use OxygenSuite\OxygenErgani\Models\Internship\InternshipDeclaration;
 use Tests\TestCase;
 
@@ -15,13 +16,64 @@ class InternshipDeclarationTest extends TestCase
         $declaration = $this->createMinimalDeclaration();
 
         $document = new Internship('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'internship-declaration.json'));
+        $mock = $this->mockResponse(200, 'internship-declaration.json');
+        $document->getConfig()->setHandler($mock);
         $response = $document->handle($declaration);
+
+        $this->assertStringEndsWith('Documents/WebE35', $mock->getLastRequest()->getUri()->getPath());
 
         $this->assertIsArray($response);
         $this->assertSame('400', $response[0]->id);
         $this->assertSame('E35-400', $response[0]->protocol);
         $this->assertSame('19/02/2026 12:00', $response[0]->submissionDate->format('d/m/Y H:i'));
+    }
+
+    public function test_internship_correction_submit(): void
+    {
+        $declaration = $this->createMinimalDeclaration()
+            ->setRelatedProtocol('E35-400')
+            ->setRelatedDate(new \DateTime('2026-02-19'));
+
+        $document = new InternshipCorrection('test-access-token');
+        $mock = $this->mockResponse(200, 'internship-correction.json');
+        $document->getConfig()->setHandler($mock);
+        $response = $document->handle([$declaration]);
+
+        $this->assertStringEndsWith('Documents/WebE35C', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('E35C-401', $response[0]->protocol);
+
+        $body = json_decode((string) $mock->getLastRequest()->getBody(), true);
+        $item = $body['PraktikesE35']['PraktikhE35'][0];
+        $this->assertSame('E35-400', $item['f_rel_protocol']);
+        $this->assertSame('19/02/2026', $item['f_rel_date']);
+    }
+
+    /**
+     * Attributes from the official ERGANI E3.5 sample (testE35.json), given in shuffled
+     * order, must come out in exactly the sample's (E35_v3) field order.
+     */
+    public function test_matches_ergani_sample_order(): void
+    {
+        /** @var array<string, string> $sample */
+        $sample = json_decode($this->readFile('internship-sample-e35.json'), true);
+
+        $shuffled = $sample;
+        uksort($shuffled, fn(string $a, string $b) => strcmp(md5($a), md5($b)));
+
+        $this->assertSame($sample, InternshipDeclaration::make($shuffled)->toSortedArray());
+    }
+
+    public function test_internship_schedule_getters(): void
+    {
+        $declaration = InternshipDeclaration::make()
+            ->setSchedule(1, '09:00', '13:00')
+            ->setSplitSchedule(1, '17:00', '20:00')
+            ->setBreakSchedule(1, '11:00', '11:15');
+
+        $this->assertSame(['from' => '09:00', 'to' => '13:00'], $declaration->getSchedule(1));
+        $this->assertSame(['from' => '17:00', 'to' => '20:00'], $declaration->getSplitSchedule(1));
+        $this->assertSame(['from' => '11:00', 'to' => '11:15'], $declaration->getBreakSchedule(1));
+        $this->assertSame(['from' => null, 'to' => null], $declaration->getSchedule(7));
     }
 
     public function test_internship_model_personal_info(): void
@@ -149,6 +201,19 @@ class InternshipDeclarationTest extends TestCase
         $this->assertSame('960,0', $array['f_total_hours']);
         $this->assertSame('600,00', $array['f_apodoxes']);
         $this->assertSame('5,00', $array['f_hour_apodoxes']);
+    }
+
+    public function test_internship_insurance_agency(): void
+    {
+        $declaration = InternshipDeclaration::make()
+            ->setTaxOffice('1101')
+            ->setInsuranceAgency('101')
+            ->setAmika('12345678');
+
+        $this->assertSame('101', $declaration->getInsuranceAgency());
+
+        $keys = array_keys($declaration->toSortedArray());
+        $this->assertSame(['f_doy', 'f_insurance_agency', 'f_amika'], $keys);
     }
 
     public function test_internship_datetime_support(): void

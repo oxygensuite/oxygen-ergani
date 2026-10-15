@@ -90,19 +90,17 @@ class BorrowedModificationDeclaration extends Declaration
         // Education
         'f_epipedo_morfosis',
 
-        // Change Details (MAD specific starts here)
+        // Change Details (MAD specific starts here), borrow details first as in MAD_v1.xsd
         'f_date_metabolhs',
-        'f_eidos_dieuthethshs',
-        'f_eidos_dieuthethshs_comments',
-        'f_periodos_anaforas_from',
-        'f_periodos_anaforas_to',
-
-        // Borrow Details (REQUIRED for MAD)
         'f_borrow_type',
         'f_borrow_date_from',
         'f_borrow_date_to',
         'f_borrow_company_afm',
         'f_borrow_company_eponimia',
+        'f_eidos_dieuthethshs',
+        'f_eidos_dieuthethshs_comments',
+        'f_periodos_anaforas_from',
+        'f_periodos_anaforas_to',
 
         // Specialty
         'f_eidikothta',

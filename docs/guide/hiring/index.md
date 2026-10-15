@@ -183,6 +183,10 @@ For seasonal work visas:
 | `ROTATION` | 2 | Rotational | Εκ περιτροπής απασχόληση |
 | `ON_DEMAND` | 3 | On-demand | Διαλείπουσα απασχόληση |
 
+::: warning
+`ON_DEMAND` (3) is not accepted by the schema files ERGANI currently validates against (`E3N_v1.xsd`, `E3M_v1.xsd`, `MA_v1.xsd` and the other forms allow only 0–2), so ERGANI rejects it today. It is defined again in the newer `E3N_v2.xsd`, `E3M_v2.xsd` and `MA_v2.xsd` schema files, which ERGANI has published but not activated yet.
+:::
+
 ### WorkerType
 
 | Case | Value | English | Greek |

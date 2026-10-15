@@ -12,7 +12,7 @@ use OxygenSuite\OxygenErgani\Responses\SubmissionResponse;
 trait SendsConstructionDocuments
 {
     /**
-     * Submit construction work personnel declaration (E12).
+     * Submit construction work personnel declaration (WebE12).
      *
      * @param ConstructionWork|ConstructionWork[] $declarations
      *
@@ -26,7 +26,7 @@ trait SendsConstructionDocuments
     }
 
     /**
-     * Submit construction work census declaration (E12Apogr).
+     * Submit construction work census declaration (WebE12Ap).
      *
      * @param ConstructionCensus|ConstructionCensus[] $declarations
      *

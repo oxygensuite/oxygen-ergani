@@ -23,8 +23,8 @@ class WorkTimeEntryFactory extends Factory
             'f_type' => WorkTimeType::WORK->value,
             'f_from' => '09:00',
             'f_to' => '17:00',
-            'f_year' => '',
-            'f_req_days' => '',
+            // f_year / f_req_days are only valid for leave entries (see leaveRegular()); daily and
+            // weekly WTO schemas reject them even when empty
         ];
     }
 

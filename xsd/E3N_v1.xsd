@@ -569,14 +569,13 @@
       </xs:element>
       <xs:element name="f_kathestosapasxolisis" nillable="false">
         <xs:annotation>
-          <xs:documentation>ΚΑΘΕΣΤΩΣ ΑΠΑΣΧΟΛΗΣΗΣ (0) ΠΛΗΡΗΣ (1) ΜΕΡΙΚΗ (2) ΕΚ ΠΕΡΙΤΡΟΠΗΣ (3) ΚΑΤΑ ΠΑΡΑΓΓΕΛΙΑ </xs:documentation>
+          <xs:documentation>ΚΑΘΕΣΤΩΣ ΑΠΑΣΧΟΛΗΣΗΣ (0) ΠΛΗΡΗΣ (1) ΜΕΡΙΚΗ (2) ΕΚ ΠΕΡΙΤΡΟΠΗΣ</xs:documentation>
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:string">
             <xs:enumeration value="0"/>
             <xs:enumeration value="1"/>
             <xs:enumeration value="2"/>
-            <xs:enumeration value="3"/>
           </xs:restriction>
         </xs:simpleType>
       </xs:element>

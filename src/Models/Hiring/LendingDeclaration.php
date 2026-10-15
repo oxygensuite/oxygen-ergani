@@ -148,7 +148,7 @@ class LendingDeclaration extends Declaration
         // Acceptance and Files
         'f_basics_acceptance',
         'f_file',
-        'f_atomikh_symbash',
+        // f_atomikh_symbash is not part of E3PD_v1.xsd (only E3PD_v2.xsd), so it is never sent
         'f_file_symbash',
         'f_comments',
         'f_foreign_file',

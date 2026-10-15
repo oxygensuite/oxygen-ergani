@@ -43,8 +43,11 @@ class ConstructionWorkCensusTest extends TestCase
             );
 
         $document = new ConstructionWorkCensus('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'construction-work-census.json'));
+        $mock = $this->mockResponse(200, 'construction-work-census.json');
+        $document->getConfig()->setHandler($mock);
         $response = $document->handle($census);
+
+        $this->assertStringEndsWith('Documents/WebE12Ap', $mock->getLastRequest()->getUri()->getPath());
 
         $this->assertIsArray($response);
         $this->assertSame('301', $response[0]->id);
@@ -124,6 +127,15 @@ class ConstructionWorkCensusTest extends TestCase
             );
 
         $array = $census->toSortedArray();
+
+
+        // Required by ERGANI's XSD validation even though the live schema endpoint omits them
+
+        $this->assertArrayHasKey('f_date_from', $array);
+
+        $this->assertArrayHasKey('f_date_to', $array);
+
+        $this->assertArrayHasKey('f_phase', $array);
 
         $this->assertArrayHasKey('f_year', $array);
         $this->assertArrayHasKey('f_month', $array);

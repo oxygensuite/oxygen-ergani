@@ -44,8 +44,11 @@ class ConstructionWorkTest extends TestCase
             );
 
         $document = new ConstructionWorkDeclaration('test-access-token');
-        $document->getConfig()->setHandler($this->mockResponse(200, 'construction-work.json'));
+        $mock = $this->mockResponse(200, 'construction-work.json');
+        $document->getConfig()->setHandler($mock);
         $response = $document->handle($work);
+
+        $this->assertStringEndsWith('Documents/WebE12', $mock->getLastRequest()->getUri()->getPath());
 
         $this->assertIsArray($response);
         $this->assertSame('300', $response[0]->id);
@@ -147,6 +150,15 @@ class ConstructionWorkTest extends TestCase
             );
 
         $array = $work->toSortedArray();
+
+
+        // Required by ERGANI's XSD validation even though the live schema endpoint omits them
+
+        $this->assertArrayHasKey('f_date_from', $array);
+
+        $this->assertArrayHasKey('f_date_to', $array);
+
+        $this->assertArrayHasKey('f_phase', $array);
 
         $this->assertArrayHasKey('f_aa_pararthmatos', $array);
         $this->assertArrayHasKey('f_amoe', $array);

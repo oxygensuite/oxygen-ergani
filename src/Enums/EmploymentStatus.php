@@ -23,6 +23,11 @@ enum EmploymentStatus: int
     #[Label('Rotational', 'Εκ περιτροπής απασχόληση')]
     case ROTATION = 2;
 
+    /**
+     * Not accepted by the schema files ERGANI currently validates against (E3N_v1.xsd, E3M_v1.xsd, MA_v1.xsd
+     * and the other forms allow only 0-2), so ERGANI rejects it. It is defined again in the newer
+     * E3N_v2.xsd, E3M_v2.xsd and MA_v2.xsd schema files, which ERGANI has published but not activated yet.
+     */
     #[Label('On-demand', 'Διαλείπουσα απασχόληση')]
     case ON_DEMAND = 3;
 }

@@ -299,10 +299,10 @@ $declaration = FixedTermTerminationDeclaration::make()
     ->setIdNumber('AB1234567')
 
     // Seasonal work visa
-    ->setHasSeasonalVisa(true)
-    ->setSeasonalVisaNumber('VISA2024001')
-    ->setSeasonalVisaFrom('01/06/2024')
-    ->setSeasonalVisaTo('30/09/2024')
+    ->setSeasonalWorkVisa(true)
+    ->setSeasonalWorkVisaNumber('VISA2024001')
+    ->setSeasonalWorkVisaFrom('01/06/2024')
+    ->setSeasonalWorkVisaTo('30/09/2024')
 
     // ... tax/insurance ...
 
@@ -318,7 +318,7 @@ $declaration = FixedTermTerminationDeclaration::make()
     ->setTerminationReason(FixedTermTerminationReason::CONTRACT_EXPIRATION)
 
     // Attach foreign national documentation
-    ->setForeignFile(base64_encode(file_get_contents('foreign_worker.pdf')));
+    ->setForeignWorkerFile(base64_encode(file_get_contents('foreign_worker.pdf')));
 ```
 
 ## Response Handling
@@ -353,8 +353,8 @@ E7N supports optional documentation files:
 
 | Method | API Field | Description |
 |--------|-----------|-------------|
-| `setForeignFile()` | `f_foreign_file` | Foreign national documentation (Base64 PDF) |
-| `setYoungFile()` | `f_young_file` | Minor worker documentation (Base64 PDF) |
+| `setForeignWorkerFile()` | `f_foreign_file` | Foreign national documentation (Base64 PDF) |
+| `setMinorWorkerFile()` | `f_young_file` | Minor worker documentation (Base64 PDF) |
 
 ::: info No Signed Form Required
 Unlike E5 and E6 forms, E7N does **not** require a signed termination form (`f_file`). Only the foreign/young worker files are supported.

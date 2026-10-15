@@ -1,0 +1,250 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Compare the package's xsd/ folder with an ERGANI help-files bundle (maintainer tool, no credentials).
+ *
+ * Reports, for every XSD in xsd/:
+ *   - identical / changed (with field-level differences) / missing from the bundle
+ *   - newer schema versions in the bundle (e.g. xsd/E3N_v1.xsd -> bundle E3N_v2.xsd)
+ * and lists bundle schemas that have no counterpart in xsd/ (possible new forms).
+ *
+ * Usage:
+ *   composer xsd:sync -- "path/to/HELP_FILES_SAMPLES/xsds"
+ *   composer xsd:sync -- "path/to/bundle" --apply     (copy changed same-named files into xsd/)
+ *   composer xsd:sync -- "path/to/bundle" --changed-only
+ *
+ * The bundle path may point at the xsds folder or any parent folder; XSDs are found recursively.
+ */
+
+const RESET = "\033[0m";
+const BOLD = "\033[1m";
+const RED = "\033[31m";
+const GREEN = "\033[32m";
+const YELLOW = "\033[33m";
+const CYAN = "\033[36m";
+
+$args = array_slice($argv, 1);
+$bundle = null;
+foreach ($args as $arg) {
+    if (! str_starts_with($arg, '--')) {
+        $bundle = $arg;
+    }
+}
+
+if ($bundle === null || in_array('--help', $args, true) || in_array('-h', $args, true)) {
+    echo "Usage: composer xsd:sync -- <bundle-folder> [--apply] [--changed-only]\n";
+    exit($bundle === null ? 1 : 0);
+}
+
+if (! is_dir($bundle)) {
+    echo RED . "Bundle folder not found: {$bundle}" . RESET . "\n";
+    exit(1);
+}
+
+$apply = in_array('--apply', $args, true);
+$changedOnly = in_array('--changed-only', $args, true);
+$xsdDir = dirname(__DIR__) . '/xsd';
+
+/**
+ * Find all XSD files below a folder, keyed by file name.
+ *
+ * @return array<string, string>
+ */
+function findXsds(string $dir): array
+{
+    $files = [];
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS));
+    foreach ($iterator as $file) {
+        if (strtolower($file->getExtension()) === 'xsd') {
+            $files[$file->getFilename()] = $file->getPathname();
+        }
+    }
+    ksort($files);
+
+    return $files;
+}
+
+/**
+ * Normalise line endings and surrounding whitespace so formatting-only changes are ignored.
+ */
+function normalized(string $path): string
+{
+    $lines = preg_split('/\R/', (string) file_get_contents($path)) ?: [];
+
+    return implode("\n", array_map('trim', $lines));
+}
+
+/**
+ * Describe every named element: owner type, occurrence and restrictions.
+ *
+ * @return array<string, string>
+ */
+function describeElements(string $path): array
+{
+    $dom = new DOMDocument();
+    $dom->load($path);
+    $xpath = new DOMXPath($dom);
+    $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
+
+    $elements = [];
+    foreach ($xpath->query('//xs:element[@name]') ?: [] as $element) {
+        /** @var DOMElement $element */
+        $owner = $xpath->query('ancestor::xs:complexType[@name][1]', $element)?->item(0);
+        $ownerName = $owner instanceof DOMElement ? $owner->getAttribute('name') : '(root)';
+        $key = $ownerName . '/' . $element->getAttribute('name');
+
+        $parts = [];
+        foreach (['type', 'minOccurs', 'maxOccurs', 'nillable'] as $attribute) {
+            if ($element->hasAttribute($attribute)) {
+                $parts[] = $attribute . '=' . trim($element->getAttribute($attribute));
+            }
+        }
+        foreach (['enumeration', 'pattern', 'maxLength', 'minLength', 'length'] as $facet) {
+            $values = [];
+            foreach ($xpath->query(".//xs:{$facet}", $element) ?: [] as $node) {
+                /** @var DOMElement $node */
+                $values[] = $node->getAttribute('value');
+            }
+            if ($values !== []) {
+                $parts[] = $facet . '=[' . implode('|', $values) . ']';
+            }
+        }
+
+        $elements[$key] = implode(' ', $parts);
+    }
+
+    return $elements;
+}
+
+/**
+ * Field-level differences between two XSDs.
+ *
+ * @return array<int, string>
+ */
+function diffElements(string $old, string $new): array
+{
+    $a = describeElements($old);
+    $b = describeElements($new);
+    $lines = [];
+
+    foreach (array_diff_key($b, $a) as $key => $desc) {
+        $lines[] = GREEN . "+ {$key}" . RESET;
+    }
+    foreach (array_diff_key($a, $b) as $key => $desc) {
+        $lines[] = RED . "- {$key}" . RESET;
+    }
+    foreach (array_intersect_key($a, $b) as $key => $desc) {
+        if ($desc !== $b[$key]) {
+            $lines[] = YELLOW . "~ {$key}" . RESET;
+            $lines[] = '    was: ' . mb_strimwidth($desc, 0, 160, '…');
+            $lines[] = '    now: ' . mb_strimwidth($b[$key], 0, 160, '…');
+        }
+    }
+
+    // Element order inside each complex type
+    $orderA = array_keys($a);
+    $orderB = array_keys($b);
+    $common = array_values(array_intersect($orderA, $orderB));
+    $commonB = array_values(array_intersect($orderB, $orderA));
+    if ($common !== $commonB) {
+        $lines[] = YELLOW . '~ element order changed' . RESET;
+    }
+
+    return $lines;
+}
+
+/**
+ * Split "E3N_v1.xsd" into ["E3N", 1]; names without a version return [name, 0].
+ *
+ * @return array{0: string, 1: int}
+ */
+function versionOf(string $file): array
+{
+    $base = preg_replace('/\.xsd$/i', '', $file) ?? $file;
+    if (preg_match('/^(.*)_v(\d+)$/i', $base, $m)) {
+        return [$m[1], (int) $m[2]];
+    }
+
+    return [$base, 0];
+}
+
+$local = findXsds($xsdDir);
+$remote = findXsds($bundle);
+
+echo BOLD . 'Package xsd/: ' . RESET . count($local) . " files\n";
+echo BOLD . 'Bundle:       ' . RESET . count($remote) . " files ({$bundle})\n\n";
+
+$counts = ['identical' => 0, 'changed' => 0, 'missing' => 0, 'applied' => 0];
+
+foreach ($local as $name => $path) {
+    if (! isset($remote[$name])) {
+        $counts['missing']++;
+        echo YELLOW . "? {$name}" . RESET . " not in bundle\n";
+        continue;
+    }
+
+    if (normalized($path) === normalized($remote[$name])) {
+        $counts['identical']++;
+        if (! $changedOnly) {
+            echo GREEN . "= {$name}" . RESET . "\n";
+        }
+        continue;
+    }
+
+    $counts['changed']++;
+    echo RED . BOLD . "≠ {$name}" . RESET . " changed\n";
+    foreach (diffElements($path, $remote[$name]) as $line) {
+        echo "    {$line}\n";
+    }
+
+    if ($apply) {
+        copy($remote[$name], $path);
+        $counts['applied']++;
+        echo CYAN . "    → copied into xsd/{$name}" . RESET . "\n";
+    }
+}
+
+// Newer versions of schemas the package uses
+$newer = [];
+foreach ($local as $name => $path) {
+    [$base, $version] = versionOf($name);
+    foreach ($remote as $remoteName => $remotePath) {
+        [$remoteBase, $remoteVersion] = versionOf($remoteName);
+        if (strcasecmp($remoteBase, $base) === 0 && $remoteVersion > $version && ! isset($local[$remoteName])) {
+            $newer[$name][] = $remoteName;
+        }
+    }
+}
+
+if ($newer !== []) {
+    echo "\n" . BOLD . 'Newer versions in the bundle (check which one ERGANI validates against before switching):' . RESET . "\n";
+    foreach ($newer as $name => $versions) {
+        echo '  ' . CYAN . $name . RESET . ' -> ' . implode(', ', $versions) . "\n";
+    }
+}
+
+// Bundle schemas with no counterpart in the package
+$localBases = array_map(fn($n) => strtolower(versionOf($n)[0]), array_keys($local));
+$unknown = array_filter(
+    array_keys($remote),
+    fn($n) => ! in_array(strtolower(versionOf($n)[0]), $localBases, true),
+);
+
+if ($unknown !== []) {
+    echo "\n" . BOLD . 'Bundle schemas not used by the package (possible new or legacy forms):' . RESET . "\n";
+    echo '  ' . implode(', ', $unknown) . "\n";
+}
+
+echo "\n" . BOLD . 'Summary: ' . RESET
+    . GREEN . "{$counts['identical']} identical" . RESET . ', '
+    . ($counts['changed'] ? RED : GREEN) . "{$counts['changed']} changed" . RESET . ', '
+    . "{$counts['missing']} not in bundle"
+    . ($apply ? ", {$counts['applied']} copied" : '')
+    . "\n";
+
+if ($counts['changed'] > 0 && ! $apply) {
+    echo "Run again with --apply to copy the changed files into xsd/, then run composer test.\n";
+}
+
+exit($counts['changed'] > 0 && ! $apply ? 1 : 0);

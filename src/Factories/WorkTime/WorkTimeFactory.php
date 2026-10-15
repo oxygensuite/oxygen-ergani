@@ -2,6 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Factories\WorkTime;
 
+use OxygenSuite\OxygenErgani\Enums\DayOfWeek;
 use OxygenSuite\OxygenErgani\Factories\Factory;
 
 /**
@@ -90,6 +91,50 @@ class WorkTimeFactory extends Factory
         return $this->state([
             'f_rel_protocol' => $protocol,
             'f_rel_date' => $date,
+        ]);
+    }
+
+    /**
+     * Configure as a weekly schedule (WTOWeek): employees use a day of the week instead of a date.
+     */
+    public function weekly(DayOfWeek|string $day = DayOfWeek::MONDAY): static
+    {
+        return $this->state([
+            'Ergazomenoi' => fn() => ['ErgazomenoiWTO' => [WorkTimeEmployeeFactory::new()->forDay($day)->make()]],
+        ]);
+    }
+
+    /**
+     * Configure as an overtime submission (WTOOv): one overtime (ΥΠ) entry per employee.
+     */
+    public function overtime(string $from = '17:00', string $to = '19:00'): static
+    {
+        return $this->state([
+            'Ergazomenoi' => fn() => ['ErgazomenoiWTO' => [
+                WorkTimeEmployeeFactory::new()->make([
+                    'ErgazomenosAnalytics' => ['ErgazomenosWTOAnalytics' => [
+                        WorkTimeEntryFactory::new()->overtime($from, $to)->make(),
+                    ]],
+                ]),
+            ]],
+        ]);
+    }
+
+    /**
+     * Configure as a leave submission (WTOLeave): one regular-leave entry per employee.
+     */
+    public function leave(?string $year = null, string $requestedDays = '001'): static
+    {
+        $year ??= date('Y');
+
+        return $this->state([
+            'Ergazomenoi' => fn() => ['ErgazomenoiWTO' => [
+                WorkTimeEmployeeFactory::new()->make([
+                    'ErgazomenosAnalytics' => ['ErgazomenosWTOAnalytics' => [
+                        WorkTimeEntryFactory::new()->leaveRegular($year, $requestedDays)->make(),
+                    ]],
+                ]),
+            ]],
         ]);
     }
 

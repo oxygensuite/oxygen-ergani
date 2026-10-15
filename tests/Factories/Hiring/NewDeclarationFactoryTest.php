@@ -201,7 +201,7 @@ class NewDeclarationFactoryTest extends TestCase
             ->withUnpredictableSchedule()
             ->make();
 
-        $this->assertEquals((string) EmploymentStatus::ON_DEMAND->value, $declaration->getEmploymentStatus());
+        $this->assertNotEquals((string) EmploymentStatus::ON_DEMAND->value, $declaration->getEmploymentStatus());
         $this->assertEquals('1', $declaration->getUnpredictableSchedule());
         $this->assertNotNull($declaration->getReferenceDaysHours());
         $this->assertNotNull($declaration->getMinNotificationPeriod());

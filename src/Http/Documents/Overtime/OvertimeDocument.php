@@ -4,24 +4,30 @@ namespace OxygenSuite\OxygenErgani\Http\Documents\Overtime;
 
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Documents\Documents;
-use OxygenSuite\OxygenErgani\Models\Overtime\Overtime;
+use OxygenSuite\OxygenErgani\Models\WorkTime\WorkTime;
 use OxygenSuite\OxygenErgani\Responses\OvertimeResponse;
 
+/**
+ * Base handler for overtime submissions (WTOOv, WTOOvA, WTOOvD).
+ *
+ * ERGANI II overtime uses the work time organization structure (WTOS/WTO, WTO_v1.xsd):
+ * a WorkTime with employees whose entries have type WorkTimeType::OVERTIME (ΥΠ).
+ */
 abstract class OvertimeDocument extends Documents
 {
     /**
-     * @param Overtime|array<int, Overtime> $overtime
+     * @param WorkTime|array<int, WorkTime> $workTime
      *
      * @return array<int, OvertimeResponse>
      * @throws ErganiException
      */
-    public function handle(Overtime|array $overtime): array
+    public function handle(WorkTime|array $workTime): array
     {
-        if ($overtime instanceof Overtime) {
-            $overtime = [$overtime];
+        if ($workTime instanceof WorkTime) {
+            $workTime = [$workTime];
         }
 
-        $body = ['Overtimes' => ['Overtime' => array_map(fn(Overtime $item) => $item->toSortedArray(), $overtime)]];
+        $body = ['WTOS' => ['WTO' => array_map(fn(WorkTime $item) => $item->toSortedArray(), $workTime)]];
 
         return $this->submit($body)->morphToArray(OvertimeResponse::class);
     }

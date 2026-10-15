@@ -1,19 +1,27 @@
 # Construction Work Documents (E12)
 
 The E12 forms are used for construction work (oikodomiko ergo / techniko ergo) personnel declarations. There are two variants:
-- **E12**: Daily personnel declaration for construction work
-- **E12Apogr**: Census (periodic summary) declaration for construction work
+- **E12** (`WebE12`): Daily personnel declaration for construction work
+- **E12 Census** (`WebE12Ap`): Census (periodic summary) declaration for construction work
+
+::: warning Changed in v2.2.0
+ERGANI renamed the action codes to `WebE12` / `WebE12Ap`; the old `E12` / `E12Apogr` codes are rejected.
+:::
+
+::: info Period and phase fields
+ERGANI's schema endpoint and sample files omit `f_date_from`, `f_date_to` and `f_phase`, but submissions are still validated against the XSD, which requires all three. Always set them (`setPhase('')` is allowed).
+:::
 
 ## Overview
 
 | Form | Action Code | Container Model | Employee Model | Use Case |
 |------|-------------|-----------------|----------------|----------|
-| E12 | `E12` | `ConstructionWork` | `ConstructionEmployee` | Daily personnel declaration |
-| E12Apogr | `E12Apogr` | `ConstructionCensus` | `ConstructionCensusEmployee` | Periodic census declaration |
+| E12 | `WebE12` | `ConstructionWork` | `ConstructionEmployee` | Daily personnel declaration |
+| E12 Census | `WebE12Ap` | `ConstructionCensus` | `ConstructionCensusEmployee` | Periodic census declaration |
 
-## E12 vs E12Apogr
+## E12 vs E12 Census
 
-| Feature | E12 | E12Apogr |
+| Feature | E12 | E12 Census |
 |---------|-----|----------|
 | Granularity | Per-day, per-employee | Monthly summary |
 | Employee Time | Date + from/to times | Days worked count |
@@ -119,7 +127,7 @@ $first = $declaration->getEmployee(0);
 
 ---
 
-## E12Apogr: Construction Work Census
+## E12 Census: Construction Work Census
 
 ### Basic Usage
 
@@ -195,7 +203,7 @@ Same as `ConstructionWork` plus:
 // E12
 $response = (new ConstructionWorkDeclaration())->handle($declaration);
 
-// E12Apogr
+// E12 Census
 $response = (new ConstructionWorkCensus())->handle($declaration);
 
 foreach ($response as $result) {
@@ -224,7 +232,7 @@ file_put_contents('construction-work.pdf', base64_decode($pdfBase64));
 
 2. **Municipality Code**: Use the Kallikratis code for the construction site location, not the company's registered address.
 
-3. **Daily vs Census**: Use E12 for daily personnel tracking and E12Apogr for monthly summary reports.
+3. **Daily vs Census**: Use E12 for daily personnel tracking and E12 Census for monthly summary reports.
 
 4. **Cancellation**: To cancel an individual employee entry in E12, resubmit with `setCancellation(true)` rather than cancelling the entire declaration.
 
@@ -248,7 +256,7 @@ $work = ConstructionWork::factory()
     ->withEmployees(3)
     ->make();
 
-// E12Apogr - Construction Work Census
+// E12 Census - Construction Work Census
 $census = ConstructionCensus::factory()
     ->forPeriod(1, 2026)
     ->withEmployees(5)

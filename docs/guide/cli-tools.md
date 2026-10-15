@@ -1,6 +1,19 @@
 # CLI Tools
 
-The package includes two CLI tools for verifying that local code stays in sync with the live ERGANI API. Both tools require ERGANI credentials.
+::: info For contributors
+These tools live in the repository's `bin/` folder and run as Composer scripts of this package. They are excluded from the published package, so clone the repository to use them.
+:::
+
+The repository includes four maintainer tools for keeping the package in sync with ERGANI:
+
+| Command | What it checks | Needs credentials |
+|---------|----------------|-------------------|
+| `composer enum:check` | Enums against ERGANI's parameter lists | Yes |
+| `composer schema:check` | Local XSDs against the live schema endpoint, and action-code coverage | Yes |
+| `composer xsd:sync` | Local XSDs against a downloaded ERGANI help-files bundle | No |
+| `composer submit:check` | Every document's payload against ERGANI's own validator, using invalid business data | Yes |
+
+`composer test` also runs `XsdComplianceTest`, which validates every document's factory payload against the XSDs in `xsd/` offline.
 
 ## Configuration
 
@@ -33,7 +46,7 @@ $env:ERGANI_USERNAME="xxx"; $env:ERGANI_PASSWORD="xxx"; composer enum:check -- -
 
 Compares document field schemas from the live API against local XSD files. Useful for detecting when the ERGANI API adds, removes, or reorders fields.
 
-Documents that share the same XSD (e.g., the 8 WTO work time documents) are grouped together, and their API fields are unioned for a single comparison per XSD.
+Documents that share the same XSD (e.g., the 6 daily work time and overtime documents in the WTO group, validated against `WTO_v1.xsd`; leave uses the `WTOLeave` group and `WTO_v2.xsd`) are grouped together, and their API fields are unioned for a single comparison per XSD.
 
 ### Usage
 
@@ -86,13 +99,13 @@ E6LT (xsd/E6LT_v1.xsd)
 ✓ Order matches
 ```
 
-For multi-document groups (e.g., WTO with 8 documents sharing one XSD):
+For multi-document groups (e.g., WTO with 6 documents sharing one XSD):
 
 ```
-WTO (xsd/WTO_v2.xsd)
-  Documents: DailyWorkTime, DailyWorkTimeA, DailyWorkTimeD, WorkTimeLeave, ...
+WTO (xsd/WTO_v1.xsd)
+  Documents: DailyWorkTime, DailyWorkTimeA, DailyWorkTimeD, Overtime, ...
 ---------------------
-✓ Fields match: 15 (union of 8 API schemas)
+✓ Fields match: 13 (union of 6 API schemas)
 ```
 
 When mismatches are found:
@@ -112,8 +125,8 @@ E3N (xsd/E3N_v1.xsd)
 
 You can use either a **group name** or a **document name** as the argument:
 
-- `composer schema:check WTO` — checks the entire WTO group (all 8 documents)
-- `composer schema:check DailyWorkTime` — resolves to the WTO group and checks all 8
+- `composer schema:check WTO` — checks the entire WTO group (6 daily/overtime documents)
+- `composer schema:check DailyWorkTime` — resolves to the WTO group and checks all 6
 - `composer schema:check E6LT` — single-document group, checks just that one
 
 Use `--list` to see all groups, documents, and their XSD files.
@@ -228,3 +241,72 @@ Both tools exit with code `0` when all checks pass, and `1` when any mismatch is
 - run: composer schema:check -- --all
 - run: composer enum:check -- --all
 ```
+
+---
+
+## xsd:sync
+
+Compares the `xsd/` folder with an ERGANI help-files bundle (the `HELP_FILES_SAMPLES…` download that comes with each
+interoperability guide update). No credentials are needed.
+
+```bash
+composer xsd:sync -- "path/to/HELP_FILES_SAMPLES_trial2_v3"
+composer xsd:sync -- "path/to/bundle" --changed-only   # hide identical files
+composer xsd:sync -- "path/to/bundle" --apply          # copy changed files into xsd/
+```
+
+It reports:
+
+- **Identical / changed / missing** for every XSD in `xsd/`, with field-level differences for changed files
+  (added and removed elements, changed enumerations, patterns, lengths and occurrence)
+- **Newer schema versions** in the bundle, e.g. `E3N_v1.xsd -> E3N_v2.xsd`. Schema file versions are independent of the
+  bundle's own release number, and ERGANI often publishes a newer `_vN.xsd` before activating it, so confirm with
+  `submit:check` which version ERGANI validates against before switching
+- **Bundle schemas not used by the package** (possible new or legacy forms)
+
+It exits with `1` when changed files are found (without `--apply`).
+
+---
+
+## submit:check
+
+Checks every document against ERGANI's own validator. For each document in `bin/schema-map.php`, the package builds
+its normal payload from the model factory, then replaces the business identifiers with values that pass the XSD but
+can never pass ERGANI's business rules:
+
+| Field | Replaced with |
+|-------|---------------|
+| every `*afm*` field | `123456789` (wrong check digit) |
+| every `*amka*` field | `01010101011` (wrong Luhn check digit) |
+| `f_aa_pararthmatos` | `999` (branch that does not exist) |
+| `f_ypiresia_sepe` / `f_ypiresia_oaed` | `99999` / `999999` (services that do not exist) |
+
+ERGANI validates the XSD before the business rules, so the response tells you whether the package's structure is
+accepted:
+
+| Result | Meaning |
+|--------|---------|
+| `STRUCTURE OK` | Rejected by a business rule: the structure passed ERGANI's XSD validation |
+| `XSD REJECTED` | ERGANI rejected the structure: the package sends an invalid payload |
+| `NOT AVAILABLE` | The form is not enabled in that environment (`Type … not valid` / `XSD File not found`) |
+| `SKIPPED` | Fewer than two values could be made invalid, so it is not safe to send |
+
+```bash
+composer submit:check                               # trial environment (default)
+composer submit:check -- --production               # production environment
+composer submit:check -- --only=E14,FastAna         # specific documents
+composer submit:check -- --list                     # document names
+```
+
+::: warning Real submissions
+`submit:check` sends real requests to ERGANI. Every payload is built to be rejected, and anything that is unexpectedly
+accepted is cancelled immediately and reported, but prefer the trial environment and use `--production` deliberately.
+`ERGANI_ENV` is ignored: only `--production` selects production.
+:::
+
+ERGANI's schema endpoint used by `schema:check` can disagree with the validator (it has omitted fields the validator
+requires, and listed fields in the wrong order), so `submit:check` is the authoritative check.
+
+Documents whose default factory output targets another variant of the same schema (weekly work time, leave) use the
+factories listed in `bin/factory-overrides.php`.
+

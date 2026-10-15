@@ -45,6 +45,27 @@ class GreekProviderTest extends TestCase
         $this->assertMatchesRegularExpression('/^\d{11}$/', $amka);
     }
 
+    public function testAmkaHasValidLuhnCheckDigit(): void
+    {
+        for ($i = 0; $i < 50; $i++) {
+            $amka = Factory::fake()->amka();
+
+            $sum = 0;
+            foreach (str_split(strrev($amka)) as $position => $char) {
+                $digit = (int) $char;
+                if ($position % 2 === 1) {
+                    $digit *= 2;
+                    if ($digit > 9) {
+                        $digit -= 9;
+                    }
+                }
+                $sum += $digit;
+            }
+
+            $this->assertSame(0, $sum % 10, "AMKA {$amka} fails the Luhn check");
+        }
+    }
+
     public function testAmkaIncludesBirthDate(): void
     {
         $birthDate = new DateTime('1990-05-15');

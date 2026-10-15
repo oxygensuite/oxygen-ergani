@@ -324,6 +324,73 @@ if ($status?->isAccepted()) {
 
 ---
 
+### getRealWorkingDiary()
+
+Retrieve real employment diary entries for a branch on a given date. Not cached (dynamic data).
+
+```php
+public function getRealWorkingDiary(int $branchAa, DateTime|string $date): array
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$branchAa` | int | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+
+**Returns:** `array<int, RealWorkingResponse>` - List of diary entries (empty when no data)
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$entries = $ergani->getRealWorkingDiary(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->hourFrom} - {$entry->hourTo}";
+    echo $entry->endsOnNextDay ? " (next day)\n" : "\n";
+}
+```
+
+---
+
+### getDigitalWorkTimeStatus()
+
+Retrieve the current digital work time organization (ΨΟΧΕ) status for a branch on a given date. Not cached (dynamic data).
+
+```php
+public function getDigitalWorkTimeStatus(int $branchAa, DateTime|string $date): array
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `$branchAa` | int | Branch number (0 = headquarters) |
+| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+
+**Returns:** `array<int, DigitalWorkTimeResponse>` - List of work time entries (empty when no data)
+
+**Throws:** `ErganiException`
+
+**Example:**
+
+```php
+$ergani = new Ergani($accessToken);
+
+$entries = $ergani->getDigitalWorkTimeStatus(0, '15/05/2026');
+
+foreach ($entries as $entry) {
+    echo "{$entry->afm}: {$entry->type} {$entry->hourFrom} - {$entry->hourTo}\n";
+}
+```
+
+---
+
 ### getParameters()
 
 Look up parameter values by type.
@@ -749,10 +816,10 @@ public function sendWorkTimeLeaveCorrection(WorkTime|array $workTime): array
 
 ### sendOvertime()
 
-Submit overtime declaration.
+Submit overtime declaration (WTOOv). Takes a `WorkTime` whose entries have type `WorkTimeType::OVERTIME`.
 
 ```php
-public function sendOvertime(Overtime|array $overtime): array
+public function sendOvertime(WorkTime|array $workTime): array
 ```
 
 **Returns:** `array<int, OvertimeResponse>`
@@ -761,10 +828,10 @@ public function sendOvertime(Overtime|array $overtime): array
 
 ### sendOvertimeDrivers()
 
-Submit overtime declaration for drivers.
+Submit overtime declaration for drivers (WTOOvD). Takes a `WorkTime` whose entries have type `WorkTimeType::OVERTIME`.
 
 ```php
-public function sendOvertimeDrivers(Overtime|array $overtime): array
+public function sendOvertimeDrivers(WorkTime|array $workTime): array
 ```
 
 **Returns:** `array<int, OvertimeResponse>`
@@ -773,10 +840,10 @@ public function sendOvertimeDrivers(Overtime|array $overtime): array
 
 ### sendOvertimeRetrospective()
 
-Submit overtime declaration retrospective.
+Submit retrospective overtime declaration (WTOOvA). Takes a `WorkTime` whose entries have type `WorkTimeType::OVERTIME`.
 
 ```php
-public function sendOvertimeRetrospective(Overtime|array $overtime): array
+public function sendOvertimeRetrospective(WorkTime|array $workTime): array
 ```
 
 **Returns:** `array<int, OvertimeResponse>`
@@ -841,7 +908,7 @@ public function sendPreAnnouncementExemption(ExemptionDeclaration|array $declara
 
 ### sendConstructionWork()
 
-Submit construction work personnel declaration (E12).
+Submit construction work personnel declaration (WebE12).
 
 ```php
 public function sendConstructionWork(ConstructionWork|array $declarations): array
@@ -853,7 +920,7 @@ public function sendConstructionWork(ConstructionWork|array $declarations): arra
 
 ### sendConstructionWorkCensus()
 
-Submit construction work census declaration (E12Apogr).
+Submit construction work census declaration (WebE12Ap).
 
 ```php
 public function sendConstructionWorkCensus(ConstructionCensus|array $declarations): array
@@ -867,10 +934,164 @@ public function sendConstructionWorkCensus(ConstructionCensus|array $declaration
 
 ### sendInternshipDeclaration()
 
-Submit internship declaration (E3.5 / action code 57).
+Submit internship declaration (E3.5 / action code WebE35).
 
 ```php
 public function sendInternshipDeclaration(InternshipDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendInternshipCorrection()
+
+Submit a correction to a previous internship declaration (WebE35C).
+
+```php
+public function sendInternshipCorrection(InternshipDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendInternshipTermination()
+
+Submit an internship stop / early termination (WebE35D).
+
+```php
+public function sendInternshipTermination(InternshipTerminationDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendInternshipScheduleChange()
+
+Submit an internship schedule change (WebE35T).
+
+```php
+public function sendInternshipScheduleChange(InternshipScheduleChangeDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Community Program Documents (E3.1)
+
+### sendCommunityProgramEmployment()
+
+Submit community-benefit program employment declaration (WebE31).
+
+```php
+public function sendCommunityProgramEmployment(CommunityProgramDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendCommunityProgramEmploymentCorrection()
+
+Submit a correction of a previous E3.1 declaration (WebE31C). Reference the original with `setRelatedProtocol()` / `setRelatedDate()`.
+
+```php
+public function sendCommunityProgramEmploymentCorrection(CommunityProgramDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Training Documents (E3.2)
+
+### sendTheoreticalTraining()
+
+Submit theoretical training start declaration (WebE32).
+
+```php
+public function sendTheoreticalTraining(TheoreticalTrainingDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendTheoreticalTrainingCorrection()
+
+Submit a correction of a previous E3.2 declaration (WebE32C). Reference the original with `setRelatedProtocol()` / `setRelatedDate()`.
+
+```php
+public function sendTheoreticalTrainingCorrection(TheoreticalTrainingDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Motorcycle Documents (E13)
+
+### sendMotorcycleUse()
+
+Submit motorcycle use declaration (WebE13).
+
+```php
+public function sendMotorcycleUse(MotorcycleUseDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Parental Leave Documents (E14)
+
+### sendParentalLeave()
+
+Submit parental leave declaration (WebE14).
+
+```php
+public function sendParentalLeave(ParentalLeaveDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendParentalLeaveCorrection()
+
+Submit a correction or change to a previous parental leave declaration (WebE14C).
+
+```php
+public function sendParentalLeaveCorrection(ParentalLeaveDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Urgent Hiring Documents (FastAna)
+
+### sendUrgentHiring()
+
+Submit urgent hiring declaration (FastAna).
+
+```php
+public function sendUrgentHiring(UrgentHiringDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendUrgentHiringCorrection()
+
+Submit a correction or change to a previous urgent hiring declaration (FastAnaC).
+
+```php
+public function sendUrgentHiringCorrection(UrgentHiringDeclaration|array $declarations): array
 ```
 
 **Returns:** `array<int, SubmissionResponse>`
@@ -1194,6 +1415,8 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `getMonthlyStatus()` | EX_BASE_04 | Monthly employee status |
 | | `getWorkforceStatus()` | EX_BASE_05 | Current workforce status |
 | | `getAcceptanceStatus()` | EX_BASE_06 | Essential terms acceptance status |
+| | `getRealWorkingDiary()` | EX_BASE_07 | Real employment diary entries |
+| | `getDigitalWorkTimeStatus()` | EX_BASE_08 | Digital work time organization status |
 | | `getParameters()` | EX_BASE_03 | System parameters |
 | **Work Cards** | `sendWorkCards()` | WRKCardSE | Check-in/check-out |
 | **Hiring** | `sendHiringNew()` | E3N | New employee |
@@ -1227,9 +1450,21 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `sendBorrowedEmploymentModification()` | WebMAD | Borrowed employee changes |
 | **Sixth Day** | `sendSixthDayDeclaration()` | SixthDay | Extra shift / 6th day |
 | **Pre-Announce** | `sendPreAnnouncementExemption()` | ExProan | Pre-announcement exemption |
-| **Construction** | `sendConstructionWork()` | E12 | Construction personnel |
-| | `sendConstructionWorkCensus()` | E12Apogr | Construction census |
-| **Internship** | `sendInternshipDeclaration()` | 57 | Internship (E3.5) |
+| **Construction** | `sendConstructionWork()` | WebE12 | Construction personnel |
+| | `sendConstructionWorkCensus()` | WebE12Ap | Construction census |
+| **Community Program** | `sendCommunityProgramEmployment()` | WebE31 | Community-benefit program employment (E3.1) |
+| | `sendCommunityProgramEmploymentCorrection()` | WebE31C | E3.1 correction |
+| **Training** | `sendTheoreticalTraining()` | WebE32 | Theoretical training start (E3.2) |
+| | `sendTheoreticalTrainingCorrection()` | WebE32C | E3.2 correction |
+| **Motorcycle** | `sendMotorcycleUse()` | WebE13 | Moped/motorcycle use by employees |
+| **Internship** | `sendInternshipDeclaration()` | WebE35 | Internship (E3.5) |
+| | `sendInternshipCorrection()` | WebE35C | Internship correction |
+| | `sendInternshipTermination()` | WebE35D | Internship stop |
+| | `sendInternshipScheduleChange()` | WebE35T | Internship schedule change |
+| **Parental Leave** | `sendParentalLeave()` | WebE14 | Parental leave (E14) |
+| | `sendParentalLeaveCorrection()` | WebE14C | Parental leave correction |
+| **Urgent Hiring** | `sendUrgentHiring()` | FastAna | Hiring to cover urgent needs |
+| | `sendUrgentHiringCorrection()` | FastAnaC | Urgent hiring correction / change |
 | **Management** | `cancelDocument()` | - | Cancel submission |
 | | `getSubmissions()` | - | List document types |
 | | `getSchema()` | - | Get document schema |
@@ -1247,6 +1482,11 @@ $responses = $ergani->sendHiringNew($declarations);
 - [Termination](/guide/termination/) - E5 termination declarations
 - [Dismissal](/guide/dismissal/) - E6 dismissal declarations
 - [Construction](/guide/construction) - E12 construction declarations
+- [Community Programs](/guide/community-program) - E3.1 community-benefit program employment
+- [Theoretical Training](/guide/theoretical-training) - E3.2 theoretical training start
+- [Motorcycle Use](/guide/motorcycle) - E13 motorcycle use declarations
 - [Sixth Day](/guide/sixth-day) - Extra shift declarations
 - [Pre-Announcement](/guide/pre-announcement) - Pre-announcement exemptions
-- [Internship](/guide/internship) - E3.5 internship declarations
+- [Internship](/guide/internship) - E3.5 internship declarations, corrections, stop and schedule change
+- [Parental Leave](/guide/parental-leave) - E14 parental leave declarations
+- [Urgent Hiring](/guide/urgent-hiring) - FastAna hiring for urgent needs

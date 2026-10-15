@@ -74,7 +74,7 @@ $declaration = ModificationDeclaration::make()
     ->setAmka('15038512345')
 
     // Modification Details
-    ->setModificationDate('01/02/2025')
+    ->setChangeDate('01/02/2025')
     ->setSettlementType(SettlementType::INDIVIDUAL)
 
     // Employment Details
@@ -102,7 +102,7 @@ $response = (new EmploymentModification())->handle($declaration);
 
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
-| `setModificationDate()` | `f_date_metabolhs` | string | Yes | Effective date (DD/MM/YYYY) |
+| `setChangeDate()` | `f_date_metabolhs` | DateTime\|string | Yes | Effective date (DD/MM/YYYY) |
 | `setSettlementType()` | `f_eidos_dieuthethshs` | SettlementType | No | Settlement arrangement |
 | `setSettlementTypeComment()` | `f_eidos_dieuthethshs_comments` | string | No | Settlement details (max 200 chars) |
 | `setReferencePeriodFrom()` | `f_periodos_anaforas_from` | string | No | Reference period start |
@@ -235,15 +235,15 @@ $declaration = BorrowedModificationDeclaration::make()
     ->setAmka('22089012345')
 
     // Modification Details
-    ->setModificationDate('01/02/2025')
+    ->setChangeDate('01/02/2025')
     ->setSettlementType(SettlementType::INDIVIDUAL)
 
     // Loan Details (REQUIRED for MAD)
     ->setLoanType(LoanType::GENUINE)
     ->setLoanStartDate('01/01/2024')
     ->setLoanEndDate('31/12/2025')
-    ->setBorrowingCompanyAfm('555555555')
-    ->setBorrowingCompanyName('BORROWING COMPANY LTD')
+    ->setLoanCompanyAfm('555555555')
+    ->setLoanCompanyName('BORROWING COMPANY LTD')
 
     // Salary Payment Source (REQUIRED for MAD)
     ->setSalaryPaymentSource(SalaryPaymentSource::DIRECT_EMPLOYER)
@@ -265,8 +265,8 @@ $response = (new BorrowedEmploymentModification())->handle($declaration);
 | `setLoanType()` | `f_borrow_type` | LoanType | Yes | Genuine or EPA |
 | `setLoanStartDate()` | `f_borrow_date_from` | string | Yes | Loan start date |
 | `setLoanEndDate()` | `f_borrow_date_to` | string | Yes | Loan end date |
-| `setBorrowingCompanyAfm()` | `f_borrow_company_afm` | string | Yes | Borrower's AFM |
-| `setBorrowingCompanyName()` | `f_borrow_company_eponimia` | string | Yes | Borrower's name |
+| `setLoanCompanyAfm()` | `f_borrow_company_afm` | string | Yes | Borrower's AFM |
+| `setLoanCompanyName()` | `f_borrow_company_eponimia` | string | Yes | Borrower's name |
 
 #### Salary Payment Source (Required)
 
@@ -370,7 +370,7 @@ $declaration = ModificationDeclaration::make()
     ->setAmka('10048812345')
 
     // Modification
-    ->setModificationDate('01/02/2025')
+    ->setChangeDate('01/02/2025')
     ->setSettlementType(SettlementType::INDIVIDUAL)
 
     // Employment stays the same
@@ -400,7 +400,7 @@ $response = (new EmploymentModification())->handle($declaration);
 $declaration = ModificationDeclaration::make()
     // ... branch and personal fields ...
 
-    ->setModificationDate('01/03/2025')
+    ->setChangeDate('01/03/2025')
     ->setSettlementType(SettlementType::INDIVIDUAL)
 
     // Change to part-time
@@ -409,7 +409,7 @@ $declaration = ModificationDeclaration::make()
     ->setEmploymentType(EmploymentType::INDEFINITE)
 
     // Updated work hours
-    ->setWeekHours(25.0)
+    ->setWeeklyHours(25.0)
     ->setFullEmploymentHours(40.0)
     ->setWeekDays(5)
 
@@ -434,7 +434,7 @@ $declaration = ModificationDeclaration::make()
 $declaration = ModificationDeclaration::make()
     // ... branch and personal fields ...
 
-    ->setModificationDate('01/01/2025')
+    ->setChangeDate('01/01/2025')
 
     // Change employment type
     ->setEmploymentType(EmploymentType::FIXED_TERM)
@@ -450,17 +450,19 @@ $declaration = ModificationDeclaration::make()
 ### MA: Position Change with New Specialty
 
 ```php
+use OxygenSuite\OxygenErgani\Enums\ResponsiblePosition;
+
 $declaration = ModificationDeclaration::make()
     // ... branch and personal fields ...
 
-    ->setModificationDate('15/02/2025')
+    ->setChangeDate('15/02/2025')
     ->setSettlementType(SettlementType::COLLECTIVE)
     ->setSettlementTypeComment('Εφαρμογή ΣΣΕ εμπορίου')
 
     // New specialty/position
     ->setSpecialtyCode('567890')  // New code
     ->setSpecialtyDescription('Υπεύθυνος Πωλήσεων')
-    ->setHasResponsiblePosition(true)
+    ->setResponsiblePosition(ResponsiblePosition::MANAGERIAL_AUTHORITY)
 
     // Salary adjustment
     ->setGrossSalary(2500.00)
@@ -517,14 +519,14 @@ $declaration = BorrowedModificationDeclaration::make()
     ->setAmka('08119212345')
 
     // Modification date
-    ->setModificationDate('01/02/2025')
+    ->setChangeDate('01/02/2025')
 
     // Loan details (required)
     ->setLoanType(LoanType::GENUINE)
     ->setLoanStartDate('01/06/2024')
     ->setLoanEndDate('31/05/2025')
-    ->setBorrowingCompanyAfm('333444555')
-    ->setBorrowingCompanyName('LENDING COMPANY S.A.')
+    ->setLoanCompanyAfm('333444555')
+    ->setLoanCompanyName('LENDING COMPANY S.A.')
 
     // Salary payment (required)
     ->setSalaryPaymentSource(SalaryPaymentSource::DIRECT_EMPLOYER)
@@ -535,10 +537,10 @@ $declaration = BorrowedModificationDeclaration::make()
     ->setWorkerType(WorkerType::EMPLOYEE)
 
     // Work schedule change
-    ->setWeekHours(40.0)
+    ->setWeeklyHours(40.0)
     ->setFullEmploymentHours(40.0)
     ->setWeekDays(5)
-    ->setWorkCardRequired(true)
+    ->setWorkingCard(true)
 
     ->setComments('Αλλαγή ωραρίου δανειζόμενου εργαζομένου');
 
@@ -551,14 +553,14 @@ $response = (new BorrowedEmploymentModification())->handle($declaration);
 $declaration = BorrowedModificationDeclaration::make()
     // ... branch and personal fields ...
 
-    ->setModificationDate('01/02/2025')
+    ->setChangeDate('01/02/2025')
 
     // EPA loan arrangement
     ->setLoanType(LoanType::EPA)
     ->setLoanStartDate('01/01/2024')
     ->setLoanEndDate('31/12/2024')
-    ->setBorrowingCompanyAfm('111222333')
-    ->setBorrowingCompanyName('EPA AGENCY LTD')
+    ->setLoanCompanyAfm('111222333')
+    ->setLoanCompanyName('EPA AGENCY LTD')
 
     // Salary paid by indirect employer (client)
     ->setSalaryPaymentSource(SalaryPaymentSource::INDIRECT_EMPLOYER)
@@ -629,22 +631,22 @@ $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
 | `setTaxOffice()` | `f_doy` | string | No | Tax office code |
 | `setAmika()` | `f_amika` | string | No | IKA number |
 | `setAmka()` | `f_amka` | string | Yes | Social security number |
-| `setUnemploymentCode()` | `f_code_anergias` | string | No | Unemployment registration code |
+| `setUnemploymentCardNumber()` | `f_code_anergias` | string | No | Unemployment registration code |
 | `setMinorBookNumber()` | `f_ar_vivliou_anilikou` | string | No | Minor work permit book number |
 
 ### Work Organization
 
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
-| `setDigitalWorkOrganization()` | `f_working_time_digital_organization` | bool | No | Digital scheduling |
+| `setWorkingTimeDigitalOrganization()` | `f_working_time_digital_organization` | string\|bool | No | Digital scheduling |
 | `setUnpredictableSchedule()` | `f_mh_problepsimo_programma` | bool | No | Variable schedule |
-| `setOnDemandDaysHours()` | `f_paraggelia_hmeres_hours` | string | No | On-demand scheduling |
-| `setOnDemandMinNotification()` | `f_paraggelia_min_notification` | string | No | Minimum notice period |
-| `setWeekHours()` | `f_week_hours` | float | No | Weekly hours |
+| `setReferenceDaysHours()` | `f_paraggelia_hmeres_hours` | string | No | On-demand scheduling |
+| `setMinNotificationPeriod()` | `f_paraggelia_min_notification` | string | No | Minimum notice period |
+| `setWeeklyHours()` | `f_week_hours` | float | No | Weekly hours |
 | `setFullEmploymentHours()` | `f_full_employment_hours` | float | No | Full-time equivalent hours |
 | `setWeekDays()` | `f_week_days` | int | No | Work days per week |
 | `setFlexibleArrivalMinutes()` | `f_euelikto_wrario_minutes` | int | No | Flexible arrival window |
-| `setWorkCardRequired()` | `f_working_card` | bool | No | Work card mandatory |
+| `setWorkingCard()` | `f_working_card` | string\|bool | No | Work card mandatory |
 | `setBreakMinutes()` | `f_dialeimma_minutes` | int | No | Break duration |
 | `setBreakWithinSchedule()` | `f_dialeimma_entos_wrariou` | bool | No | Break within work hours |
 
@@ -661,7 +663,7 @@ $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
 |--------|-----------|------|----------|-------------|
 | `setEmploymentStatus()` | `f_kathestosapasxolisis` | EmploymentStatus | No | Full/Part-time |
 | `setWorkerType()` | `f_xaraktirismos` | WorkerType | No | Worker/Employee |
-| `setHasResponsiblePosition()` | `f_responsible_position` | bool | No | Managerial position |
+| `setResponsiblePosition()` | `f_responsible_position` | ResponsiblePosition\|string | No | Managerial position (see `ResponsiblePosition` enum) |
 
 ### Specialty
 
@@ -676,7 +678,7 @@ $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
 use OxygenSuite\OxygenErgani\Models\Hiring\SupplementaryInsuranceSelection;
 
 $declaration->addSupplementaryInsuranceSelection(
-    SupplementaryInsuranceSelection::make()->setCode('201')
+    SupplementaryInsuranceSelection::make()->setSupplementaryInsuranceCode('201')
 );
 ```
 

@@ -20,6 +20,9 @@ The Work Time system uses a hierarchical structure:
 | `DailyWorkTimeDrivers` | WTODailyD | Daily declaration for drivers |
 | `WorkTimeLeave` | WTOLeave | Leave declaration |
 | `WorkTimeLeaveCorrection` | WTOLeaveC | Leave correction |
+| `WorkTimeOvertime` | WTOOv | Overtime declaration |
+| `WorkTimeOvertimeRetrospective` | WTOOvA | Retrospective overtime declaration |
+| `WorkTimeOvertimeDrivers` | WTOOvD | Overtime declaration for drivers |
 
 ## Basic Usage
 
@@ -467,6 +470,40 @@ $workTime = WorkTime::make()
 
 $response = (new WorkTimeLeave())->handle($workTime);
 ```
+
+### Overtime Declaration
+
+Overtime uses the same `WorkTime` structure, with entries of type `WorkTimeType::OVERTIME` (ΥΠ):
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Overtime\WorkTimeOvertime;
+use OxygenSuite\OxygenErgani\Enums\WorkTimeType;
+
+$workTime = WorkTime::make()
+    ->setBranchCode(0)
+    ->setFromDate('07/04/2025')
+    ->setToDate('07/04/2025')
+    ->addEmployee(
+        WorkTimeEmployee::make()
+            ->setTin('123456789')
+            ->setLastName('ΠΑΠΑΔΟΠΟΥΛΟΣ')
+            ->setFirstName('ΙΩΑΝΝΗΣ')
+            ->setDate('07/04/2025')
+            ->addAnalytics(
+                WorkTimeEntry::make()
+                    ->setType(WorkTimeType::OVERTIME)
+                    ->setFromTime('17:00')
+                    ->setToTime('19:00')
+            )
+    );
+
+$response = (new WorkTimeOvertime())->handle($workTime);
+// or: $ergani->sendOvertime($workTime);   sendOvertimeRetrospective() / sendOvertimeDrivers() for WTOOvA / WTOOvD
+```
+
+::: warning Changed in v2.2.0
+Overtime documents used to take the legacy `Overtime` / `OvertimeEmployee` models (KAD codes, `f_reason`, `f_asee`), which ERGANI II rejects. They now take a `WorkTime`, matching ERGANI's `WTOOv` schema. The legacy models are deprecated and will be removed in v3.
+:::
 
 ### Retrospective Declaration
 

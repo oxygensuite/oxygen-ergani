@@ -19,6 +19,10 @@ enum EmploymentStatus: int
 | `ROTATION` | 2 | Rotational | Εκ περιτροπής απασχόληση |
 | `ON_DEMAND` | 3 | On-demand | Διαλείπουσα απασχόληση |
 
+::: warning
+`ON_DEMAND` (3) is not accepted by the schema files ERGANI currently validates against (`E3N_v1.xsd`, `E3M_v1.xsd`, `MA_v1.xsd` and the other forms allow only 0–2), so ERGANI rejects it today. It is defined again in the newer `E3N_v2.xsd`, `E3M_v2.xsd` and `MA_v2.xsd` schema files, which ERGANI has published but not activated yet.
+:::
+
 **Used in:** E3, E6, E7, MA forms (`f_kathestosapasxolisis` field)
 
 ---
@@ -145,3 +149,63 @@ enum SpecialCase: string
 | `PRIVATE_LAW_BROADER_PUBLIC` | 3 | Private law - Broader public sector | Ιδιωτικού δικαίου - Ευρύτερος δημόσιος τομέας |
 
 **Used in:** E3, MA forms (`f_special_case` field)
+
+---
+
+## ParentalLeaveCategory
+
+Employee category, required when the parental leave is not paid by the entity itself.
+
+```php
+namespace OxygenSuite\OxygenErgani\Enums;
+
+enum ParentalLeaveCategory: string
+```
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `PRIVATE_LAW_FIXED_TERM` | 0 | Private law, fixed term (IDOX) | ΙΔΟΧ |
+| `PRIVATE_LAW_INDEFINITE` | 1 | Private law, indefinite term (IDAX) | ΙΔΑΧ |
+| `SALARIED_MANDATE` | 2 | Salaried mandate | Έμμισθη εντολή |
+| `PRIVATE_SECTOR` | 3 | Private sector employee | Εργαζόμενος στον ιδιωτικό τομέα |
+| `WIDER_PUBLIC_SECTOR` | 4 | Wider public sector employee | Εργαζόμενος στον ευρύτερο δημόσιο τομέα |
+
+**Used in:** E14 forms (`f_category` field)
+
+---
+
+## LeaveGrantMethod
+
+How a parental leave is granted.
+
+```php
+namespace OxygenSuite\OxygenErgani\Enums;
+
+enum LeaveGrantMethod: string
+```
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `CONTINUOUS` | 0 | Continuous | Συνεχόμενα |
+| `FLEXIBLE` | 1 | Partial, flexible | Τμηματικά με ευέλικτο τρόπο |
+
+**Used in:** E14 forms (`f_tropos_xorhghshs_adeias` field)
+
+---
+
+## VehicleOwner
+
+Who owns, possesses or holds the vehicle used for work.
+
+```php
+namespace OxygenSuite\OxygenErgani\Enums;
+
+enum VehicleOwner: string
+```
+
+| Case | Value | English | Greek |
+|------|-------|---------|-------|
+| `EMPLOYER` | 0 | Employer | Εργοδότης |
+| `EMPLOYEE` | 1 | Employee | Εργαζόμενος |
+
+**Used in:** E13 motorcycle use declarations (`f_is_owner` field)

@@ -1,0 +1,22 @@
+{
+    "EX_BASE_07": {
+        "RealWorking": [
+            {
+                "Aa": "0",
+                "Afm": "123456789",
+                "Date": "2026-05-15T00:00:00+03:00",
+                "HourFrom": "08:00",
+                "HourTo": "16:00",
+                "IsEndDateDifferentThanDate": "0"
+            },
+            {
+                "Aa": "0",
+                "Afm": "987654321",
+                "Date": "2026-05-15T00:00:00+03:00",
+                "HourFrom": "22:00",
+                "HourTo": "06:00",
+                "IsEndDateDifferentThanDate": "1"
+            }
+        ]
+    }
+}

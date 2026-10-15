@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-10-15
+
+### Added
+
+- `XsdComplianceTest` validates the factory payload of every document in `bin/schema-map.php` against the official XSD in `xsd/`
+- Maintainer tools `composer xsd:sync` (compare `xsd/` with an ERGANI help-files bundle) and `composer submit:check` (validate every document against ERGANI's own validator using invalid business data)
+- `WorkTimeFactory::weekly()`, `WorkTimeFactory::leave()` and `WorkTimeFactory::overtime()` states
+- `RealWorkingDiary` (EX_BASE_07) service for real employment diary entries with `RealWorkingResponse` and `Ergani::getRealWorkingDiary()`
+- `DigitalWorkTimeStatus` (EX_BASE_08) service for the current digital work time organization (ΨΟΧΕ) status with `DigitalWorkTimeResponse` and `Ergani::getDigitalWorkTimeStatus()`
+- **E14 Parental Leave** - `ParentalLeave` (WebE14) and `ParentalLeaveCorrection` (WebE14C) documents with `ParentalLeaveDeclaration`, `ParentalLeaveChild` and `ParentalLeaveDate` models, `ParentalLeaveCategory` and `LeaveGrantMethod` enums, factories, and `Ergani::sendParentalLeave()` / `sendParentalLeaveCorrection()`
+- **E3.1 Community Programs** - `CommunityProgramEmployment` (WebE31) and `CommunityProgramEmploymentCorrection` (WebE31C) with `CommunityProgramDeclaration`, factory and `Ergani::sendCommunityProgramEmployment()` / `sendCommunityProgramEmploymentCorrection()`
+- **E3.2 Theoretical Training** - `TheoreticalTraining` (WebE32) and `TheoreticalTrainingCorrection` (WebE32C) with `TheoreticalTrainingDeclaration`, factory and `Ergani::sendTheoreticalTraining()` / `sendTheoreticalTrainingCorrection()`; shared E3.1/E3.2 fields live in `Models\Programs\Concerns` traits
+- **E13 Motorcycle Use** - `MotorcycleUse` (WebE13) document with `MotorcycleUseDeclaration` and `MotorcycleVehicle` models, `VehicleOwner` enum, factories and `Ergani::sendMotorcycleUse()`
+- **Urgent Hiring (FastAna)** - `UrgentHiring` (FastAna) and `UrgentHiringCorrection` (FastAnaC) documents with `UrgentHiringDeclaration` model, factory and `Ergani::sendUrgentHiring()` / `sendUrgentHiringCorrection()`
+- **E3.5 follow-up forms** - `InternshipCorrection` (WebE35C), `InternshipTermination` (WebE35D) with `InternshipTerminationDeclaration`, and `InternshipScheduleChange` (WebE35T) with `InternshipScheduleChangeDeclaration`, plus factories and `Ergani::sendInternshipCorrection()` / `sendInternshipTermination()` / `sendInternshipScheduleChange()`
+- `InternshipDeclaration::getSchedule()`, `getSplitSchedule()` and `getBreakSchedule()` getters
+- `InternshipDeclaration::setInsuranceAgency()` / `getInsuranceAgency()` for the new `f_insurance_agency` field (E35_v3)
+
+### Changed
+
+- **Overtime documents now take a `WorkTime`** (entries of type `WorkTimeType::OVERTIME`) and send the `WTOS` / `WTO` structure: `WorkTimeOvertime` (WTOOv), `WorkTimeOvertimeRetrospective` (WTOOvA), `WorkTimeOvertimeDrivers` (WTOOvD) and `Ergani::sendOvertime()` / `sendOvertimeRetrospective()` / `sendOvertimeDrivers()`. The previous `Overtimes` / `Overtime` payload was rejected by ERGANI on both environments, so no overtime submission could succeed
+- Exclude `bin/` (maintainer CLI tools) from the published package
+- Use ERGANI's new action codes for construction and internship submissions: `ConstructionWorkDeclaration` → `WebE12`, `ConstructionWorkCensus` → `WebE12Ap`, `Internship` → `WebE35` (the old `E12`, `E12Apogr` and `57` codes are rejected by both environments)
+- Update the internship schema to `E35_v3.xsd`
+- Move `Internship` submission logic into an abstract `InternshipDocument` base, and the schedule, certifier, legal representative and file accessors of `InternshipDeclaration` into traits under `Models\Internship\Concerns` (public API unchanged)
+- Refresh `E3N_v1.xsd`, `E3M_v1.xsd` and `E3D_v1.xsd` from ERGANI's latest help files (E3N/E3M no longer allow employment status `3` (on-demand); E3M allows employment relationship `2`/`3`; E3D salary and collective agreement fields accept empty values)
+
+### Deprecated
+
+- `Models\Overtime\Overtime`, `Models\Overtime\OvertimeEmployee` and their factories (legacy overtime structure); use `WorkTime` with `WorkTimeType::OVERTIME` entries. They will be removed in v3
+
+### Fixed
+
+- Work time factories no longer emit empty `f_day` / `f_date` / `f_year` / `f_req_days`, which ERGANI rejects for daily, weekly and leave submissions
+- `schema:check` validates daily work time and overtime against `WTO_v1.xsd`; leave moved to a new `WTOLeave` group (`WTO_v2.xsd`)
+- MA (`EmploymentModification`) sent supplementary insurance as `EpikourikiSelections` / `f_kod_epikourikis`; `MA_v1.xsd` expects `Epikourikes` → `EpikourikesMA` / `f_epikouriki_kod`, so ERGANI rejected every MA with supplementary insurance
+- MAD (`BorrowedModificationDeclaration`) sent the `f_borrow_*` fields after `f_eidos_dieuthethshs`; they now follow `MAD_v1.xsd` order
+- E3PD (`LendingDeclaration`) no longer sends `f_atomikh_symbash`, which only exists in the not-yet-active `E3PD_v2.xsd`; its factory and docs no longer use employment type `BORROWED` (3), which `E3PD_v1.xsd` rejects
+- `NewDeclarationFactory::withUnpredictableSchedule()` no longer sets employment status `3` (on-demand), which the current E3N/E3M schemas reject (confirmed on production); `EmploymentStatus::ON_DEMAND` is now documented as not accepted until ERGANI activates the newer `E3N_v2.xsd` / `E3M_v2.xsd` / `MA_v2.xsd` schema files
+- `DayOfWeek::SUNDAY` now uses value `0` instead of `7`
+- `GreekProvider::amka()` now appends a valid Luhn check digit (most generated AMKAs were rejected by ERGANI)
+- `InternshipDeclaration` factory now generates schema-valid data (KAD codes, DYPA service, tax office, ID type and legal representative AFM)
+
 ## [2.1.0] - 2026-08-08
 
 ### Added
@@ -264,6 +307,7 @@ Initial alpha release.
 - Renamed `Authentication` class to `AuthenticationLogin`
 - Renamed `clear` method to `failedAuthentication` in Token
 
+[2.2.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.3...v2.1.0
 [2.0.3]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.1...v2.0.2

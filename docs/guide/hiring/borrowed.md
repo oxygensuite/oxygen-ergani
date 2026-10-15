@@ -65,7 +65,7 @@ $declaration = LendingDeclaration::make()
     ->setWeeklyHours(40.0)
     ->setSpecialtyCode('123456')
     ->setGrossSalary(1500.00)
-    ->setEmploymentType(EmploymentType::BORROWED)
+    ->setEmploymentType(EmploymentType::INDEFINITE)
     ->setEmploymentStatus(EmploymentStatus::FULL)
     ->setWorkerType(WorkerType::EMPLOYEE)
 
@@ -80,7 +80,7 @@ $declaration = LendingDeclaration::make()
 
     // Acceptance (required for E3PD)
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 
 $response = (new HiringWithLending())->handle($declaration);
 ```
@@ -100,13 +100,13 @@ In addition to [common fields](./index#common-fields), E3PD includes:
 
 ### Employment Type & Salary
 
-Same as E3N, but `EmploymentType` should typically be `BORROWED`:
+Same as E3N, but `E3PD_v1.xsd` only accepts `INDEFINITE` (0) or `FIXED_TERM` (1) for the employment type:
 
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
 | `setHiringDate()` | `f_proslipsidate` | string | Yes | Start date at your company |
 | `setGrossSalary()` | `f_apodoxes` | float | Yes | Monthly gross salary |
-| `setEmploymentType()` | `f_sxeshapasxolisis` | EmploymentType | Yes | Typically `BORROWED` (3) |
+| `setEmploymentType()` | `f_sxeshapasxolisis` | EmploymentType | Yes | `INDEFINITE` (0) or `FIXED_TERM` (1); `BORROWED` (3) is rejected |
 
 ### Trial Period
 
@@ -129,7 +129,7 @@ Same as E3N - see [New Hire](./new#wage-payment).
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
 | `setBasicsAcceptance()` | `f_basics_acceptance` | bool | Yes | Essential terms accepted |
-| `setAcceptanceFile()` | `f_file` | string | Yes | Base64 PDF of acceptance form |
+| `setFile()` | `f_file` | string | Yes | Base64 PDF of acceptance form |
 | `setContractFile()` | `f_file_symbash` | string | No | Base64 PDF of contract |
 
 ## Complete Examples
@@ -186,14 +186,14 @@ $declaration = LendingDeclaration::make()
     ->setSpecialtyDescription('ΤΕΧΝΙΚΟΣ ΣΥΝΤΗΡΗΣΗΣ')
     ->setExperienceYears(8)
     ->setGrossSalary(1800.00)
-    ->setEmploymentType(EmploymentType::BORROWED)
+    ->setEmploymentType(EmploymentType::INDEFINITE)
     ->setEmploymentStatus(EmploymentStatus::FULL)
     ->setWorkerType(WorkerType::WORKER)
 
     // Work organization
     ->setWorkingTimeDigitalOrganization(true)
     ->setFullEmploymentHours(40.0)
-    ->setWeekDays(WeekDays::FIVE)
+    ->setWeekDays(WeekDays::FIVE_DAY)
     ->setWorkingCard(true)
     ->setBreakMinutes(30)
     ->setBreakWithinSchedule(true)
@@ -208,7 +208,7 @@ $declaration = LendingDeclaration::make()
 
     // Acceptance
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 
 $response = (new HiringWithLending())->handle($declaration);
 ```
@@ -237,13 +237,13 @@ $declaration = LendingDeclaration::make()
     ->setWeeklyHours(40.0)
     ->setSpecialtyCode('123456')
     ->setGrossSalary(1200.00)
-    ->setEmploymentType(EmploymentType::BORROWED)
+    ->setEmploymentType(EmploymentType::INDEFINITE)
     ->setEmploymentStatus(EmploymentStatus::FULL)
     ->setWorkerType(WorkerType::EMPLOYEE)
 
     ->setMainInsurance('101')
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 ```
 
 ### Part-Time Borrowed Employee
@@ -265,13 +265,13 @@ $declaration = LendingDeclaration::make()
     ->setWeeklyHours(20.0)
     ->setSpecialtyCode('345678')
     ->setGrossSalary(900.00)
-    ->setEmploymentType(EmploymentType::BORROWED)
+    ->setEmploymentType(EmploymentType::INDEFINITE)
     ->setEmploymentStatus(EmploymentStatus::PARTIAL)  // Part-time
     ->setWorkerType(WorkerType::EMPLOYEE)
 
     ->setMainInsurance('101')
     ->setBasicsAcceptance(true)
-    ->setAcceptanceFile(base64_encode(file_get_contents('acceptance.pdf')));
+    ->setFile(base64_encode(file_get_contents('acceptance.pdf')));
 ```
 
 ## Response Handling
@@ -292,7 +292,7 @@ foreach ($response as $result) {
 
 2. **Paired with E3D**: When you submit E3PD, the lending company must also submit E3D.
 
-3. **Employment Type**: Use `EmploymentType::BORROWED` (value 3) for the `f_sxeshapasxolisis` field.
+3. **Employment Type**: Use `EmploymentType::INDEFINITE` (0) or `FIXED_TERM` (1) for `f_sxeshapasxolisis`. ERGANI rejects `BORROWED` (3) on E3PD (confirmed on production). The individual contract field (`setIndividualContract()`, `f_atomikh_symbash`) is not part of `E3PD_v1.xsd`, so it is not sent for E3PD.
 
 4. **End of Lending**: When the lending period ends, submit E6LD (End of Loan) - see [Dismissal documentation](/guide/dismissal/).
 

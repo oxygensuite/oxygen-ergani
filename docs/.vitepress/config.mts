@@ -109,9 +109,14 @@ export default defineConfig({
             { text: 'Fixed-Term (E7)', link: '/guide/fixed-term' },
             { text: 'Modifications (MA)', link: '/guide/modifications' },
             { text: 'Construction (E12)', link: '/guide/construction' },
+            { text: 'Motorcycle Use (E13)', link: '/guide/motorcycle' },
             { text: 'Sixth Day', link: '/guide/sixth-day' },
             { text: 'Pre-Announcement', link: '/guide/pre-announcement' },
             { text: 'Internship (E3.5)', link: '/guide/internship' },
+            { text: 'Community Programs (E3.1)', link: '/guide/community-program' },
+            { text: 'Theoretical Training (E3.2)', link: '/guide/theoretical-training' },
+            { text: 'Parental Leave (E14)', link: '/guide/parental-leave' },
+            { text: 'Urgent Hiring (FastAna)', link: '/guide/urgent-hiring' },
           ]
         },
         {

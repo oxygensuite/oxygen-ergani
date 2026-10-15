@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio Developer Edition (Trial) 8.1.7.2743 (http://www.liquid-technologies.com)-->
+<xs:schema xmlns="http://www.yeka.gr/E35T" xml:lang="gr" attributeFormDefault="unqualified" targetNamespace="http://www.yeka.gr/E35T" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="PraktikhE35TType">
+        <xs:sequence>
+            <xs:element name="f_aa_pararthmatos" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Α/Α ΠΑΡΑΡΤΗΜΑΤΟΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{1,5}" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_rel_protocol">
+                <xs:annotation>
+                    <xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΑΡΙΘ. ΠΡΩΤ.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_rel_date">
+                <xs:annotation><xs:documentation>ΣΧΕΤΙΚΟ ΕΝΤΥΠΟ ΗΜΕΡΟΜΗΝΙΑ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_afm" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΑΡΙΘΜΟΣ ΦΟΡΟΛΟΓΙΚΟΥ ΜΗΤΡΩΟΥ (Α.Φ.Μ.)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="([0-9]){9}" />
+                        <xs:length value="9" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_trpopoihsh_date" nillable="false">
+                <xs:annotation><xs:documentation>ΗΜΕΡΟΜΗΝΙΑ ΑΝΑΓΓΕΛΙΑΣ ΤΡΟΠΟΠΟΙΗΣΗΣ ΤΟΥ ΧΡΟΝΟΥ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ ΑΣΚΟΥΜΕΝΟΥ ΣΠΟΥΔΑΣΤΗ/ΦΟΙΤΗΤΗ</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0]?)([1-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([1])([0-9])([/])([0]?1|[0]?2|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-9])([/])([0]?1|[0]?3|[0]?4|[0]?5|[0]?6|[0]?7|[0]?8|[0]?9|10|11|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([0-8])([/])([0]?2)([/])([1-2])([0-9])([0-9])([0-9]))|(([2])([9])([/])([0]?2)([/])([1-2])([0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))|(([3])([0-1])([/])(01|03|05|07|08|10|12)([/])([1-2])([0-9])([0-9])([0-9]))|(([3])([0])([/])(04|06|09|11)([/])([1-2])([0-9])([0-9])([0-9]))|([ ]*)"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_time_from_1">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΔΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_1">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΔΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_2">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΤΡ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_2">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΤΡ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_3">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΤΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_3">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΤΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_4">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΠΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_4">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΠΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_5">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΠΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_5">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΠΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_6">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΣΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_6">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΣΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_from_7">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΚΥ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_time_to_7">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ ΚΥ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			
+			
+			<xs:element name="f_second_time_from_1">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΔΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_1">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΔΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_2">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΤΡ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_2">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΤΡ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_3">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΤΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_3">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΤΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_4">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΠΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_4">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΠΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_5">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΠΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_5">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΠΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_6">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΣΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_6">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΣΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_from_7">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΚΥ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_second_time_to_7">
+                <xs:annotation><xs:documentation>ΑΠΑΣΧ(Σε περίπτωση "Σπαστού" Ωραρίου) ΚΥ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			
+		
+			<xs:element name="f_break_time_from_1">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΔΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_1">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΔΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_2">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΤΡ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_2">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΤΡ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_3">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΤΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_3">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΤΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_4">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΠΕ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_4">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΠΕ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_5">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΠΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_5">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΠΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_6">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΣΑ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_6">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΣΑ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_from_7">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΚΥ ΑΠΟ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="f_break_time_to_7">
+                <xs:annotation><xs:documentation>ΔΙΑΛ ΚΥ ΕΩΣ:</xs:documentation></xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(([0-1][0-9]|2[0-3]):([0-5][0-9]))?"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+			
+            <xs:element name="f_eponymo_idiotitas" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΡΟΪΣΤ. ΠΡΟΣΩΠΙΚΟΥ ή ΟΙΚΟΝΟΜΙΚΟΥ ή  ΛΟΓΙΣΤΗΣ, Ο ΒΕΒΑΙΩΝ ΕΠΩΝΥΜΟ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_onoma_idiotitas" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΡΟΪΣΤ. ΠΡΟΣΩΠΙΚΟΥ ή ΟΙΚΟΝΟΜΙΚΟΥ ή  ΛΟΓΙΣΤΗΣ, Ο ΒΕΒΑΙΩΝ ΟΝΟΜΑ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_idiotita_idiotitas" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΡΟΪΣΤ. ΠΡΟΣΩΠΙΚΟΥ ή ΟΙΚΟΝΟΜΙΚΟΥ ή  ΛΟΓΙΣΤΗΣ, Ο ΒΕΒΑΙΩΝ ΙΔΙΟΤΗΤΑ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_dieythinsi_idiotitas" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΡΟΪΣΤ. ΠΡΟΣΩΠΙΚΟΥ ή ΟΙΚΟΝΟΜΙΚΟΥ ή  ΛΟΓΙΣΤΗΣ, Ο ΒΕΒΑΙΩΝ ΔΙΕΥΘΥΝΣΗ ΚΑΤΟΙΚΙΑΣ</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="70" />
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_afm_idiotitas" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>ΠΡΟΪΣΤ. ΠΡΟΣΩΠΙΚΟΥ ή ΟΙΚΟΝΟΜΙΚΟΥ ή  ΛΟΓΙΣΤΗΣ, Ο ΒΕΒΑΙΩΝ ΔΙΕΥΘΥΝΣΗ Α.Φ.Μ.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="([0-9]){9}" />
+                        <xs:length value="9" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element> 
+            <!-- END Ε35 -->
+            <xs:element name="f_afm_proswpoy" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Νόμιμος Εκπρόσωπος(Α.Φ.Μ.)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="([0-9]){9}" />
+                        <xs:length value="9" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="f_file">
+                <xs:annotation>
+                <xs:documentation>Αρχείο Εντύπου Αρχείο(pdf)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:base64Binary">
+					</xs:restriction>
+				</xs:simpleType>
+            </xs:element>
+            <xs:element name="f_foreign_file">
+                <xs:annotation>
+                <xs:documentation>Αρχείο Νομιμοποιητικών Εγγράφων Πρόσβασης στην Αγορά Εργασίας Πολιτών Τρίτων Χωρών Αρχείο(pdf)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:base64Binary">
+					</xs:restriction>
+				</xs:simpleType>
+            </xs:element>
+            <xs:element name="f_young_file">
+                <xs:annotation>
+                <xs:documentation>Αρχείο Βιβιαρίου Ανηλίκου Εργαζομένου(pdf)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:base64Binary">
+					</xs:restriction>
+				</xs:simpleType>
+            </xs:element>
+
+           
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PraktikesE35TType">
+		<xs:sequence>
+			<xs:element name="PraktikhE35T" type="PraktikhE35TType"  minOccurs="1"  maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>ΑΝΑΓΓΕΛΙΕΣ ΠΡΑΚΤΙΚΗΣ Ε3.5 ΤΡΟΠΟΠΟΙΗΣΗ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="PraktikesE35T" type="PraktikesE35TType">
+		<xs:annotation>
+			<xs:documentation>ΑΝΑΓΓΕΛΙΕΣ ΠΡΑΚΤΙΚΗΣ Ε3.5 ΤΡΟΠΟΠΟΙΗΣΗ ΟΡΓΑΝΩΣΗΣ ΧΡΟΝΟΥ</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

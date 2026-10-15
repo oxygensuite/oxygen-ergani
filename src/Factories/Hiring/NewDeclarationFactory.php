@@ -304,12 +304,13 @@ class NewDeclarationFactory extends Factory
     /**
      * Configure the model with unpredictable work schedule.
      *
+     * Leaves the employment status unchanged: the current E3N schema does not accept on-demand (3).
+     *
      * @return $this
      */
     public function withUnpredictableSchedule(): static
     {
         return $this->state([
-            'f_kathestosapasxolisis' => (string) EmploymentStatus::ON_DEMAND->value,
             'f_mh_provlepsimo_programma' => '1',
             'f_paraggelia_hmeres_hours' => 'Δευτέρα έως Παρασκευή, 08:00-20:00',
             'f_paraggelia_min_notification' => '24 ώρες',
