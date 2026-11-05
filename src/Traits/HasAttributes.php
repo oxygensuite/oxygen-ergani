@@ -54,6 +54,19 @@ trait HasAttributes
     }
 
     /**
+     * Sets a date value, formatting any DateTimeInterface (DateTime, DateTimeImmutable, Carbon, ...)
+     * with the given format; strings and null are stored as given.
+     *
+     * @param string $format PHP date format, `d/m/Y` (the ERGANI form format) by default.
+     *
+     * @return $this
+     */
+    protected function setDateAttribute(string $key, DateTimeInterface|string|null $date, string $format = 'd/m/Y'): static
+    {
+        return $this->set($key, $date instanceof DateTimeInterface ? $date->format($format) : $date);
+    }
+
+    /**
      * Retrieves a datetime value associated with the given key.
      * If the key does not exist, returns the provided default value or null.
      *

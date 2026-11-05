@@ -63,12 +63,12 @@ $responses = $ergani->sendSixthDayDeclaration($declaration);
 | `setContinuousOperation()` | `f_continuous_operation` | string\|bool | Yes | Whether business has continuous operation (0/1) |
 | `setMainActivityCode()` | `f_kad_kyria` | string | Yes | Main activity code (KAD) |
 | `setSpecialOccasionDescription()` | `f_special_occasion_description` | string | No | Description of the special occasion |
-| `setDateFrom()` | `f_date_special_from` | DateTime\|string | Yes | Start date (DD/MM/YYYY) |
-| `setDateTo()` | `f_date_special_to` | DateTime\|string | Yes | End date (DD/MM/YYYY) |
+| `setDateFrom()` | `f_date_special_from` | DateTimeInterface\|string | Yes | Start date (DD/MM/YYYY) |
+| `setDateTo()` | `f_date_special_to` | DateTimeInterface\|string | Yes | End date (DD/MM/YYYY) |
 | `setComments()` | `f_comments` | string | No | Additional comments |
 
 ::: tip DateTime Support
-Date fields accept both `DateTime` objects and strings:
+Date fields accept any `DateTimeInterface` (`DateTime`, `DateTimeImmutable`, Carbon) as well as strings:
 ```php
 $declaration->setDateFrom('20/12/2025');                    // String
 $declaration->setDateFrom(new DateTime('2025-12-20'));      // DateTime

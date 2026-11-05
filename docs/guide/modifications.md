@@ -102,7 +102,7 @@ $response = (new EmploymentModification())->handle($declaration);
 
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
-| `setChangeDate()` | `f_date_metabolhs` | DateTime\|string | Yes | Effective date (DD/MM/YYYY) |
+| `setChangeDate()` | `f_date_metabolhs` | DateTimeInterface\|string | Yes | Effective date (DD/MM/YYYY) |
 | `setSettlementType()` | `f_eidos_dieuthethshs` | SettlementType | No | Settlement arrangement |
 | `setSettlementTypeComment()` | `f_eidos_dieuthethshs_comments` | string | No | Settlement details (max 200 chars) |
 | `setReferencePeriodFrom()` | `f_periodos_anaforas_from` | string | No | Reference period start |
@@ -580,7 +580,7 @@ $declaration = BorrowedModificationDeclaration::make()
 Both declaration types inherit from the same base class and share these common field groups:
 
 ::: tip DateTime Support
-All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+All date fields accept any `DateTimeInterface` (`DateTime`, `DateTimeImmutable`, Carbon, or a response's `submissionDate`) as well as strings. Date objects are automatically formatted to DD/MM/YYYY:
 ```php
 $declaration->setBirthDate('15/01/1990');           // String
 $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime

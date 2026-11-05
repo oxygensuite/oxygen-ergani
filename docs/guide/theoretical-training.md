@@ -132,7 +132,7 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original declaration (corrections only). |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original declaration (corrections only). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original declaration (corrections only). |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code. |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits). |
 | `setProgramCode()` | `f_programma_voucher_code` | string | No | Program code |
@@ -155,17 +155,17 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 | `setMotherName()` | `f_mea_onoma_miteras` | string | Yes | Mother name |
 | `setSex()` | `f_mea_sex` | Sex\|string\|int | Yes | 0=Male, 1=Female (or use Sex enum) |
 | `setBirthPlace()` | `f_mea_birth_city` | string | No | Birth place |
-| `setBirthDate()` | `f_mea_date_birth` | DateTime\|string | Yes | Birth date (DD/MM/YYYY) |
+| `setBirthDate()` | `f_mea_date_birth` | DateTimeInterface\|string | Yes | Birth date (DD/MM/YYYY) |
 | `setNationality()` | `f_mea_nationality` | string | Yes | Nationality code (3 digits, see ParameterLookup::NATIONALITY). |
 | `setIdType()` | `f_mea_typos_taytotitas` | string | Yes | Identity document type (see ParameterLookup::ID_TYPE). |
 | `setIdNumber()` | `f_mea_ar_taytotitas` | string | Yes | Identity document number |
 | `setIdIssuingAuthority()` | `f_mea_ekdousa` | string | No | Id issuing authority |
-| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTime\|string | No | Identity document issue date (DD/MM/YYYY) |
-| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTime\|string | No | Identity document expiry date (DD/MM/YYYY) |
+| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTimeInterface\|string | No | Identity document issue date (DD/MM/YYYY) |
+| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTimeInterface\|string | No | Identity document expiry date (DD/MM/YYYY) |
 | `setResidencePermit()` | `f_mea_res_permit` | string\|bool | No | Whether the beneficiary holds a residence or work permit. |
 | `setResidencePermitType()` | `f_mea_res_permit_type` | string | No | Residence permit type (see ParameterLookup::RESIDENCE_PERMIT). |
 | `setResidencePermitNumber()` | `f_mea_res_permit_ar` | string | No | Residence permit number |
-| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTime\|string | No | Residence permit expiry date (DD/MM/YYYY) |
+| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTimeInterface\|string | No | Residence permit expiry date (DD/MM/YYYY) |
 | `setMaritalStatus()` | `f_mea_marital_status` | MaritalStatus\|string\|int | Yes | 0=Single, 1=Married, 2=Divorced, 3=Widowed (or use MaritalStatus enum) |
 | `setNumberOfChildren()` | `f_mea_ar_teknon` | int\|string | Yes | Number of children |
 | `setAfm()` | `f_mea_afm` | string | Yes | Beneficiary tax ID (AFM) |
@@ -185,7 +185,7 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 | `setVocationalTrainingSubject()` | `f_mea_practical_education` | string | No | Vocational training subject code (3 digits). |
 | `setVoucherProgram()` | `f_mea_voucher` | string\|bool | No | Whether this is a voucher program. |
 | `setKayasCode()` | `f_mea_kayas` | string | No | K.A.Y.A.S. code. |
-| `setTrainingStartDate()` | `f_date_proslipsis` | DateTime\|string | Yes | Theoretical training start date (DD/MM/YYYY) |
+| `setTrainingStartDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | Theoretical training start date (DD/MM/YYYY) |
 | `setWeeklyHours()` | `f_week_hours` | float | Yes | Weekly theoretical training hours. |
 | `setScheduleDescription()` | `f_orario` | string | No | Working / training days and hours as free text (max 200 characters). |
 | `setBreakDescription()` | `f_orario_dialeima` | string | No | Break hours as free text (max 200 characters). |
@@ -196,7 +196,7 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 | `setTheoryProgram()` | `f_theory_education` | string | Yes | Theoretical training program code. |
 | `setTheoryDescription()` | `f_theory_description` | string | No | Theory description |
 | `setTheoryCode()` | `f_theory_code` | string | No | Theory code |
-| `setTrainingEndDate()` | `f_orismenou_ews` | DateTime\|string | Yes | Theoretical training end date (DD/MM/YYYY) |
+| `setTrainingEndDate()` | `f_orismenou_ews` | DateTimeInterface\|string | Yes | Theoretical training end date (DD/MM/YYYY) |
 | `setStatusAtApplication()` | `f_benefiter_status_after` | string | Yes | Beneficiary status when applying to the program (3-digit code). |
 | `setUnemploymentMonths()` | `f_months_unempoyment` | int\|string | No | Unemployment months |
 | `setStatusBeforeApplication()` | `f_benefiter_status_before` | string | Yes | Beneficiary status one month before applying (3-digit code). |
@@ -212,8 +212,8 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 | `setPracticeBranchPhone()` | `f_practice_mpa_til` | string | No | Practice branch phone |
 | `setPracticeBranchFax()` | `f_practice_mpa_fax` | string | No | Practice branch fax |
 | `setPracticeBranchEmail()` | `f_practice_mpa_email` | string | No | Practice branch email |
-| `setPracticeDateFrom()` | `f_practice_date_from` | DateTime\|string | No | Practical training start date (DD/MM/YYYY) |
-| `setPracticeDateTo()` | `f_practice_date_to` | DateTime\|string | No | Practical training end date (DD/MM/YYYY) |
+| `setPracticeDateFrom()` | `f_practice_date_from` | DateTimeInterface\|string | No | Practical training start date (DD/MM/YYYY) |
+| `setPracticeDateTo()` | `f_practice_date_to` | DateTimeInterface\|string | No | Practical training end date (DD/MM/YYYY) |
 | `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
 | `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
 | `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
@@ -262,9 +262,9 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.2 declaration. |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
 | `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
-| `setChangeDate()` | `f_cpractice_date` | DateTime\|string | No | Date of the employer change (DD/MM/YYYY). |
+| `setChangeDate()` | `f_cpractice_date` | DateTimeInterface\|string | No | Date of the employer change (DD/MM/YYYY). |
 | `setPracticeCompanyName()` | `f_cpractice_mer_eponimia` | string | No | Name of the new practical training business. |
 | `setPracticeCompanyAfm()` | `f_cpractice_mer_afm` | string | Yes | AFM of the new business. |
 | `setPracticeCompanyTaxOffice()` | `f_cpractice_mer_doy` | string | No | Tax office code of the new business (4 digits). |
@@ -276,8 +276,8 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setPracticeBranchPhone()` | `f_cpractice_mpa_til` | string | No | Branch phone. |
 | `setPracticeBranchFax()` | `f_cpractice_mpa_fax` | string | No | Branch fax. |
 | `setPracticeBranchEmail()` | `f_cpractice_mpa_email` | string | No | Branch e-mail. |
-| `setPracticeDateFrom()` | `f_cpractice_date_from` | DateTime\|string | Yes | Practical training start date at the new business (DD/MM/YYYY). |
-| `setPracticeDateTo()` | `f_cpractice_date_to` | DateTime\|string | Yes | Practical training end date at the new business (DD/MM/YYYY). |
+| `setPracticeDateFrom()` | `f_cpractice_date_from` | DateTimeInterface\|string | Yes | Practical training start date at the new business (DD/MM/YYYY). |
+| `setPracticeDateTo()` | `f_cpractice_date_to` | DateTimeInterface\|string | Yes | Practical training end date at the new business (DD/MM/YYYY). |
 | `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
 | `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
 | `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
@@ -317,9 +317,9 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.2 declaration. |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
 | `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
-| `setInterruptionDate()` | `f_diakoph_date` | DateTime\|string | No | Interruption date (DD/MM/YYYY). |
+| `setInterruptionDate()` | `f_diakoph_date` | DateTimeInterface\|string | No | Interruption date (DD/MM/YYYY). |
 | `setTheoryHours()` | `f_diakoph_total_hours_theory` | int\|string | No | Theoretical training hours completed until the interruption (up to 3 digits). |
 | `setPracticeHours()` | `f_diakoph_total_hours_practice` | int\|string | No | Practical training hours completed until the interruption (up to 3 digits, may be empty). |
 | `setInsuranceDays()` | `f_diakoph_total_insurance_days` | int\|string | No | Insurance days completed until the interruption (up to 3 digits, may be empty). |

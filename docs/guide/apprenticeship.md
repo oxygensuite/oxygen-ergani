@@ -125,7 +125,7 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original declaration (corrections only). |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original declaration (corrections only). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original declaration (corrections only). |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code. |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits). |
 | `setProgramCode()` | `f_programma_novitiate` | string | Yes | Apprenticeship program code (3 digits). |
@@ -145,17 +145,17 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setMotherName()` | `f_mea_onoma_miteras` | string | Yes | Mother name |
 | `setSex()` | `f_mea_sex` | Sex\|string\|int | Yes | 0=Male, 1=Female (or use Sex enum) |
 | `setBirthPlace()` | `f_mea_birth_city` | string | No | Birth place |
-| `setBirthDate()` | `f_mea_date_birth` | DateTime\|string | Yes | Birth date (DD/MM/YYYY) |
+| `setBirthDate()` | `f_mea_date_birth` | DateTimeInterface\|string | Yes | Birth date (DD/MM/YYYY) |
 | `setNationality()` | `f_mea_nationality` | string | Yes | Nationality code (3 digits, see ParameterLookup::NATIONALITY). |
 | `setIdType()` | `f_mea_typos_taytotitas` | string | Yes | Identity document type (see ParameterLookup::ID_TYPE). |
 | `setIdNumber()` | `f_mea_ar_taytotitas` | string | Yes | Identity document number |
 | `setIdIssuingAuthority()` | `f_mea_ekdousa` | string | No | Id issuing authority |
-| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTime\|string | No | Identity document issue date (DD/MM/YYYY) |
-| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTime\|string | No | Identity document expiry date (DD/MM/YYYY) |
+| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTimeInterface\|string | No | Identity document issue date (DD/MM/YYYY) |
+| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTimeInterface\|string | No | Identity document expiry date (DD/MM/YYYY) |
 | `setResidencePermit()` | `f_mea_res_permit` | string\|bool | No | Whether the beneficiary holds a residence or work permit. |
 | `setResidencePermitType()` | `f_mea_res_permit_type` | string | No | Residence permit type (see ParameterLookup::RESIDENCE_PERMIT). |
 | `setResidencePermitNumber()` | `f_mea_res_permit_ar` | string | No | Residence permit number |
-| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTime\|string | No | Residence permit expiry date (DD/MM/YYYY) |
+| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTimeInterface\|string | No | Residence permit expiry date (DD/MM/YYYY) |
 | `setMaritalStatus()` | `f_mea_marital_status` | MaritalStatus\|string\|int | Yes | 0=Single, 1=Married, 2=Divorced, 3=Widowed (or use MaritalStatus enum) |
 | `setNumberOfChildren()` | `f_mea_ar_teknon` | int\|string | Yes | Number of children |
 | `setAfm()` | `f_mea_afm` | string | Yes | Beneficiary tax ID (AFM) |
@@ -176,7 +176,7 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setSchoolOther()` | `f_mea_noviciate_sxolh_other` | string | No | School name as free text when the school code is not listed (max 50 characters). |
 | `setSpecialtyGroupCode()` | `f_mea_noviciate_omada` | string | No | Specialty group / sector code (4 digits); leave empty and use setSpecialtyGroupOther() if not listed. |
 | `setSpecialtyGroupOther()` | `f_mea_noviciate_omada_other` | string | No | Specialty group as free text when the group code is not listed (max 50 characters). |
-| `setPlacementDate()` | `f_date_proslipsis` | DateTime\|string | Yes | First day of the apprenticeship (DD/MM/YYYY). |
+| `setPlacementDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | First day of the apprenticeship (DD/MM/YYYY). |
 | `setPlacementTime()` | `f_date_time_proslipsis` | string | Yes | Start time on the first day (HH:MM). |
 | `setScheduleDescription()` | `f_orario` | string | Yes | Working / training days and hours as free text (max 200 characters). |
 | `setWeeklyHours()` | `f_week_hours` | int\|string | Yes | Weekly apprenticeship hours as free text (e.g. "40"). |
@@ -184,7 +184,7 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setScheduleAttached()` | `f_wres_external` | string\|bool | Yes | Whether the working days and hours are given in an attached file. |
 | `setSpecialtyCode()` | `f_novitiate_education` | string | Yes | Apprenticeship specialty code (4 digits). |
 | `setGrossSalary()` | `f_apodoxes` | float | Yes | Gross apprentice wage (Greek float, `1000.0` → `"1.000,00"`). |
-| `setEndDate()` | `f_orismenou_ews` | DateTime\|string | Yes | Apprenticeship end date (DD/MM/YYYY). |
+| `setEndDate()` | `f_orismenou_ews` | DateTimeInterface\|string | Yes | Apprenticeship end date (DD/MM/YYYY). |
 | `setContractNumber()` | `f_contract` | string | Yes | Apprenticeship contract number / reference (max 50 characters). |
 | `setComments()` | `f_comments` | string | No | Comments |
 | `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |

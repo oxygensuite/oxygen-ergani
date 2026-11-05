@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Termination\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Notification reference fields for E5AO (resignation after notification).
@@ -40,14 +40,10 @@ trait HasNotificationReference
     /**
      * Set the notification (E5O) submission date.
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setNotificationDate(DateTime|string $date): static
+    public function setNotificationDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_oxlhsh_date_ypovolis', $date);
+        return $this->setDateAttribute('f_oxlhsh_date_ypovolis', $date);
     }
 }

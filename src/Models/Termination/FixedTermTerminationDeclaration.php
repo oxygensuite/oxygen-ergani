@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Termination;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\FixedTermTerminationReason;
 use OxygenSuite\OxygenErgani\Factories\Termination\FixedTermTerminationDeclarationFactory;
@@ -184,15 +184,11 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the contractual end date of the fixed-term contract.
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setContractEndDate(DateTime|string $date): static
+    public function setContractEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_lixisymbashdate', $date);
+        return $this->setDateAttribute('f_lixisymbashdate', $date);
     }
 
     /**
@@ -206,15 +202,11 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the employee's hiring date.
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(DateTime|string $date): static
+    public function setHiringDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_proslipsidate', $date);
+        return $this->setDateAttribute('f_proslipsidate', $date);
     }
 
     /**
@@ -228,15 +220,11 @@ class FixedTermTerminationDeclaration extends DismissalDeclaration
     /**
      * Set the actual termination date.
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setTerminationDate(DateTime|string $date): static
+    public function setTerminationDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_apolysisdate', $date);
+        return $this->setDateAttribute('f_apolysisdate', $date);
     }
 
     // ==================== Termination Reason ====================

@@ -50,7 +50,7 @@ E6 forms differ from E5 forms in several ways:
 All E6 forms share these fields from the base `Declaration` class:
 
 ::: tip DateTime Support
-All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+All date fields accept any `DateTimeInterface` (`DateTime`, `DateTimeImmutable`, Carbon, or a response's `submissionDate`) as well as strings. Date objects are automatically formatted to DD/MM/YYYY:
 ```php
 $declaration->setBirthDate('15/01/1990');           // String
 $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime

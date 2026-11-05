@@ -2,7 +2,6 @@
 
 namespace OxygenSuite\OxygenErgani\Models\ParentalLeave;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
@@ -10,6 +9,7 @@ use OxygenSuite\OxygenErgani\Enums\LeaveGrantMethod;
 use OxygenSuite\OxygenErgani\Enums\ParentalLeaveCategory;
 use OxygenSuite\OxygenErgani\Enums\WeekDays;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Model;
 
 /**
@@ -22,6 +22,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
 class ParentalLeaveDeclaration extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
 
     /** @var array<string, mixed> */
     protected array $defaults = [
@@ -79,36 +80,6 @@ class ParentalLeaveDeclaration extends Model
     public function setBranchCode(int|string $branchCode): static
     {
         return $this->set('f_aa_pararthmatos', $branchCode);
-    }
-
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    /**
-     * @param string $protocol Protocol of the declaration being corrected (corrections only)
-     */
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    /**
-     * @param DateTimeInterface|string $date Submission date of the declaration being corrected (corrections only)
-     */
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
     }
 
     public function getLaborInspectionCode(): ?string
@@ -234,13 +205,9 @@ class ParentalLeaveDeclaration extends Model
         return $this->get('f_date_proslipsis');
     }
 
-    public function setHireDate(DateTime|string $date): static
+    public function setHireDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_proslipsis', $date);
+        return $this->setDateAttribute('f_date_proslipsis', $date);
     }
 
     // ==================== Employment ====================
@@ -447,13 +414,9 @@ class ParentalLeaveDeclaration extends Model
         return $this->get('f_date_enarxis_adeias');
     }
 
-    public function setLeaveStartDate(DateTime|string $date): static
+    public function setLeaveStartDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_enarxis_adeias', $date);
+        return $this->setDateAttribute('f_date_enarxis_adeias', $date);
     }
 
     public function getLeaveEndDate(): ?string
@@ -461,19 +424,15 @@ class ParentalLeaveDeclaration extends Model
         return $this->get('f_date_lhxhs_adeias');
     }
 
-    public function setLeaveEndDate(DateTime|string $date): static
+    public function setLeaveEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_lhxhs_adeias', $date);
+        return $this->setDateAttribute('f_date_lhxhs_adeias', $date);
     }
 
     /**
      * Set the leave period in one call.
      */
-    public function setLeavePeriod(DateTime|string $from, DateTime|string $to): static
+    public function setLeavePeriod(DateTimeInterface|string $from, DateTimeInterface|string $to): static
     {
         return $this->setLeaveStartDate($from)->setLeaveEndDate($to);
     }

@@ -108,7 +108,7 @@ $response = (new ParentalLeaveCorrection())->handle($declaration);
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes (empty) | Protocol of the declaration being corrected |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes (empty) | Date of the declaration being corrected |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes (empty) | Date of the declaration being corrected |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits) |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code (6 digits) |
 | `setPaidByEntity()` | `f_payment_from_forea` | string\|bool | Yes | Leave paid by the entity itself (art. 56 & 60, Law 4830/2021) |
@@ -118,7 +118,7 @@ $response = (new ParentalLeaveCorrection())->handle($declaration);
 | `setAma()` | `f_am_ika_ergazom` | string | Yes | e-EFKA registry number |
 | `setLastName()` | `f_eponimo` | string | Yes | Last name |
 | `setFirstName()` | `f_onoma` | string | Yes | First name |
-| `setHireDate()` | `f_date_proslipsis` | DateTime\|string | Yes | Hire date (DD/MM/YYYY) |
+| `setHireDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | Hire date (DD/MM/YYYY) |
 | `setBetterArrangementExists()` | `f_better_setting_exists` | string\|bool | Yes | More favourable arrangement exists (art. 28 par. 2) |
 | `setBetterArrangementDescription()` | `f_better_setting_descr` | string | Yes (empty) | Description of the arrangement (max 100) |
 | `setBetterArrangement()` | both of the above | string | - | Shortcut: sets exists = 1 and the description |
@@ -132,9 +132,9 @@ $response = (new ParentalLeaveCorrection())->handle($declaration);
 | `setSingleParentCase()` | `f_one_parent_case` | string | Yes (empty) | Single parent case code (`ParameterLookup::SINGLE_PARENT_CASE`) |
 | `setMultipleBirth()` | `f_tekno_from_polydymh_kyhsh` | string\|bool | Yes | Child from a multiple birth |
 | `setGrantMethod()` | `f_tropos_xorhghshs_adeias` | LeaveGrantMethod\|string | Yes | 0=Continuous, 1=Partial/flexible |
-| `setLeaveStartDate()` | `f_date_enarxis_adeias` | DateTime\|string | Yes | Leave start date |
-| `setLeaveEndDate()` | `f_date_lhxhs_adeias` | DateTime\|string | Yes | Leave end date |
-| `setLeavePeriod()` | both of the above | DateTime\|string | - | Shortcut for start and end dates |
+| `setLeaveStartDate()` | `f_date_enarxis_adeias` | DateTimeInterface\|string | Yes | Leave start date |
+| `setLeaveEndDate()` | `f_date_lhxhs_adeias` | DateTimeInterface\|string | Yes | Leave end date |
+| `setLeavePeriod()` | both of the above | DateTimeInterface\|string | - | Shortcut for start and end dates |
 | `setComments()` | `f_comments` | string | Yes (empty) | Comments (max 200) |
 | `setLegalRepresentativeAfm()` | `f_afm_proswpoy` | string | Yes | Legal representative tax ID |
 | `addChild()` / `setChildren()` | `Amkas.AmkasE14` | ParentalLeaveChild | Yes (1+) | Children |
@@ -152,7 +152,7 @@ $response = (new ParentalLeaveCorrection())->handle($declaration);
 
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
-| `setDate()` | `f_date_leave` | DateTime\|string | Yes | Leave date |
+| `setDate()` | `f_date_leave` | DateTimeInterface\|string | Yes | Leave date |
 | `setHourFrom()` / `setHourTo()` | `f_hour_from`, `f_hour_to` | string | No | Leave hours (HH:MM) |
 | `setHours()` | both of the above | string | - | Shortcut for leave hours |
 | `setScheduleFrom()` / `setScheduleTo()` | `f_orario_from`, `f_orario_to` | string | No | Employee's schedule that day (HH:MM) |

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Motorcycle;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\VehicleOwner;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -104,13 +104,9 @@ class MotorcycleVehicle extends Model
         return $this->get('f_date_enarxis_xrisis');
     }
 
-    public function setStartDate(DateTime|string $date): static
+    public function setStartDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_enarxis_xrisis', $date);
+        return $this->setDateAttribute('f_date_enarxis_xrisis', $date);
     }
 
     public function getStartTime(): ?string
@@ -131,13 +127,9 @@ class MotorcycleVehicle extends Model
         return $this->get('f_date_lixis_xrisis');
     }
 
-    public function setEndDate(DateTime|string $date): static
+    public function setEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_lixis_xrisis', $date);
+        return $this->setDateAttribute('f_date_lixis_xrisis', $date);
     }
 
     public function getNotes(): ?string

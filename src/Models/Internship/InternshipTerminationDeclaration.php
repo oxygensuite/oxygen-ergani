@@ -2,9 +2,9 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasLegalRepresentative;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -21,6 +21,7 @@ use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramCertifier;
 class InternshipTerminationDeclaration extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
     use HasInternshipFiles;
     use HasLegalRepresentative;
     use HasProgramCertifier;
@@ -54,36 +55,6 @@ class InternshipTerminationDeclaration extends Model
         return $this->set('f_aa_pararthmatos', $branchCode);
     }
 
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    /**
-     * @param string $protocol Protocol of the original E3.5 declaration
-     */
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    /**
-     * @param DateTimeInterface|string $date Submission date of the original E3.5 declaration
-     */
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
-    }
-
     public function getAfm(): ?string
     {
         return $this->get('f_afm');
@@ -102,13 +73,9 @@ class InternshipTerminationDeclaration extends Model
         return $this->get('f_diakoph_date');
     }
 
-    public function setTerminationDate(DateTime|string $date): static
+    public function setTerminationDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_diakoph_date', $date);
+        return $this->setDateAttribute('f_diakoph_date', $date);
     }
 
     public function getTerminationReason(): ?string

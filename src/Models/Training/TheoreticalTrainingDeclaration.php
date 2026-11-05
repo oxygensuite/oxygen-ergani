@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Training;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiary;
@@ -173,13 +173,9 @@ class TheoreticalTrainingDeclaration extends Model
         return $this->get('f_date_proslipsis');
     }
 
-    public function setTrainingStartDate(DateTime|string $date): static
+    public function setTrainingStartDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_proslipsis', $date);
+        return $this->setDateAttribute('f_date_proslipsis', $date);
     }
 
     public function getWeeklyHours(): ?float
@@ -285,13 +281,9 @@ class TheoreticalTrainingDeclaration extends Model
         return $this->get('f_orismenou_ews');
     }
 
-    public function setTrainingEndDate(DateTime|string $date): static
+    public function setTrainingEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_ews', $date);
+        return $this->setDateAttribute('f_orismenou_ews', $date);
     }
 
     public function getStatusAtApplication(): ?string
@@ -333,7 +325,7 @@ class TheoreticalTrainingDeclaration extends Model
     /**
      * Set the theoretical training period in one call.
      */
-    public function setTrainingPeriod(DateTime|string $from, DateTime|string $to): static
+    public function setTrainingPeriod(DateTimeInterface|string $from, DateTimeInterface|string $to): static
     {
         return $this->setTrainingStartDate($from)->setTrainingEndDate($to);
     }

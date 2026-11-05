@@ -82,9 +82,9 @@ $responses = $ergani->sendConstructionWork($declaration);
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setAmoe()` | `f_amoe` | string | Yes | AMOE registration number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Related submission protocol |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | No | Related submission date |
-| `setDateFrom()` | `f_date_from` | DateTime\|string | Yes | Period start date (DD/MM/YYYY) |
-| `setDateTo()` | `f_date_to` | DateTime\|string | Yes | Period end date (DD/MM/YYYY) |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Related submission date |
+| `setDateFrom()` | `f_date_from` | DateTimeInterface\|string | Yes | Period start date (DD/MM/YYYY) |
+| `setDateTo()` | `f_date_to` | DateTimeInterface\|string | Yes | Period end date (DD/MM/YYYY) |
 | `setPhase()` | `f_phase` | string | No | Construction phase |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | SEPE service code |
 | `setMunicipalityCode()` | `f_kallikratis_pararthmatos` | string | No | Municipality code |
@@ -100,13 +100,13 @@ $responses = $ergani->sendConstructionWork($declaration);
 | `setLastName()` | `f_eponymo` | string | Yes | Last name |
 | `setFirstName()` | `f_onoma` | string | Yes | First name |
 | `setFatherName()` | `f_onoma_patera` | string | Yes | Father's name |
-| `setDate()` | `f_date` | DateTime\|string | Yes | Work date (DD/MM/YYYY) |
+| `setDate()` | `f_date` | DateTimeInterface\|string | Yes | Work date (DD/MM/YYYY) |
 | `setTimeFrom()` | `f_from` | string | Yes | Shift start time (HH:MM) |
 | `setTimeTo()` | `f_to` | string | Yes | Shift end time (HH:MM) |
 | `setCancellation()` | `f_cancellation` | string\|bool | No | Cancel this entry (0/1) |
 | `setSpecialtyCode()` | `f_step` | string | Yes | Specialty code |
 | `setWorkPermitNumber()` | `f_ar_adeias` | string | No | Work permit number |
-| `setHireDate()` | `f_hire_date` | DateTime\|string | Yes | Hire date (DD/MM/YYYY) |
+| `setHireDate()` | `f_hire_date` | DateTimeInterface\|string | Yes | Hire date (DD/MM/YYYY) |
 | `setGrossDailyWage()` | `f_apodoxes` | float | Yes | Gross daily wage (Greek float) |
 | `setNotes()` | `f_notes` | string | No | Notes |
 
@@ -191,7 +191,7 @@ Same as `ConstructionWork` plus:
 | `setDaysWorked()` | `f_days_worked` | int\|string | Yes | Total days worked in period |
 | `setSpecialtyCode()` | `f_step` | string | Yes | Specialty code |
 | `setWorkPermitNumber()` | `f_ar_adeias` | string | No | Work permit number |
-| `setHireDate()` | `f_hire_date` | DateTime\|string | Yes | Hire date (DD/MM/YYYY) |
+| `setHireDate()` | `f_hire_date` | DateTimeInterface\|string | Yes | Hire date (DD/MM/YYYY) |
 | `setGrossEarnings()` | `f_apodoxes` | float | Yes | Gross earnings for period (Greek float) |
 | `setNotes()` | `f_notes` | string | No | Notes |
 

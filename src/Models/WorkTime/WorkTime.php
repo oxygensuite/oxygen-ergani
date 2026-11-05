@@ -2,9 +2,9 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkTime;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Model;
 
 /**
@@ -13,6 +13,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
 class WorkTime extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
 
     /** @var array<int, string> */
     protected array $expectedOrder = [
@@ -35,30 +36,6 @@ class WorkTime extends Model
         return $this->set('f_aa_pararthmatos', $branchCode);
     }
 
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    public function setRelatedDate(DateTimeInterface|string $relatedDate): static
-    {
-        if ($relatedDate instanceof DateTimeInterface) {
-            $relatedDate = $relatedDate->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $relatedDate);
-    }
-
     public function getComments(): ?string
     {
         return $this->get('f_comments');
@@ -74,13 +51,9 @@ class WorkTime extends Model
         return $this->get('f_from_date');
     }
 
-    public function setFromDate(DateTime|string $fromDate): static
+    public function setFromDate(DateTimeInterface|string $fromDate): static
     {
-        if ($fromDate instanceof DateTime) {
-            $fromDate = $fromDate->format('d/m/Y');
-        }
-
-        return $this->set('f_from_date', $fromDate);
+        return $this->setDateAttribute('f_from_date', $fromDate);
     }
 
     public function getToDate(): ?string
@@ -88,13 +61,9 @@ class WorkTime extends Model
         return $this->get('f_to_date');
     }
 
-    public function setToDate(DateTime|string $toDate): static
+    public function setToDate(DateTimeInterface|string $toDate): static
     {
-        if ($toDate instanceof DateTime) {
-            $toDate = $toDate->format('d/m/Y');
-        }
-
-        return $this->set('f_to_date', $toDate);
+        return $this->setDateAttribute('f_to_date', $toDate);
     }
 
     /**

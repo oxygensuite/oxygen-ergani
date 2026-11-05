@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Training\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Practical training business fields: name, tax details, branch contact and practice period.
@@ -139,13 +139,9 @@ trait HasPracticeBusiness
         return $this->get($this->practiceField('date_from'));
     }
 
-    public function setPracticeDateFrom(DateTime|string $date): static
+    public function setPracticeDateFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set($this->practiceField('date_from'), $date);
+        return $this->setDateAttribute($this->practiceField('date_from'), $date);
     }
 
     public function getPracticeDateTo(): ?string
@@ -153,19 +149,15 @@ trait HasPracticeBusiness
         return $this->get($this->practiceField('date_to'));
     }
 
-    public function setPracticeDateTo(DateTime|string $date): static
+    public function setPracticeDateTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set($this->practiceField('date_to'), $date);
+        return $this->setDateAttribute($this->practiceField('date_to'), $date);
     }
 
     /**
      * Set the practical training period in one call.
      */
-    public function setPracticePeriod(DateTime|string $from, DateTime|string $to): static
+    public function setPracticePeriod(DateTimeInterface|string $from, DateTimeInterface|string $to): static
     {
         return $this->setPracticeDateFrom($from)->setPracticeDateTo($to);
     }

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Modification;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\BasicsAcceptance;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\SettlementType;
@@ -226,15 +226,11 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodFrom(DateTime|string $date): static
+    public function setReferencePeriodFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_periodos_anaforas_from', $date);
+        return $this->setDateAttribute('f_periodos_anaforas_from', $date);
     }
 
     /**
@@ -246,15 +242,11 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodTo(DateTime|string $date): static
+    public function setReferencePeriodTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_periodos_anaforas_to', $date);
+        return $this->setDateAttribute('f_periodos_anaforas_to', $date);
     }
 
     // ==================== Salary/Experience (MA specific) ====================
@@ -354,15 +346,11 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermFrom(DateTime|string $date): static
+    public function setFixedTermFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_apo', $date);
+        return $this->setDateAttribute('f_orismenou_apo', $date);
     }
 
     /**
@@ -374,15 +362,11 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setFixedTermTo(DateTime|string $date): static
+    public function setFixedTermTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_ews', $date);
+        return $this->setDateAttribute('f_orismenou_ews', $date);
     }
 
     /**
@@ -566,15 +550,11 @@ class ModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setTrialPeriodEndDate(DateTime|string $date): static
+    public function setTrialPeriodEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_trial_date_to', $date);
+        return $this->setDateAttribute('f_trial_date_to', $date);
     }
 
     // ==================== Acceptance Files (MA specific) ====================

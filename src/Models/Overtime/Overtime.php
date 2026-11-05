@@ -2,8 +2,8 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Overtime;
 
-use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Model;
 
 /**
@@ -13,6 +13,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
 class Overtime extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
     /** @var array<int, string> */
     protected array $expectedOrder = [
         'f_aa_pararthmatos',
@@ -40,30 +41,6 @@ class Overtime extends Model
     public function setBranchCode(int|string $branchCode): static
     {
         return $this->set('f_aa_pararthmatos', $branchCode);
-    }
-
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    public function setRelatedDate(DateTimeInterface|string $relatedDate): static
-    {
-        if ($relatedDate instanceof DateTimeInterface) {
-            $relatedDate = $relatedDate->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $relatedDate);
     }
 
     public function getSepeService(): ?string

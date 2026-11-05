@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Training;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiaryAfm;
@@ -63,13 +63,9 @@ class TheoreticalTrainingEmployerChangeDeclaration extends Model
     /**
      * Date of the employer change.
      */
-    public function setChangeDate(DateTime|string $date): static
+    public function setChangeDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_cpractice_date', $date);
+        return $this->setDateAttribute('f_cpractice_date', $date);
     }
 
     protected function practiceField(string $suffix): string

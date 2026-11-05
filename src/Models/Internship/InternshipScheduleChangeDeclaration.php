@@ -2,9 +2,9 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasCertifier;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasLegalRepresentative;
@@ -21,6 +21,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
  */
 class InternshipScheduleChangeDeclaration extends Model
 {
+    use HasRelatedSubmission;
     use HasCertifier;
     use HasFactory;
     use HasInternshipFiles;
@@ -97,36 +98,6 @@ class InternshipScheduleChangeDeclaration extends Model
         return $this->set('f_aa_pararthmatos', $branchCode);
     }
 
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    /**
-     * @param string $protocol Protocol of the original E3.5 declaration
-     */
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    /**
-     * @param DateTimeInterface|string $date Submission date of the original E3.5 declaration
-     */
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
-    }
-
     public function getAfm(): ?string
     {
         return $this->get('f_afm');
@@ -146,14 +117,10 @@ class InternshipScheduleChangeDeclaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Date the new schedule applies from
+     * @param DateTimeInterface|string $date Date the new schedule applies from
      */
-    public function setChangeDate(DateTime|string $date): static
+    public function setChangeDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_trpopoihsh_date', $date);
+        return $this->setDateAttribute('f_trpopoihsh_date', $date);
     }
 }

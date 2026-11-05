@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\CommunityProgram;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
@@ -226,13 +226,9 @@ class CommunityProgramDeclaration extends Model
         return $this->get('f_mea_education_date_from');
     }
 
-    public function setTrainingDateFrom(DateTime|string $date): static
+    public function setTrainingDateFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_education_date_from', $date);
+        return $this->setDateAttribute('f_mea_education_date_from', $date);
     }
 
     public function getTrainingDateTo(): ?string
@@ -240,13 +236,9 @@ class CommunityProgramDeclaration extends Model
         return $this->get('f_mea_education_date_to');
     }
 
-    public function setTrainingDateTo(DateTime|string $date): static
+    public function setTrainingDateTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_education_date_to', $date);
+        return $this->setDateAttribute('f_mea_education_date_to', $date);
     }
 
     public function getTrainingDuration(): ?string
@@ -584,7 +576,7 @@ class CommunityProgramDeclaration extends Model
     /**
      * Set the vocational training period in one call.
      */
-    public function setTrainingPeriod(DateTime|string $from, DateTime|string $to): static
+    public function setTrainingPeriod(DateTimeInterface|string $from, DateTimeInterface|string $to): static
     {
         return $this->setTrainingDateFrom($from)->setTrainingDateTo($to);
     }

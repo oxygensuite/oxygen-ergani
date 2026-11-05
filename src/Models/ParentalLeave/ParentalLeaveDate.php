@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\ParentalLeave;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -33,13 +33,9 @@ class ParentalLeaveDate extends Model
         return $this->get('f_date_leave');
     }
 
-    public function setDate(DateTime|string $date): static
+    public function setDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_leave', $date);
+        return $this->setDateAttribute('f_date_leave', $date);
     }
 
     public function getHourFrom(): ?string

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Programs\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 
@@ -107,13 +107,9 @@ trait HasBeneficiary
         return $this->get('f_mea_date_birth');
     }
 
-    public function setBirthDate(DateTime|string $date): static
+    public function setBirthDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_date_birth', $date);
+        return $this->setDateAttribute('f_mea_date_birth', $date);
     }
 
     public function getNationality(): ?string
@@ -169,13 +165,9 @@ trait HasBeneficiary
         return $this->get('f_mea_date_ekdosis');
     }
 
-    public function setIdIssueDate(DateTime|string $date): static
+    public function setIdIssueDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_date_ekdosis', $date);
+        return $this->setDateAttribute('f_mea_date_ekdosis', $date);
     }
 
     public function getIdExpiryDate(): ?string
@@ -183,13 +175,9 @@ trait HasBeneficiary
         return $this->get('f_mea_date_ekdosis_lixi');
     }
 
-    public function setIdExpiryDate(DateTime|string $date): static
+    public function setIdExpiryDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_date_ekdosis_lixi', $date);
+        return $this->setDateAttribute('f_mea_date_ekdosis_lixi', $date);
     }
 
     public function getResidencePermit(): ?string
@@ -239,13 +227,9 @@ trait HasBeneficiary
         return $this->get('f_mea_res_permit_lixi');
     }
 
-    public function setResidencePermitExpiry(DateTime|string $date): static
+    public function setResidencePermitExpiry(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_mea_res_permit_lixi', $date);
+        return $this->setDateAttribute('f_mea_res_permit_lixi', $date);
     }
 
     // ==================== Family, Tax & Insurance ====================

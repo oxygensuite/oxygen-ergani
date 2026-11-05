@@ -601,7 +601,7 @@ $status = $ergani->getAcceptanceStatus('123456789', '67890', new DateTime('2025-
 |-----------|------|----------|-------------|
 | `$tin` | string | Yes | Employee tax identification number |
 | `$protocol` | string | Yes | Declaration protocol number |
-| `$date` | DateTime\|string | Yes | Declaration submission date (DD/MM/YYYY) |
+| `$date` | DateTimeInterface\|string | Yes | Declaration submission date (DD/MM/YYYY) |
 
 ### Response: `AcceptanceStatusResponse` or `null`
 
@@ -692,7 +692,7 @@ $entries = $ergani->getRealWorkingDiary(0, new DateTime('2026-05-15'));
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `$branchAa` | int | Yes | Branch number (0 = headquarters) |
-| `$date` | DateTime\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
+| `$date` | DateTimeInterface\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
 
 ### Response: `RealWorkingResponse[]`
 
@@ -749,7 +749,7 @@ $entries = $ergani->getDigitalWorkTimeStatus(0, new DateTime('2026-05-15'));
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `$branchAa` | int | Yes | Branch number (0 = headquarters) |
-| `$date` | DateTime\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
+| `$date` | DateTimeInterface\|string | Yes | Reference date (DD/MM/YYYY), previous month or earlier |
 
 ### Response: `DigitalWorkTimeResponse[]`
 

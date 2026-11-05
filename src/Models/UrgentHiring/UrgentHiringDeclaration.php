@@ -2,12 +2,12 @@
 
 namespace OxygenSuite\OxygenErgani\Models\UrgentHiring;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\WeekDays;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
 use OxygenSuite\OxygenErgani\Enums\WorkLocation;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Hiring\SupplementaryInsuranceSelection;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -22,6 +22,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
 class UrgentHiringDeclaration extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
 
     /** @var array<string, mixed> */
     protected array $defaults = [
@@ -77,36 +78,6 @@ class UrgentHiringDeclaration extends Model
     public function setBranchCode(int|string $branchCode): static
     {
         return $this->set('f_aa_pararthmatos', $branchCode);
-    }
-
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    /**
-     * @param string $protocol Protocol of the declaration being corrected (corrections only)
-     */
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    /**
-     * @param DateTimeInterface|string $date Submission date of the declaration being corrected (corrections only)
-     */
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
     }
 
     public function getBranchActivityCode(): ?string
@@ -167,13 +138,9 @@ class UrgentHiringDeclaration extends Model
         return $this->get('f_proslipsidate');
     }
 
-    public function setHiringDate(DateTime|string $date): static
+    public function setHiringDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_proslipsidate', $date);
+        return $this->setDateAttribute('f_proslipsidate', $date);
     }
 
     public function getStartTime(): ?string
@@ -207,13 +174,9 @@ class UrgentHiringDeclaration extends Model
         return $this->get('f_second_working_date');
     }
 
-    public function setSecondWorkingDate(DateTime|string $date): static
+    public function setSecondWorkingDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_second_working_date', $date);
+        return $this->setDateAttribute('f_second_working_date', $date);
     }
 
     public function getSecondStartTime(): ?string
@@ -245,7 +208,7 @@ class UrgentHiringDeclaration extends Model
     /**
      * Set the second working day with its start and end times in one call.
      */
-    public function setSecondWorkingDay(DateTime|string $date, string $startTime, string $endTime): static
+    public function setSecondWorkingDay(DateTimeInterface|string $date, string $startTime, string $endTime): static
     {
         return $this->setSecondWorkingDate($date)
             ->setSecondStartTime($startTime)

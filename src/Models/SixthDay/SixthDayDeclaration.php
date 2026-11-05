@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\SixthDay;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -76,13 +76,9 @@ class SixthDayDeclaration extends Model
         return $this->get('f_date_special_from');
     }
 
-    public function setDateFrom(DateTime|string $date): static
+    public function setDateFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_special_from', $date);
+        return $this->setDateAttribute('f_date_special_from', $date);
     }
 
     public function getDateTo(): ?string
@@ -90,13 +86,9 @@ class SixthDayDeclaration extends Model
         return $this->get('f_date_special_to');
     }
 
-    public function setDateTo(DateTime|string $date): static
+    public function setDateTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_special_to', $date);
+        return $this->setDateAttribute('f_date_special_to', $date);
     }
 
     public function getComments(): ?string

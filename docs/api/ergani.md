@@ -292,7 +292,7 @@ Retrieve the acceptance status of essential terms declarations from myErgani. No
 public function getAcceptanceStatus(
     string $tin,
     string $protocol,
-    DateTime|string $date
+    DateTimeInterface|string $date
 ): ?AcceptanceStatusResponse
 ```
 
@@ -302,7 +302,7 @@ public function getAcceptanceStatus(
 |-----------|------|-------------|
 | `$tin` | string | Employee tax identification number |
 | `$protocol` | string | Declaration protocol number |
-| `$date` | DateTime\|string | Declaration submission date (DD/MM/YYYY) |
+| `$date` | DateTimeInterface\|string | Declaration submission date (DD/MM/YYYY) |
 
 **Returns:** `AcceptanceStatusResponse|null` - Status response, or null if no matching declaration
 
@@ -329,7 +329,7 @@ if ($status?->isAccepted()) {
 Retrieve real employment diary entries for a branch on a given date. Not cached (dynamic data).
 
 ```php
-public function getRealWorkingDiary(int $branchAa, DateTime|string $date): array
+public function getRealWorkingDiary(int $branchAa, DateTimeInterface|string $date): array
 ```
 
 **Parameters:**
@@ -337,7 +337,7 @@ public function getRealWorkingDiary(int $branchAa, DateTime|string $date): array
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `$branchAa` | int | Branch number (0 = headquarters) |
-| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+| `$date` | DateTimeInterface\|string | Reference date (DD/MM/YYYY), previous month or earlier |
 
 **Returns:** `array<int, RealWorkingResponse>` - List of diary entries (empty when no data)
 
@@ -363,7 +363,7 @@ foreach ($entries as $entry) {
 Retrieve the current digital work time organization (ΨΟΧΕ) status for a branch on a given date. Not cached (dynamic data).
 
 ```php
-public function getDigitalWorkTimeStatus(int $branchAa, DateTime|string $date): array
+public function getDigitalWorkTimeStatus(int $branchAa, DateTimeInterface|string $date): array
 ```
 
 **Parameters:**
@@ -371,7 +371,7 @@ public function getDigitalWorkTimeStatus(int $branchAa, DateTime|string $date): 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `$branchAa` | int | Branch number (0 = headquarters) |
-| `$date` | DateTime\|string | Reference date (DD/MM/YYYY), previous month or earlier |
+| `$date` | DateTimeInterface\|string | Reference date (DD/MM/YYYY), previous month or earlier |
 
 **Returns:** `array<int, DigitalWorkTimeResponse>` - List of work time entries (empty when no data)
 
@@ -1212,7 +1212,7 @@ Currently supported document types:
 public function cancelDocument(
     string $documentType,
     string $protocol,
-    DateTime|int|string $submissionDate
+    DateTimeInterface|int|string $submissionDate
 ): bool
 ```
 
@@ -1222,7 +1222,7 @@ public function cancelDocument(
 |-----------|------|-------------|
 | `$documentType` | string | The document type code (e.g., 'WTOLeave') |
 | `$protocol` | string | Protocol number from submission response |
-| `$submissionDate` | DateTime\|int\|string | Submission date (DateTime, Ymd integer, or Ymd string) |
+| `$submissionDate` | DateTimeInterface\|int\|string | Submission date (DateTime, Ymd integer, or Ymd string) |
 
 **Returns:** `bool` - True if cancellation was successful
 
@@ -1282,7 +1282,7 @@ Retrieve PDF of a submitted document.
 public function getDocumentPdf(
     string $documentClass,
     string $protocol,
-    DateTime|int|string $submittedDate
+    DateTimeInterface|int|string $submittedDate
 ): string
 ```
 
@@ -1292,7 +1292,7 @@ public function getDocumentPdf(
 |-----------|------|-------------|
 | `$documentClass` | class-string | Fully qualified class name of the document |
 | `$protocol` | string | Protocol number from submission response |
-| `$submittedDate` | DateTime\|int\|string | Submission date (DateTime, Ymd integer, or Ymd string) |
+| `$submittedDate` | DateTimeInterface\|int\|string | Submission date (DateTime, Ymd integer, or Ymd string) |
 
 **Returns:** `string` - Base64-encoded PDF content
 

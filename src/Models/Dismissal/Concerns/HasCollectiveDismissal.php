@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Collective dismissal fields for employer-initiated terminations.
@@ -52,14 +52,10 @@ trait HasCollectiveDismissal
     }
 
     /**
-     * @param DateTime|string|null $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string|null $date Date in DD/MM/YYYY format
      */
-    public function setCollectiveDismissalDate(DateTime|string|null $date): static
+    public function setCollectiveDismissalDate(DateTimeInterface|string|null $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_omadikidate', $date ?? '');
+        return $this->setDateAttribute('f_omadikidate', $date ?? '');
     }
 }

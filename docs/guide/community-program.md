@@ -150,7 +150,7 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original declaration (corrections only). |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original declaration (corrections only). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original declaration (corrections only). |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code. |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits). |
 | `setProgramCode()` | `f_programma_benefit` | string | Yes | Program code (e.g. 363201-24). |
@@ -170,17 +170,17 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 | `setMotherName()` | `f_mea_onoma_miteras` | string | Yes | Mother name |
 | `setSex()` | `f_mea_sex` | Sex\|string\|int | Yes | 0=Male, 1=Female (or use Sex enum) |
 | `setBirthPlace()` | `f_mea_birth_city` | string | No | Birth place |
-| `setBirthDate()` | `f_mea_date_birth` | DateTime\|string | Yes | Birth date (DD/MM/YYYY) |
+| `setBirthDate()` | `f_mea_date_birth` | DateTimeInterface\|string | Yes | Birth date (DD/MM/YYYY) |
 | `setNationality()` | `f_mea_nationality` | string | Yes | Nationality code (3 digits, see ParameterLookup::NATIONALITY). |
 | `setIdType()` | `f_mea_typos_taytotitas` | string | Yes | Identity document type (see ParameterLookup::ID_TYPE). |
 | `setIdNumber()` | `f_mea_ar_taytotitas` | string | Yes | Identity document number |
 | `setIdIssuingAuthority()` | `f_mea_ekdousa` | string | No | Id issuing authority |
-| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTime\|string | No | Identity document issue date (DD/MM/YYYY) |
-| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTime\|string | No | Identity document expiry date (DD/MM/YYYY) |
+| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTimeInterface\|string | No | Identity document issue date (DD/MM/YYYY) |
+| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTimeInterface\|string | No | Identity document expiry date (DD/MM/YYYY) |
 | `setResidencePermit()` | `f_mea_res_permit` | string\|bool | No | Whether the beneficiary holds a residence or work permit. |
 | `setResidencePermitType()` | `f_mea_res_permit_type` | string | No | Residence permit type (see ParameterLookup::RESIDENCE_PERMIT). |
 | `setResidencePermitNumber()` | `f_mea_res_permit_ar` | string | No | Residence permit number |
-| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTime\|string | No | Residence permit expiry date (DD/MM/YYYY) |
+| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTimeInterface\|string | No | Residence permit expiry date (DD/MM/YYYY) |
 | `setMaritalStatus()` | `f_mea_marital_status` | MaritalStatus\|string\|int | Yes | 0=Single, 1=Married, 2=Divorced, 3=Widowed (or use MaritalStatus enum) |
 | `setNumberOfChildren()` | `f_mea_ar_teknon` | int\|string | Yes | Number of children |
 | `setAfm()` | `f_mea_afm` | string | Yes | Beneficiary tax ID (AFM) |
@@ -201,8 +201,8 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 | `setSubjectArea()` | `f_mea_subject_area` | string | No | Subject area code (see ParameterLookup::SUBJECT_AREA). |
 | `setSubjectGroup()` | `f_mea_subject_group` | string | No | Subject group code (see ParameterLookup::SUBJECT_GROUP). |
 | `setEducationAgency()` | `f_mea_education_agency` | string | No | Training agency type code (see ParameterLookup::EDUCATION_AGENCY). |
-| `setTrainingDateFrom()` | `f_mea_education_date_from` | DateTime\|string | No | Vocational training start date (DD/MM/YYYY) |
-| `setTrainingDateTo()` | `f_mea_education_date_to` | DateTime\|string | No | Vocational training end date (DD/MM/YYYY) |
+| `setTrainingDateFrom()` | `f_mea_education_date_from` | DateTimeInterface\|string | No | Vocational training start date (DD/MM/YYYY) |
+| `setTrainingDateTo()` | `f_mea_education_date_to` | DateTimeInterface\|string | No | Vocational training end date (DD/MM/YYYY) |
 | `setTrainingDuration()` | `f_mea_duration` | int\|string | No | Training duration in hours. |
 | `setTrainingYear()` | `f_mea_education_year` | int\|string | No | Year the training was completed. |
 | `setForeignLanguage1()` | `f_mea_fl1` | string | No | Foreign language1 |
@@ -211,7 +211,7 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 | `setForeignLanguage4()` | `f_mea_fl4` | string | No | Foreign language4 |
 | `setComputerSkills()` | `f_mea_pc` | string\|bool | No | 0=No, 1=Yes (or boolean) |
 | `setComputerSkillsOther()` | `f_mea_pc_other` | string | No | Computer skills other |
-| `setPlacementDate()` | `f_date_proslipsis` | DateTime\|string | Yes | Placement date (DD/MM/YYYY) |
+| `setPlacementDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | Placement date (DD/MM/YYYY) |
 | `setPlacementTime()` | `f_date_time_proslipsis` | string | Yes | Work start time on the first day (HH:MM). |
 | `setScheduleDescription()` | `f_orario` | string | No | Working / training days and hours as free text (max 200 characters). |
 | `setWeeklyHours()` | `f_week_hours` | int\|string | No | Weekly working hours as free text (e.g. "40"). |
@@ -224,8 +224,8 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 | `setHourlyWage()` | `f_hour_apodoxes` | float | Yes | Hourly wage (Greek float) |
 | `setFirstEmployment()` | `f_proti_ergasia` | string\|bool | Yes | Whether this is the first employment as a salaried worker. |
 | `setEmploymentType()` | `f_sxesh_apasxolhshs` | EmploymentType\|string\|int | Yes | 0=Indefinite, 1=Fixed-term, 2=Project (`BORROWED` not accepted) |
-| `setStartDate()` | `f_orismenou_apo` | DateTime\|string | No | Fixed-term contract start date. |
-| `setEndDate()` | `f_orismenou_ews` | DateTime\|string | No | Fixed-term contract end date. |
+| `setStartDate()` | `f_orismenou_apo` | DateTimeInterface\|string | No | Fixed-term contract start date. |
+| `setEndDate()` | `f_orismenou_ews` | DateTimeInterface\|string | No | Fixed-term contract end date. |
 | `setEmploymentStatus()` | `f_kathestos_apasxolhshs` | EmploymentStatus\|string\|int | Yes | 0=Full-time, 1=Part-time, 2=Rotational (`ON_DEMAND` not accepted) |
 | `setPlacementAgency()` | `f_foreas_topothetisis` | string | No | Agency where the beneficiary is placed. |
 | `setDypaReferral()` | `f_topothetisi_epistoli` | string\|bool | Yes | Whether the placement is made with a DYPA referral letter. |
@@ -275,9 +275,9 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.1 declaration. |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
 | `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
-| `setExtensionDate()` | `f_enlong_date` | DateTime\|string | Yes | Date until which the employment is extended (DD/MM/YYYY). |
+| `setExtensionDate()` | `f_enlong_date` | DateTimeInterface\|string | Yes | Date until which the employment is extended (DD/MM/YYYY). |
 | `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
 | `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |
 | `setCertifierFirstName()` | `f_onoma` | string | Yes | Certifier first name |
@@ -319,9 +319,9 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.1 declaration. |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
 | `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
-| `setInterruptionDate()` | `f_diakoph_date` | DateTime\|string | Yes | Interruption date (DD/MM/YYYY). |
+| `setInterruptionDate()` | `f_diakoph_date` | DateTimeInterface\|string | Yes | Interruption date (DD/MM/YYYY). |
 | `setInterruptionReason()` | `f_diakoph_aitiologia` | string | Yes | Interruption reason code (3 digits). |
 | `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
 | `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |

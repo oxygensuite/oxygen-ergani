@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Construction;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -132,13 +132,9 @@ class ConstructionCensusEmployee extends Model
         return $this->get('f_hire_date');
     }
 
-    public function setHireDate(DateTime|string $date): static
+    public function setHireDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_hire_date', $date);
+        return $this->setDateAttribute('f_hire_date', $date);
     }
 
     public function getGrossEarnings(): ?float

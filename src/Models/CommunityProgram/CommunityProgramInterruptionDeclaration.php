@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\CommunityProgram;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiaryAfm;
@@ -49,13 +49,9 @@ class CommunityProgramInterruptionDeclaration extends Model
         return $this->get('f_diakoph_date');
     }
 
-    public function setInterruptionDate(DateTime|string $date): static
+    public function setInterruptionDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_diakoph_date', $date);
+        return $this->setDateAttribute('f_diakoph_date', $date);
     }
 
     public function getInterruptionReason(): ?string

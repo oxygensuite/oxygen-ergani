@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Programs\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 
 /**
  * First-day placement and free-text schedule fields shared by E3.1, E3.3 and E3.4.
@@ -17,13 +17,9 @@ trait HasPlacement
     /**
      * First working / training day.
      */
-    public function setPlacementDate(DateTime|string $date): static
+    public function setPlacementDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_proslipsis', $date);
+        return $this->setDateAttribute('f_date_proslipsis', $date);
     }
 
     public function getPlacementTime(): ?string

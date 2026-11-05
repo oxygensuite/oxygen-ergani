@@ -308,7 +308,7 @@ echo $pdfBinary;
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `$protocol` | string | Protocol number from submission response |
-| `$submittedDate` | DateTime\|int\|string | Submission date (DateTime object or `Ymd` format, e.g., `20250115`) |
+| `$submittedDate` | DateTimeInterface\|int\|string | Submission date (DateTime object or `Ymd` format, e.g., `20250115`) |
 
 ::: tip Store Protocol Numbers
 Always store the protocol number and submission date after each submission. These are required to retrieve the PDF later or to cancel the submission.

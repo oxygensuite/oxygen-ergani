@@ -2,11 +2,11 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasCertifier;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasLegalRepresentative;
@@ -22,6 +22,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
  */
 class InternshipDeclaration extends Model
 {
+    use HasRelatedSubmission;
     use HasCertifier;
     use HasFactory;
     use HasInternshipFiles;
@@ -156,30 +157,6 @@ class InternshipDeclaration extends Model
     public function setBranchCode(int|string $branchCode): static
     {
         return $this->set('f_aa_pararthmatos', $branchCode);
-    }
-
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
     }
 
     public function getLaborInspectionCode(): ?string
@@ -337,13 +314,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_birthdate');
     }
 
-    public function setBirthDate(DateTime|string $date): static
+    public function setBirthDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_birthdate', $date);
+        return $this->setDateAttribute('f_birthdate', $date);
     }
 
     public function getSex(): ?string
@@ -408,13 +381,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_date_ekdosis');
     }
 
-    public function setIdIssueDate(DateTime|string $date): static
+    public function setIdIssueDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_ekdosis', $date);
+        return $this->setDateAttribute('f_date_ekdosis', $date);
     }
 
     public function getIdExpiryDate(): ?string
@@ -422,13 +391,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_date_ekdosis_lixi');
     }
 
-    public function setIdExpiryDate(DateTime|string $date): static
+    public function setIdExpiryDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_ekdosis_lixi', $date);
+        return $this->setDateAttribute('f_date_ekdosis_lixi', $date);
     }
 
     public function getResidencePermit(): ?string
@@ -470,13 +435,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_res_permit_int_lixi');
     }
 
-    public function setResidencePermitExpiry(DateTime|string $date): static
+    public function setResidencePermitExpiry(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_res_permit_int_lixi', $date);
+        return $this->setDateAttribute('f_res_permit_int_lixi', $date);
     }
 
     public function getMaritalStatus(): ?string
@@ -656,13 +617,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_date_proslipsis');
     }
 
-    public function setPlacementDate(DateTime|string $date): static
+    public function setPlacementDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_proslipsis', $date);
+        return $this->setDateAttribute('f_date_proslipsis', $date);
     }
 
     public function getPlacementTime(): ?string
@@ -730,13 +687,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_orismenou_apo');
     }
 
-    public function setStartDate(DateTime|string $date): static
+    public function setStartDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_apo', $date);
+        return $this->setDateAttribute('f_orismenou_apo', $date);
     }
 
     public function getEndDate(): ?string
@@ -744,13 +697,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_orismenou_ews');
     }
 
-    public function setEndDate(DateTime|string $date): static
+    public function setEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_ews', $date);
+        return $this->setDateAttribute('f_orismenou_ews', $date);
     }
 
     public function getDypaPlacement(): ?string

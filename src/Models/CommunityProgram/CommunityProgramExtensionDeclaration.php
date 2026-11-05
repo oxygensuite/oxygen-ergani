@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\CommunityProgram;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiaryAfm;
@@ -51,12 +51,8 @@ class CommunityProgramExtensionDeclaration extends Model
     /**
      * Date until which the employment is extended.
      */
-    public function setExtensionDate(DateTime|string $date): static
+    public function setExtensionDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_enlong_date', $date);
+        return $this->setDateAttribute('f_enlong_date', $date);
     }
 }

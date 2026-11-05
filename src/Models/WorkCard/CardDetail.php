@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\WorkCard;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\CardDetailType;
 use OxygenSuite\OxygenErgani\Factories\WorkCard\CardDetailFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
@@ -76,17 +76,13 @@ class CardDetail extends Model
     }
 
     /**
-     * @param DateTime|string $referenceDate Format: YYYY-MM-DD
+     * @param DateTimeInterface|string $referenceDate Format: YYYY-MM-DD
      *
      * @return $this
      */
-    public function setReferenceDate(DateTime|string $referenceDate): static
+    public function setReferenceDate(DateTimeInterface|string $referenceDate): static
     {
-        if ($referenceDate instanceof DateTime) {
-            $referenceDate = $referenceDate->format('Y-m-d');
-        }
-
-        return $this->set('f_reference_date', $referenceDate);
+        return $this->setDateAttribute('f_reference_date', $referenceDate, 'Y-m-d');
     }
 
     public function getDate(): ?string
@@ -95,17 +91,13 @@ class CardDetail extends Model
     }
 
     /**
-     * @param DateTime|string $date Format: YYYY-MM-DD\THH:MM:SS.uP
+     * @param DateTimeInterface|string $date Format: YYYY-MM-DD\THH:MM:SS.uP
      *
      * @return $this
      */
-    public function setDate(DateTime|string $date): static
+    public function setDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('Y-m-d\TH:i:s.uP');
-        }
-
-        return $this->set('f_date', $date);
+        return $this->setDateAttribute('f_date', $date, 'Y-m-d\TH:i:s.uP');
     }
 
     public function getReasonCode(): ?string

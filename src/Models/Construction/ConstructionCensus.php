@@ -2,9 +2,9 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Construction;
 
-use DateTime;
 use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
+use OxygenSuite\OxygenErgani\Models\Concerns\HasRelatedSubmission;
 use OxygenSuite\OxygenErgani\Models\Model;
 
 /**
@@ -17,6 +17,7 @@ use OxygenSuite\OxygenErgani\Models\Model;
 class ConstructionCensus extends Model
 {
     use HasFactory;
+    use HasRelatedSubmission;
     /** @var array<int, string> */
     protected array $expectedOrder = [
         'f_aa_pararthmatos',
@@ -54,42 +55,14 @@ class ConstructionCensus extends Model
         return $this->set('f_amoe', $amoe);
     }
 
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_rel_protocol');
-    }
-
-    public function setRelatedProtocol(string $protocol): static
-    {
-        return $this->set('f_rel_protocol', $protocol);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_rel_date');
-    }
-
-    public function setRelatedDate(DateTimeInterface|string $date): static
-    {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_rel_date', $date);
-    }
-
     public function getDateFrom(): ?string
     {
         return $this->get('f_date_from');
     }
 
-    public function setDateFrom(DateTime|string $date): static
+    public function setDateFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_from', $date);
+        return $this->setDateAttribute('f_date_from', $date);
     }
 
     public function getDateTo(): ?string
@@ -97,13 +70,9 @@ class ConstructionCensus extends Model
         return $this->get('f_date_to');
     }
 
-    public function setDateTo(DateTime|string $date): static
+    public function setDateTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_to', $date);
+        return $this->setDateAttribute('f_date_to', $date);
     }
 
     public function getPhase(): ?string

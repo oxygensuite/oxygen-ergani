@@ -102,7 +102,7 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Related submission protocol |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | No | Related submission date |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Related submission date |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | SEPE service code |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA/OAED service code |
 | `setEmployerOrganization()` | `f_ergodotikh_organwsh` | string | No | Employer organization |
@@ -123,7 +123,7 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 | `setFatherName()` | `f_onoma_patros` | string | Yes | Father's name |
 | `setMotherName()` | `f_onoma_mitros` | string | No | Mother's name |
 | `setBirthPlace()` | `f_topos_gennhshs` | string | No | Place of birth |
-| `setBirthDate()` | `f_birthdate` | DateTime\|string | Yes | Birth date (DD/MM/YYYY) |
+| `setBirthDate()` | `f_birthdate` | DateTimeInterface\|string | Yes | Birth date (DD/MM/YYYY) |
 | `setSex()` | `f_sex` | Sex\|string\|int | Yes | Sex (0=Male, 1=Female) |
 | `setNationality()` | `f_yphkoothta` | string | Yes | Nationality code |
 | `setMaritalStatus()` | `f_marital_status` | MaritalStatus\|string\|int | No | Marital status (0-3) |
@@ -136,8 +136,8 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 | `setIdType()` | `f_typos_taytothtas` | string | Yes | ID document type |
 | `setIdNumber()` | `f_ar_taytothtas` | string | Yes | ID document number |
 | `setIdIssuingAuthority()` | `f_ekdousa_arxh` | string | No | Issuing authority |
-| `setIdIssueDate()` | `f_date_ekdosis` | DateTime\|string | No | Issue date |
-| `setIdExpiryDate()` | `f_date_ekdosis_lixi` | DateTime\|string | No | Expiry date |
+| `setIdIssueDate()` | `f_date_ekdosis` | DateTimeInterface\|string | No | Issue date |
+| `setIdExpiryDate()` | `f_date_ekdosis_lixi` | DateTimeInterface\|string | No | Expiry date |
 
 ### Residence Permit (Foreign Nationals)
 
@@ -146,7 +146,7 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 | `setResidencePermit()` | `f_res_permit_int` | string\|bool | No | Has residence permit (0/1) |
 | `setResidencePermitType()` | `f_res_permit_int_type` | string | No | Permit type |
 | `setResidencePermitNumber()` | `f_res_permit_int_ar` | string | No | Permit number |
-| `setResidencePermitExpiry()` | `f_res_permit_int_lixi` | DateTime\|string | No | Permit expiry date |
+| `setResidencePermitExpiry()` | `f_res_permit_int_lixi` | DateTimeInterface\|string | No | Permit expiry date |
 
 ### Tax/Insurance
 
@@ -176,15 +176,15 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 | Method | API Field | Type | Required | Description |
 |--------|-----------|------|----------|-------------|
 | `setApprovalNumber()` | `f_approval_number` | string | No | Approval number |
-| `setPlacementDate()` | `f_date_proslipsis` | DateTime\|string | Yes | Internship placement date |
+| `setPlacementDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | Internship placement date |
 | `setPlacementTime()` | `f_date_time_proslipsis` | string | Yes | Placement time (HH:MM) |
 | `setWeeklyHours()` | `f_week_hours` | float | Yes | Weekly hours (Greek float:1) |
 | `setTotalHours()` | `f_total_hours` | float | No | Total internship hours (Greek float:1) |
 | `setSpecialtyCode()` | `f_eidikothta` | string | Yes | Specialty code |
 | `setCompensation()` | `f_apodoxes` | float | Yes | Gross monthly compensation (Greek float) |
 | `setHourlyCompensation()` | `f_hour_apodoxes` | float | No | Hourly compensation (Greek float) |
-| `setStartDate()` | `f_orismenou_apo` | DateTime\|string | Yes | Internship period start |
-| `setEndDate()` | `f_orismenou_ews` | DateTime\|string | Yes | Internship period end |
+| `setStartDate()` | `f_orismenou_apo` | DateTimeInterface\|string | Yes | Internship period start |
+| `setEndDate()` | `f_orismenou_ews` | DateTimeInterface\|string | Yes | Internship period end |
 | `setDypaPlacement()` | `f_topothetisioaed` | string\|bool | No | DYPA placement (0/1) |
 | `setComments()` | `f_comments` | string | No | Additional comments |
 
@@ -371,9 +371,9 @@ $responses = $ergani->sendInternshipTermination($declaration);
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes | Submission date of the original E3.5 |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Submission date of the original E3.5 |
 | `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
-| `setTerminationDate()` | `f_diakoph_date` | DateTime\|string | Yes | Termination date (DD/MM/YYYY) |
+| `setTerminationDate()` | `f_diakoph_date` | DateTimeInterface\|string | Yes | Termination date (DD/MM/YYYY) |
 | `setTerminationReason()` | `f_diakoph_aitiologia` | string | Yes | Termination reason code (3 digits) |
 | `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |
 | `setCertifierFirstName()` | `f_onoma` | string | Yes | Certifier first name |
@@ -426,9 +426,9 @@ $responses = $ergani->sendInternshipScheduleChange($declaration);
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes | Submission date of the original E3.5 |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Submission date of the original E3.5 |
 | `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
-| `setChangeDate()` | `f_trpopoihsh_date` | DateTime\|string | Yes | Date of the schedule change (DD/MM/YYYY) |
+| `setChangeDate()` | `f_trpopoihsh_date` | DateTimeInterface\|string | Yes | Date of the schedule change (DD/MM/YYYY) |
 | `setSchedule()` / `setSplitSchedule()` / `setBreakSchedule()` | `f_time_*`, `f_second_time_*`, `f_break_time_*` | string | Yes | Weekly schedule (see [Weekly Schedule](#weekly-schedule)) |
 | `setCertifierLastName()` | `f_eponymo_idiotitas` | string | Yes | Certifier last name |
 | `setCertifierFirstName()` | `f_onoma_idiotitas` | string | Yes | Certifier first name |

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\NoticePeriodMonths;
 
 /**
@@ -23,15 +23,11 @@ trait HasNoticePeriod
     /**
      * Set the date when advance notice was given.
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setNoticeDate(DateTime|string $date): static
+    public function setNoticeDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_proidopoihshdate', $date);
+        return $this->setDateAttribute('f_proidopoihshdate', $date);
     }
 
     /**

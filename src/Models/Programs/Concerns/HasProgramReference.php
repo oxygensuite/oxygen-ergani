@@ -46,11 +46,7 @@ trait HasProgramReference
      */
     public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTimeInterface) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_ypovolis_sx', $date);
+        return $this->setDateAttribute('f_date_ypovolis_sx', $date);
     }
 
     /**

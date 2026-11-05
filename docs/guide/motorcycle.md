@@ -75,9 +75,9 @@ $responses = $ergani->sendMotorcycleUse($declaration);
 | `setLastName()` | `f_eponimo_ergazomenou` | string | Yes | Employee last name (max 100) |
 | `setFirstName()` | `f_onoma_ergazomenou` | string | Yes | Employee first name (max 50) |
 | `setFatherName()` | `f_onoma_patera` | string | Yes | Employee father's name (max 50) |
-| `setStartDate()` | `f_date_enarxis_xrisis` | DateTime\|string | Yes | Vehicle use start date (DD/MM/YYYY) |
+| `setStartDate()` | `f_date_enarxis_xrisis` | DateTimeInterface\|string | Yes | Vehicle use start date (DD/MM/YYYY) |
 | `setStartTime()` | `f_hour_enarxis_xrisis` | string | Yes | Vehicle use start time (HH:MM) |
-| `setEndDate()` | `f_date_lixis_xrisis` | DateTime\|string | Yes | Vehicle use end date (DD/MM/YYYY, may be empty) |
+| `setEndDate()` | `f_date_lixis_xrisis` | DateTimeInterface\|string | Yes | Vehicle use end date (DD/MM/YYYY, may be empty) |
 | `setNotes()` | `f_paratiriseis` | string | Yes | Notes (max 200, may be empty) |
 
 ::: tip Empty values

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Dismissal;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Factories\Dismissal\TrialPeriodTerminationDeclarationFactory;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Termination\Concerns\HasFormFile;
@@ -112,15 +112,11 @@ class TrialPeriodTerminationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setHiringDate(DateTime|string $date): static
+    public function setHiringDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_proslipsidate', $date);
+        return $this->setDateAttribute('f_proslipsidate', $date);
     }
 
     /**
@@ -134,14 +130,10 @@ class TrialPeriodTerminationDeclaration extends Declaration
     /**
      * Set the termination date (end of trial period).
      *
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setTerminationDate(DateTime|string $date): static
+    public function setTerminationDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_apolysisdate', $date);
+        return $this->setDateAttribute('f_apolysisdate', $date);
     }
 }

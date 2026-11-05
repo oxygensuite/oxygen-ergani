@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Http\Services;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Responses\DigitalWorkTimeResponse;
 
@@ -15,14 +15,14 @@ class DigitalWorkTimeStatus extends Service
      * Dates are restricted to the previous month and earlier.
      *
      * @param int $branchAa Branch number (PararthmaAa)
-     * @param DateTime|string $date Reference date (DD/MM/YYYY)
+     * @param DateTimeInterface|string $date Reference date (DD/MM/YYYY)
      *
      * @return DigitalWorkTimeResponse[]
      * @throws ErganiException
      */
-    public function handle(int $branchAa, DateTime|string $date): array
+    public function handle(int $branchAa, DateTimeInterface|string $date): array
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

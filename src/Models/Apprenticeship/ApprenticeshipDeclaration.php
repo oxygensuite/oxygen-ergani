@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Apprenticeship;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiary;
@@ -221,13 +221,9 @@ class ApprenticeshipDeclaration extends Model
     /**
      * Apprenticeship end date.
      */
-    public function setEndDate(DateTime|string $date): static
+    public function setEndDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_ews', $date);
+        return $this->setDateAttribute('f_orismenou_ews', $date);
     }
 
     public function getContractNumber(): ?string
@@ -246,7 +242,7 @@ class ApprenticeshipDeclaration extends Model
     /**
      * Set the apprenticeship period in one call.
      */
-    public function setApprenticeshipPeriod(DateTime|string $from, DateTime|string $to): static
+    public function setApprenticeshipPeriod(DateTimeInterface|string $from, DateTimeInterface|string $to): static
     {
         return $this->setPlacementDate($from)->setEndDate($to);
     }

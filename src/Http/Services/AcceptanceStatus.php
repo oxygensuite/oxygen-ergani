@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Http\Services;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Responses\AcceptanceStatusResponse;
 
@@ -13,13 +13,13 @@ class AcceptanceStatus extends Service
      *
      * @param string $tin Employee tax identification number
      * @param string $protocol Declaration protocol number
-     * @param DateTime|string $date Declaration submission date (DD/MM/YYYY)
+     * @param DateTimeInterface|string $date Declaration submission date (DD/MM/YYYY)
      *
      * @throws ErganiException
      */
-    public function handle(string $tin, string $protocol, DateTime|string $date): ?AcceptanceStatusResponse
+    public function handle(string $tin, string $protocol, DateTimeInterface|string $date): ?AcceptanceStatusResponse
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

@@ -126,7 +126,7 @@ Every element must be present in the payload; "Required" marks the elements whos
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original declaration (corrections only). |
-| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original declaration (corrections only). |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTimeInterface\|string | No | Submission date of the original declaration (corrections only). |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code. |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits). |
 | `setInvitationCode()` | `f_programma_voucher` | string | No | Invitation (call) code (3 digits). |
@@ -149,17 +149,17 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setMotherName()` | `f_mea_onoma_miteras` | string | Yes | Mother name |
 | `setSex()` | `f_mea_sex` | Sex\|string\|int | Yes | 0=Male, 1=Female (or use Sex enum) |
 | `setBirthPlace()` | `f_mea_birth_city` | string | No | Birth place |
-| `setBirthDate()` | `f_mea_date_birth` | DateTime\|string | Yes | Birth date (DD/MM/YYYY) |
+| `setBirthDate()` | `f_mea_date_birth` | DateTimeInterface\|string | Yes | Birth date (DD/MM/YYYY) |
 | `setNationality()` | `f_mea_nationality` | string | Yes | Nationality code (3 digits, see ParameterLookup::NATIONALITY). |
 | `setIdType()` | `f_mea_typos_taytotitas` | string | Yes | Identity document type (see ParameterLookup::ID_TYPE). |
 | `setIdNumber()` | `f_mea_ar_taytotitas` | string | Yes | Identity document number |
 | `setIdIssuingAuthority()` | `f_mea_ekdousa` | string | No | Id issuing authority |
-| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTime\|string | No | Identity document issue date (DD/MM/YYYY) |
-| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTime\|string | No | Identity document expiry date (DD/MM/YYYY) |
+| `setIdIssueDate()` | `f_mea_date_ekdosis` | DateTimeInterface\|string | No | Identity document issue date (DD/MM/YYYY) |
+| `setIdExpiryDate()` | `f_mea_date_ekdosis_lixi` | DateTimeInterface\|string | No | Identity document expiry date (DD/MM/YYYY) |
 | `setResidencePermit()` | `f_mea_res_permit` | string\|bool | No | Whether the beneficiary holds a residence or work permit. |
 | `setResidencePermitType()` | `f_mea_res_permit_type` | string | No | Residence permit type (see ParameterLookup::RESIDENCE_PERMIT). |
 | `setResidencePermitNumber()` | `f_mea_res_permit_ar` | string | No | Residence permit number |
-| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTime\|string | No | Residence permit expiry date (DD/MM/YYYY) |
+| `setResidencePermitExpiry()` | `f_mea_res_permit_lixi` | DateTimeInterface\|string | No | Residence permit expiry date (DD/MM/YYYY) |
 | `setMaritalStatus()` | `f_mea_marital_status` | MaritalStatus\|string\|int | Yes | 0=Single, 1=Married, 2=Divorced, 3=Widowed (or use MaritalStatus enum) |
 | `setNumberOfChildren()` | `f_mea_ar_teknon` | int\|string | Yes | Number of children |
 | `setAfm()` | `f_mea_afm` | string | Yes | Beneficiary tax ID (AFM) |
@@ -179,7 +179,7 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setVocationalTrainingSubject()` | `f_mea_practical_education` | string | No | Vocational training subject code (3 digits). |
 | `setVoucherProgram()` | `f_mea_voucher` | string\|bool | No | Whether this is a voucher program. |
 | `setKayasCode()` | `f_mea_kayas` | string | No | K.A.Y.A.S. code. |
-| `setPlacementDate()` | `f_date_proslipsis` | DateTime\|string | Yes | First day of practical training at the business (DD/MM/YYYY). |
+| `setPlacementDate()` | `f_date_proslipsis` | DateTimeInterface\|string | Yes | First day of practical training at the business (DD/MM/YYYY). |
 | `setPlacementTime()` | `f_date_time_proslipsis` | string | No | Start time on the first day (HH:MM). |
 | `setScheduleDescription()` | `f_orario` | string | No | Working / training days and hours as free text (max 200 characters). |
 | `setWeeklyHours()` | `f_week_hours` | int\|string | No | Weekly practical training hours as free text (e.g. "40,0"). |
@@ -187,8 +187,8 @@ Every element must be present in the payload; "Required" marks the elements whos
 | `setScheduleAttached()` | `f_wres_external` | string\|bool | No | Whether the training days and hours are given in an attached file. |
 | `setReplacement()` | `f_replace_programa` | string\|bool | No | Whether the beneficiary replaces another program beneficiary. |
 | `setSpecialtyCode()` | `f_eidikothta` | string | Yes | Specialty code (up to 6 digits, see ParameterLookup::SPECIALTY). |
-| `setStartDate()` | `f_orismenou_apo` | DateTime\|string | Yes | Practical training period start date (DD/MM/YYYY). |
-| `setEndDate()` | `f_orismenou_ews` | DateTime\|string | Yes | Practical training period end date (DD/MM/YYYY). |
+| `setStartDate()` | `f_orismenou_apo` | DateTimeInterface\|string | Yes | Practical training period start date (DD/MM/YYYY). |
+| `setEndDate()` | `f_orismenou_ews` | DateTimeInterface\|string | Yes | Practical training period end date (DD/MM/YYYY). |
 | `setComments()` | `f_comments` | string | No | Comments |
 | `setTheoryEopepCode()` | `f_theory_eopep_code` | string | No | EOPPEP code of the theoretical training provider. |
 | `setTheoryProviderCategory()` | `f_theory_edu_agency_category` | string | No | Category code of the theoretical training provider. |

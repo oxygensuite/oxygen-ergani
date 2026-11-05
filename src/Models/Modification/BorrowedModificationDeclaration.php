@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Modification;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\SalaryPaymentSource;
 use OxygenSuite\OxygenErgani\Enums\SettlementType;
 use OxygenSuite\OxygenErgani\Factories\Modification\BorrowedModificationDeclarationFactory;
@@ -194,15 +194,11 @@ class BorrowedModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodFrom(DateTime|string $date): static
+    public function setReferencePeriodFrom(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_periodos_anaforas_from', $date);
+        return $this->setDateAttribute('f_periodos_anaforas_from', $date);
     }
 
     /**
@@ -214,15 +210,11 @@ class BorrowedModificationDeclaration extends Declaration
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setReferencePeriodTo(DateTime|string $date): static
+    public function setReferencePeriodTo(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_periodos_anaforas_to', $date);
+        return $this->setDateAttribute('f_periodos_anaforas_to', $date);
     }
 
     // ==================== Salary Payment Source (MAD-only) ====================

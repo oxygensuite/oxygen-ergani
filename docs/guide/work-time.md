@@ -118,7 +118,7 @@ $workTime = WorkTime::make()
 Each `WorkTimeEmployee` represents one employee's schedule.
 
 ::: tip DateTime Support
-All date fields accept both `DateTime` objects and strings. When a `DateTime` is passed, it's automatically formatted to DD/MM/YYYY:
+All date fields accept any `DateTimeInterface` (`DateTime`, `DateTimeImmutable`, Carbon, or a response's `submissionDate`) as well as strings. Date objects are automatically formatted to DD/MM/YYYY:
 ```php
 $employee->setDate('15/01/2025');           // String
 $employee->setDate(new DateTime('2025-01-15')); // DateTime
@@ -575,7 +575,7 @@ $pdfBase64 = (new DailyWorkTime())->pdf(
 file_put_contents('work-time.pdf', base64_decode($pdfBase64));
 ```
 
-The `pdf()` method accepts the protocol number and submission date (as `DateTime` or `Ymd` string format like `20250115`).
+The `pdf()` method accepts the protocol number and submission date (as any `DateTimeInterface` or `Ymd` string format like `20250115`).
 
 ::: tip
 Always store the protocol number and submission date after each submission. These are required to retrieve the PDF later or to cancel the submission.

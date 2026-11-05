@@ -83,15 +83,15 @@ All fields are required by the XSD; send an empty string for fields that do not 
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Original protocol (corrections only, else empty) |
-| `setRelatedDate()` | `f_rel_date` | DateTime\|string | Yes | Original submission date (corrections only, else empty) |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Original submission date (corrections only, else empty) |
 | `setBranchActivityCode()` | `f_kad_pararthmatos` | string | Yes | Branch activity code (KAD, 4 digits) |
 | `setMunicipalityCode()` | `f_kallikratis_pararthmatos` | string | Yes | Kallikratis municipal/local community code (8 digits) |
 | `setAfm()` | `f_afm` | string | Yes | Employee tax ID (9 digits) |
 | `setPhone()` | `f_til` | string | Yes | Employee mobile phone |
-| `setHiringDate()` | `f_proslipsidate` | DateTime\|string | Yes | Hiring date (DD/MM/YYYY) |
+| `setHiringDate()` | `f_proslipsidate` | DateTimeInterface\|string | Yes | Hiring date (DD/MM/YYYY) |
 | `setStartTime()` | `f_proslipsitime` | string | Yes | Start time on the hiring day (HH:MM) |
 | `setEndTime()` | `f_apoxwrisitime` | string | Yes | End time on the hiring day (HH:MM) |
-| `setSecondWorkingDate()` | `f_second_working_date` | DateTime\|string | Yes | Second working day (DD/MM/YYYY, or empty) |
+| `setSecondWorkingDate()` | `f_second_working_date` | DateTimeInterface\|string | Yes | Second working day (DD/MM/YYYY, or empty) |
 | `setSecondStartTime()` | `f_second_working_datetime` | string | Yes | Start time on the second day (HH:MM, or empty) |
 | `setSecondEndTime()` | `second_working_datetime_apoxwrisis` | string | Yes | End time on the second day (HH:MM, or empty) |
 | `setSpecialtyCode()` | `f_eidikothta` | string | Yes | Specialty code (`ParameterLookup::SPECIALTY`) |

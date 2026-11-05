@@ -223,11 +223,11 @@ class Ergani
      *
      * @param string $tin Employee tax identification number
      * @param string $protocol Declaration protocol number
-     * @param \DateTime|string $date Declaration submission date (DD/MM/YYYY)
+     * @param \DateTimeInterface|string $date Declaration submission date (DD/MM/YYYY)
      *
      * @throws ErganiException
      */
-    public function getAcceptanceStatus(string $tin, string $protocol, \DateTime|string $date): ?AcceptanceStatusResponse
+    public function getAcceptanceStatus(string $tin, string $protocol, \DateTimeInterface|string $date): ?AcceptanceStatusResponse
     {
         return (new AcceptanceStatus($this->accessToken, $this->environment, $this->config))
             ->handle($tin, $protocol, $date);
@@ -239,12 +239,12 @@ class Ergani
      * Dates are restricted to the previous month and earlier.
      *
      * @param int $branchAa Branch number
-     * @param \DateTime|string $date Reference date (DD/MM/YYYY)
+     * @param \DateTimeInterface|string $date Reference date (DD/MM/YYYY)
      *
      * @return RealWorkingResponse[]
      * @throws ErganiException
      */
-    public function getRealWorkingDiary(int $branchAa, \DateTime|string $date): array
+    public function getRealWorkingDiary(int $branchAa, \DateTimeInterface|string $date): array
     {
         return (new RealWorkingDiary($this->accessToken, $this->environment, $this->config))
             ->handle($branchAa, $date);
@@ -257,12 +257,12 @@ class Ergani
      * Dates are restricted to the previous month and earlier.
      *
      * @param int $branchAa Branch number
-     * @param \DateTime|string $date Reference date (DD/MM/YYYY)
+     * @param \DateTimeInterface|string $date Reference date (DD/MM/YYYY)
      *
      * @return DigitalWorkTimeResponse[]
      * @throws ErganiException
      */
-    public function getDigitalWorkTimeStatus(int $branchAa, \DateTime|string $date): array
+    public function getDigitalWorkTimeStatus(int $branchAa, \DateTimeInterface|string $date): array
     {
         return (new DigitalWorkTimeStatus($this->accessToken, $this->environment, $this->config))
             ->handle($branchAa, $date);
