@@ -591,7 +591,7 @@ $ergani = new Ergani($accessToken);
 // With string date
 $status = $ergani->getAcceptanceStatus('123456789', '67890', '15/01/2025');
 
-// With DateTime object
+// With a date object (DateTime, DateTimeImmutable, Carbon, ...)
 $status = $ergani->getAcceptanceStatus('123456789', '67890', new DateTime('2025-01-15'));
 ```
 
@@ -683,7 +683,7 @@ $ergani = new Ergani($accessToken);
 // With string date
 $entries = $ergani->getRealWorkingDiary(0, '15/05/2026');
 
-// With DateTime object
+// With a date object (DateTime, DateTimeImmutable, Carbon, ...)
 $entries = $ergani->getRealWorkingDiary(0, new DateTime('2026-05-15'));
 ```
 
@@ -740,7 +740,7 @@ $ergani = new Ergani($accessToken);
 // With string date
 $entries = $ergani->getDigitalWorkTimeStatus(0, '15/05/2026');
 
-// With DateTime object
+// With a date object (DateTime, DateTimeImmutable, Carbon, ...)
 $entries = $ergani->getDigitalWorkTimeStatus(0, new DateTime('2026-05-15'));
 ```
 

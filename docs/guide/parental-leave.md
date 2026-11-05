@@ -109,6 +109,7 @@ $response = (new ParentalLeaveCorrection())->handle($declaration);
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes (empty) | Protocol of the declaration being corrected |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes (empty) | Date of the declaration being corrected |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | Labour inspectorate service code (5 digits) |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA service code (6 digits) |
 | `setPaidByEntity()` | `f_payment_from_forea` | string\|bool | Yes | Leave paid by the entity itself (art. 56 & 60, Law 4830/2021) |

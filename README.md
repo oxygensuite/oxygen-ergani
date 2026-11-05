@@ -12,8 +12,10 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 - **Work Time Declarations** - Daily and weekly work schedules
 - **Hiring Forms (E3)** - New hires, modifications, deletions, and lending arrangements
 - **Internship Declarations (E3.5)** - Internship and practical training submissions
-- **Community Programs (E3.1)** - Employment of community-benefit program beneficiaries
-- **Theoretical Training (E3.2)** - Theoretical training start declarations
+- **Community Programs (E3.1)** - Employment of community-benefit program beneficiaries, extensions and interruptions
+- **Theoretical Training (E3.2)** - Theoretical training start, employer change and interruption declarations
+- **Practical Training (E3.3)** - Practical training start declarations and corrections
+- **Apprenticeship (E3.4)** - Apprenticeship start declarations and corrections
 - **Termination Forms (E5)** - Voluntary resignations, retirements, and death terminations
 - **Dismissal Forms (E6)** - Employer-initiated terminations, transfers, and loan endings
 - **Fixed-Term Terminations (E7)** - Contract expirations and early terminations
@@ -28,7 +30,7 @@ A comprehensive PHP package for interacting with Greece's ERGANI II system, enab
 - **Query Services** - Employer info, branch details, parameter lookups, and employee status
 - **PSR-16 Caching** - Opt-in caching for service responses with bundled file-based and in-memory implementations
 - **Model Factories** - Laravel-inspired factories generating valid Greek test data (AFM, AMKA, names)
-- **CLI Tools** - `enum:check` and `schema:check` to verify local code stays in sync with the live API
+- **CLI Tools** - `enum:check`, `schema:check`, `xsd:sync` and `submit:check` to verify local code stays in sync with ERGANI
 
 ## Requirements
 
@@ -129,6 +131,8 @@ Full documentation is available at **[oxygensuite.github.io/oxygen-ergani](https
 - [Internship Declarations (E3.5)](https://oxygensuite.github.io/oxygen-ergani/guide/internship)
 - [Community Programs (E3.1)](https://oxygensuite.github.io/oxygen-ergani/guide/community-program)
 - [Theoretical Training (E3.2)](https://oxygensuite.github.io/oxygen-ergani/guide/theoretical-training)
+- [Practical Training (E3.3)](https://oxygensuite.github.io/oxygen-ergani/guide/practical-training)
+- [Apprenticeship (E3.4)](https://oxygensuite.github.io/oxygen-ergani/guide/apprenticeship)
 - [Motorcycle Use (E13)](https://oxygensuite.github.io/oxygen-ergani/guide/motorcycle)
 - [Parental Leave (E14)](https://oxygensuite.github.io/oxygen-ergani/guide/parental-leave)
 - [Urgent Hiring (FastAna)](https://oxygensuite.github.io/oxygen-ergani/guide/urgent-hiring)

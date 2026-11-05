@@ -103,6 +103,7 @@ $responses = $ergani->sendInternshipDeclaration($declaration);
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Related submission protocol |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Related submission date |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setLaborInspectionCode()` | `f_ypiresia_sepe` | string | Yes | SEPE service code |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA/OAED service code |
 | `setEmployerOrganization()` | `f_ergodotikh_organwsh` | string | No | Employer organization |
@@ -372,6 +373,7 @@ $responses = $ergani->sendInternshipTermination($declaration);
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Submission date of the original E3.5 |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
 | `setTerminationDate()` | `f_diakoph_date` | DateTimeInterface\|string | Yes | Termination date (DD/MM/YYYY) |
 | `setTerminationReason()` | `f_diakoph_aitiologia` | string | Yes | Termination reason code (3 digits) |
@@ -427,6 +429,7 @@ $responses = $ergani->sendInternshipScheduleChange($declaration);
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Protocol of the original E3.5 |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Submission date of the original E3.5 |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setAfm()` | `f_afm` | string | Yes | Intern's tax ID (AFM) |
 | `setChangeDate()` | `f_trpopoihsh_date` | DateTimeInterface\|string | Yes | Date of the schedule change (DD/MM/YYYY) |
 | `setSchedule()` / `setSplitSchedule()` / `setBreakSchedule()` | `f_time_*`, `f_second_time_*`, `f_break_time_*` | string | Yes | Weekly schedule (see [Weekly Schedule](#weekly-schedule)) |

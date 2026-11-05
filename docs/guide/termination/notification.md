@@ -235,7 +235,7 @@ $notification = NotificationDeclaration::make()
 
 $notificationResponse = (new ResignationNotification())->handle($notification);
 $e5oProtocol = $notificationResponse[0]->protocol;
-$e5oDate = $notificationResponse[0]->submissionDate->format('d/m/Y');
+$e5oDate = $notificationResponse[0]->submissionDate; // DateTimeImmutable, accepted as-is
 
 // Step 2: After confirming resignation, submit E5AO
 $resignation = ResignationAfterNotificationDeclaration::make()

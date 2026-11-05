@@ -289,11 +289,12 @@ accepted:
 | `STRUCTURE OK` | Rejected by a business rule: the structure passed ERGANI's XSD validation |
 | `XSD REJECTED` | ERGANI rejected the structure: the package sends an invalid payload |
 | `NOT AVAILABLE` | The form is not enabled in that environment (`Type … not valid` / `XSD File not found`) |
-| `SKIPPED` | Fewer than two values could be made invalid, so it is not safe to send |
+| `SKIPPED` | Fewer than two values could be made invalid (with `--keep-branch`: fewer than two AFM/AMKA), so it is not safe to send |
 
 ```bash
 composer submit:check                               # trial environment (default)
 composer submit:check -- --production               # production environment
+composer submit:check -- --production --keep-branch # keep branch 0: ERGANI rejects the invalid AFM instead
 composer submit:check -- --only=E14,FastAna         # specific documents
 composer submit:check -- --list                     # document names
 ```
@@ -303,6 +304,11 @@ composer submit:check -- --list                     # document names
 accepted is cancelled immediately and reported, but prefer the trial environment and use `--production` deliberately.
 `ERGANI_ENV` is ignored: only `--production` selects production.
 :::
+
+By default the branch is replaced too, so ERGANI usually stops at "branch does not exist". With `--keep-branch` the
+real branch (`0`) is sent, ERGANI gets past the branch check and rejects the invalid AFM instead, which exercises
+more of its validation. Because nothing but the invalid identifiers stands between the payload and a real filing in
+that mode, only AFM/AMKA replacements count and documents with fewer than two are skipped.
 
 ERGANI's schema endpoint used by `schema:check` can disagree with the validator (it has omitted fields the validator
 requires, and listed fields in the wrong order), so `submit:check` is the authoritative check.

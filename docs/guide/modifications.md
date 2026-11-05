@@ -593,7 +593,8 @@ $declaration->setBirthDate(new DateTime('1990-01-15')); // DateTime
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Related submission protocol |
-| `setRelatedDate()` | `f_rel_date` | string | No | Related submission date |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Related submission date |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setLaborInspectionServiceCode()` | `f_ypiresia_sepe` | string | Yes | SEPE service code |
 | `setDypaServiceCode()` | `f_ypiresia_oaed` | string | Yes | DYPA/OAED service code |
 | `setBranchActivityCode()` | `f_kad_pararthmatos` | string | No | Activity code (KAD) |

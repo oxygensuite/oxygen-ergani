@@ -83,6 +83,7 @@ $responses = $ergani->sendConstructionWork($declaration);
 | `setAmoe()` | `f_amoe` | string | Yes | AMOE registration number |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Related submission protocol |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Related submission date |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setDateFrom()` | `f_date_from` | DateTimeInterface\|string | Yes | Period start date (DD/MM/YYYY) |
 | `setDateTo()` | `f_date_to` | DateTimeInterface\|string | Yes | Period end date (DD/MM/YYYY) |
 | `setPhase()` | `f_phase` | string | No | Construction phase |

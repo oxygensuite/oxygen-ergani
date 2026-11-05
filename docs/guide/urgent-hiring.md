@@ -84,6 +84,7 @@ All fields are required by the XSD; send an empty string for fields that do not 
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | Yes | Original protocol (corrections only, else empty) |
 | `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | Yes | Original submission date (corrections only, else empty) |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setBranchActivityCode()` | `f_kad_pararthmatos` | string | Yes | Branch activity code (KAD, 4 digits) |
 | `setMunicipalityCode()` | `f_kallikratis_pararthmatos` | string | Yes | Kallikratis municipal/local community code (8 digits) |
 | `setAfm()` | `f_afm` | string | Yes | Employee tax ID (9 digits) |

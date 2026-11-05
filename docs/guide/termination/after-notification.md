@@ -144,7 +144,7 @@ $notificationResponse = (new ResignationNotification())->handle($notification);
 
 // Store the E5O details
 $e5oProtocol = $notificationResponse[0]->protocol;  // e.g., 'Ε5Ο789'
-$e5oDate = $notificationResponse[0]->submissionDate->format('d/m/Y');  // e.g., '15/01/2025'
+$e5oDate = $notificationResponse[0]->submissionDate;  // DateTimeImmutable, accepted as-is by setNotificationDate()
 
 // === Step 2: Submit E5AO (when resignation is confirmed) ===
 // (typically after waiting period or employee confirmation)

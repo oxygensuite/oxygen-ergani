@@ -95,7 +95,8 @@ The `WorkTime` model is the container for work time declarations.
 |--------|-----------|------|----------|-------------|
 | `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch serial number. Use `0` for main establishment |
 | `setRelatedProtocol()` | `f_rel_protocol` | string | No | Protocol number of related submission (for corrections) |
-| `setRelatedDate()` | `f_rel_date` | string | No | Date of related submission (DD/MM/YYYY) |
+| `setRelatedDate()` | `f_rel_date` | DateTimeInterface\|string | No | Date of related submission (DD/MM/YYYY) |
+| `setRelatedSubmission()` | `f_rel_protocol` + `f_rel_date` | string, DateTimeInterface\|string | - | Set both in one call, e.g. `($response[0]->protocol, $response[0]->submissionDate)` |
 | `setComments()` | `f_comments` | string | No | Optional comments |
 | `setFromDate()` | `f_from_date` | string | Weekly | Start date of period (DD/MM/YYYY) - required for weekly |
 | `setToDate()` | `f_to_date` | string | Weekly | End date of period (DD/MM/YYYY) - required for weekly |

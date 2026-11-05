@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-06
+
+See [UPGRADING.md](UPGRADING.md#upgrading-to-v23) if you extend models and override date setters.
+
 ### Added
 
 - **E3.1 follow-up forms** (ERGANI help files v6) - `CommunityProgramExtension` (WebE31E) with `CommunityProgramExtensionDeclaration` and `CommunityProgramInterruption` (WebE31D) with `CommunityProgramInterruptionDeclaration`, plus factories and `Ergani::sendCommunityProgramExtension()` / `sendCommunityProgramInterruption()`
@@ -329,6 +333,8 @@ Initial alpha release.
 - Renamed `Authentication` class to `AuthenticationLogin`
 - Renamed `clear` method to `failedAuthentication` in Token
 
+[Unreleased]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.3...v2.1.0
 [2.0.3]: https://github.com/oxygensuite/oxygen-ergani/compare/v2.0.2...v2.0.3

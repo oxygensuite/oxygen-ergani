@@ -1,3 +1,28 @@
+# Upgrading to v2.3
+
+v2.3 is a drop-in upgrade for code that only *calls* the package. Two edge cases need attention.
+
+### Date parameters accept any `DateTimeInterface`
+
+Every date input (model setters such as `setBirthDate()` / `setRelatedDate()`, the query services, cancel and PDF
+retrieval) now takes `DateTimeInterface|string` instead of `DateTime|string`, so `DateTimeImmutable`, `CarbonImmutable`
+and a response's `submissionDate` can be passed directly. If you **extend** a model and override one of these setters
+with the old signature, PHP will refuse to load your class; widen the parameter:
+
+```diff
+- public function setHiringDate(DateTime|string $date): static
++ public function setHiringDate(DateTimeInterface|string $date): static
+```
+
+### Renamed parameters (named arguments only)
+
+Only relevant if you call these with named arguments:
+
+- `WorkTime::setRelatedDate()` / `Overtime::setRelatedDate()`: `$relatedDate` → `$date`
+- E3.5 file setters (`setFormFile()`, `setForeignFile()`, `setMinorFile()` on internship models): `$base64` → `$value`
+
+---
+
 # Upgrading from v1.x to v2.0
 
 This guide covers the breaking changes in v2.0 and how to migrate your code.
