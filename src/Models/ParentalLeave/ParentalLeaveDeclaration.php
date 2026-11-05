@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\ParentalLeave;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\EmploymentStatus;
 use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Enums\LeaveGrantMethod;
@@ -99,11 +100,11 @@ class ParentalLeaveDeclaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Submission date of the declaration being corrected (corrections only)
+     * @param DateTimeInterface|string $date Submission date of the declaration being corrected (corrections only)
      */
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

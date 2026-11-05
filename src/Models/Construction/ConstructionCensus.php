@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\Construction;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -68,9 +69,9 @@ class ConstructionCensus extends Model
         return $this->get('f_rel_date');
     }
 
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

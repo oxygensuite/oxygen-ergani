@@ -1,15 +1,26 @@
 # Community-Benefit Program Employment (E3.1)
 
-The E3.1 form announces the employment of a beneficiary of a community-benefit program (κοινωφελούς χαρακτήρα), for example DYPA community work programs run by municipalities and public bodies.
+The E3.1 form announces the employment of a beneficiary of a community-benefit program (κοινωφελούς χαρακτήρα), for example DYPA community work programs run by municipalities and public bodies. Two follow-up forms extend or interrupt that employment.
 
 ## Overview
 
-| Property | Value |
-|----------|-------|
-| Document Classes | `CommunityProgramEmployment`, `CommunityProgramEmploymentCorrection` |
-| Action Codes | `WebE31` (declaration), `WebE31C` (correction) |
-| Declaration Model | `CommunityProgramDeclaration` |
-| Schema | `E31_v1.xsd` (root `AnaggeliesE31` / `AnaggeliaE31`) |
+| Form | Action Code | Document Class | Model | Schema |
+|------|-------------|----------------|-------|--------|
+| E3.1 | `WebE31` | `CommunityProgramEmployment` | `CommunityProgramDeclaration` | `E31_v1.xsd` (root `AnaggeliesE31` / `AnaggeliaE31`) |
+| E3.1 Correction | `WebE31C` | `CommunityProgramEmploymentCorrection` | `CommunityProgramDeclaration` | `E31_v1.xsd` |
+| E3.1 Extension (Επέκταση απασχόλησης ωφελούμενου) | `WebE31E` | `CommunityProgramExtension` | `CommunityProgramExtensionDeclaration` | `E31E_v1.xsd` (root `AnaggeliesE31E` / `AnaggeliaE31E`) |
+| E3.1 Interruption (Διακοπή απασχόλησης ωφελούμενου) | `WebE31D` | `CommunityProgramInterruption` | `CommunityProgramInterruptionDeclaration` | `E31D_v1.xsd` (root `AnaggeliesE31D` / `AnaggeliaE31D`) |
+
+| Ergani Method | Form |
+|---------------|------|
+| `sendCommunityProgramEmployment()` | E3.1 |
+| `sendCommunityProgramEmploymentCorrection()` | E3.1 Correction |
+| `sendCommunityProgramExtension()` | E3.1 Extension |
+| `sendCommunityProgramInterruption()` | E3.1 Interruption |
+
+::: warning Availability
+As of November 2026 all E3.1 action codes are accepted by **production**. The **trial** environment does not have them deployed yet and rejects them with `XSD File not found` / `Type: ... not valid`.
+:::
 
 ## Basic Usage
 
@@ -66,11 +77,8 @@ $declaration = CommunityProgramDeclaration::make()
     ->setReceivesUnemploymentBenefit(false)
     // Sign-off
     ->setLegalRepresentativeAfm('078776545')
-    ->setCertifierLastName('ΛΟΓΙΣΤΗΣ')
-    ->setCertifierFirstName('ΜΑΡΙΑ')
-    ->setCertifierCapacity('ΛΟΓΙΣΤΡΙΑ')
-    ->setCertifierAddress('ΣΤΑΔΙΟΥ 10')
-    ->setCertifierAfm('000000001')
+    // last name, first name, capacity, address, AFM (or the individual setCertifier*() setters)
+    ->setCertifier('ΛΟΓΙΣΤΗΣ', 'ΜΑΡΙΑ', 'ΛΟΓΙΣΤΡΙΑ', 'ΣΤΑΔΙΟΥ 10', '000000001')
     ->withDefaults(); // send every remaining optional field as an empty string
 
 $response = (new CommunityProgramEmployment())->handle($declaration);
@@ -100,6 +108,9 @@ use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramEmp
 $declaration
     ->setRelatedProtocol($original[0]->protocol)
     ->setRelatedDate($original[0]->submissionDate);
+
+// or in one call
+$declaration->setRelatedSubmission($original[0]->protocol, $original[0]->submissionDate);
 
 $response = (new CommunityProgramEmploymentCorrection())->handle($declaration);
 
@@ -233,6 +244,94 @@ In E3.1, `f_week_hours` is a free-text field (max 200 characters), so `setWeekly
 | `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
 | `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
 
+## Employment Extension (WebE31E)
+
+Extends the employment of a beneficiary declared with a previous E3.1. `setRelatedProtocol()` / `setRelatedDate()` (or `setRelatedSubmission()`) reference the **original E3.1 declaration**, not a previous extension.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramExtension;
+use OxygenSuite\OxygenErgani\Models\CommunityProgram\CommunityProgramExtensionDeclaration;
+
+$extension = CommunityProgramExtensionDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedSubmission('ΠΠ59', '09/09/2024')   // original E3.1 protocol & submission date
+    ->setAfm('123456789')                          // beneficiary AFM
+    ->setExtensionDate('14/09/2025')               // employment extended until
+    ->setLegalRepresentativeAfm('078776545')
+    ->setCertifier('ΛΟΓΙΣΤΗΣ', 'ΜΑΡΙΑ', 'ΛΟΓΙΣΤΡΙΑ', 'ΣΤΑΔΙΟΥ 10', '000000001')
+    ->withDefaults();                              // empty f_file / f_foreign_file
+
+$response = (new CommunityProgramExtension())->handle($extension);
+
+// or
+$responses = $ergani->sendCommunityProgramExtension($extension);
+```
+
+### Extension Field Reference
+
+Every element must be present in the payload; "Required" marks the elements whose XSD pattern does not accept an empty value.
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
+| `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.1 declaration. |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
+| `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
+| `setExtensionDate()` | `f_enlong_date` | DateTime\|string | Yes | Date until which the employment is extended (DD/MM/YYYY). |
+| `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
+| `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |
+| `setCertifierFirstName()` | `f_onoma` | string | Yes | Certifier first name |
+| `setCertifierCapacity()` | `f_idiotita` | string | Yes | Capacity of the certifying person (e.g. accountant) |
+| `setCertifierAddress()` | `f_dieythinsi` | string | Yes | Certifier address |
+| `setCertifierAfm()` | `f_afm_bebaiwn` | string | Yes | AFM of the certifying person |
+| `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
+| `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
+
+## Employment Interruption (WebE31D)
+
+Reports the interruption of a beneficiary's employment declared with a previous E3.1. As with the extension, the related protocol/date reference the **original E3.1 declaration**. The interruption reason (`f_diakoph_aitiologia`) is a **3-digit code**.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramInterruption;
+use OxygenSuite\OxygenErgani\Models\CommunityProgram\CommunityProgramInterruptionDeclaration;
+
+$interruption = CommunityProgramInterruptionDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedSubmission('ΠΠ59', '09/09/2025')   // original E3.1 protocol & submission date
+    ->setAfm('123456789')                          // beneficiary AFM
+    ->setInterruptionDate('30/09/2025')
+    ->setInterruptionReason('001')                 // 3-digit reason code
+    ->setLegalRepresentativeAfm('078776545')
+    ->setCertifier('ΛΟΓΙΣΤΗΣ', 'ΜΑΡΙΑ', 'ΛΟΓΙΣΤΡΙΑ', 'ΣΤΑΔΙΟΥ 10', '000000001')
+    ->withDefaults();
+
+$response = (new CommunityProgramInterruption())->handle($interruption);
+
+// or
+$responses = $ergani->sendCommunityProgramInterruption($interruption);
+```
+
+### Interruption Field Reference
+
+Every element must be present in the payload; "Required" marks the elements whose XSD pattern does not accept an empty value.
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
+| `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.1 declaration. |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.1 declaration (DD/MM/YYYY). |
+| `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
+| `setInterruptionDate()` | `f_diakoph_date` | DateTime\|string | Yes | Interruption date (DD/MM/YYYY). |
+| `setInterruptionReason()` | `f_diakoph_aitiologia` | string | Yes | Interruption reason code (3 digits). |
+| `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
+| `setCertifierLastName()` | `f_eponymo` | string | Yes | Certifier last name |
+| `setCertifierFirstName()` | `f_onoma` | string | Yes | Certifier first name |
+| `setCertifierCapacity()` | `f_idiotita` | string | Yes | Capacity of the certifying person (e.g. accountant) |
+| `setCertifierAddress()` | `f_dieythinsi` | string | Yes | Certifier address |
+| `setCertifierAfm()` | `f_afm_bebaiwn` | string | Yes | AFM of the certifying person |
+| `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
+| `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
+
 ## Response Handling
 
 ```php
@@ -260,6 +359,8 @@ file_put_contents('community-program.pdf', base64_decode($pdfBase64));
 
 ```php
 use OxygenSuite\OxygenErgani\Models\CommunityProgram\CommunityProgramDeclaration;
+use OxygenSuite\OxygenErgani\Models\CommunityProgram\CommunityProgramExtensionDeclaration;
+use OxygenSuite\OxygenErgani\Models\CommunityProgram\CommunityProgramInterruptionDeclaration;
 
 $declaration = CommunityProgramDeclaration::factory()->make();
 
@@ -271,10 +372,25 @@ $declaration = CommunityProgramDeclaration::factory()
     ->withUnemploymentBenefit('101213')
     ->asCorrection('ΑΚ123', '01/10/2026')
     ->make();
+
+// Extension
+$extension = CommunityProgramExtensionDeclaration::factory()
+    ->forDeclaration('ΑΚ123', '01/10/2026')     // original E3.1
+    ->extendedUntil('31/12/2026')
+    ->make();
+
+// Interruption
+$interruption = CommunityProgramInterruptionDeclaration::factory()
+    ->forBranch(1)
+    ->forDeclaration('ΑΚ123', '01/10/2026')
+    ->interruptedOn('15/11/2026', '002')
+    ->make();
 ```
 
 ## See Also
 
 - [Theoretical Training (E3.2)](/guide/theoretical-training) - Shares the beneficiary and provider fields
+- [Practical Training (E3.3)](/guide/practical-training)
+- [Apprenticeship (E3.4)](/guide/apprenticeship)
 - [Internship (E3.5)](/guide/internship)
 - [Services & Queries](/guide/services) - Parameter lookups (nationalities, tax offices, languages, ...)

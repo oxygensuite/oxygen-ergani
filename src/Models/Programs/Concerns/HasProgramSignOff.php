@@ -3,10 +3,12 @@
 namespace OxygenSuite\OxygenErgani\Models\Programs\Concerns;
 
 /**
- * Free-text schedule, comments, representative and attachment fields shared by the E3.1 and E3.2 forms.
+ * Free-text schedule, comments, representative and attachment fields shared by the E3.1 - E3.4 program forms.
  */
 trait HasProgramSignOff
 {
+    use HasProgramAttachments;
+
     // ==================== Schedule ====================
 
     public function getScheduleDescription(): ?string
@@ -35,7 +37,7 @@ trait HasProgramSignOff
         return $this->set('f_orario_dialeima', $value);
     }
 
-    // ==================== Sign-off ====================
+    // ==================== Comments ====================
 
     public function getComments(): ?string
     {
@@ -45,46 +47,5 @@ trait HasProgramSignOff
     public function setComments(string $value): static
     {
         return $this->set('f_comments', $value);
-    }
-
-    public function getLegalRepresentativeAfm(): ?string
-    {
-        return $this->get('f_mek_afm');
-    }
-
-    /**
-     * AFM of the responsible provider / legal representative.
-     */
-    public function setLegalRepresentativeAfm(string $value): static
-    {
-        return $this->set('f_mek_afm', $value);
-    }
-
-    // ==================== Attachments ====================
-
-    public function getFormFile(): ?string
-    {
-        return $this->get('f_file');
-    }
-
-    /**
-     * Signed form (base64-encoded PDF).
-     */
-    public function setFormFile(string $value): static
-    {
-        return $this->set('f_file', $value);
-    }
-
-    public function getForeignFile(): ?string
-    {
-        return $this->get('f_foreign_file');
-    }
-
-    /**
-     * Third-country national labour-market access documents (base64-encoded PDF).
-     */
-    public function setForeignFile(string $value): static
-    {
-        return $this->set('f_foreign_file', $value);
     }
 }

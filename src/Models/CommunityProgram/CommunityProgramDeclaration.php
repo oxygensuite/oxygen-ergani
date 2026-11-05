@@ -8,6 +8,9 @@ use OxygenSuite\OxygenErgani\Enums\EmploymentType;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiary;
+use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasFixedTermPeriod;
+use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasPlacement;
+use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramCertifier;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramProvider;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramSignOff;
 
@@ -22,8 +25,11 @@ class CommunityProgramDeclaration extends Model
 {
     use HasFactory;
     use HasBeneficiary;
+    use HasProgramCertifier;
     use HasProgramProvider;
     use HasProgramSignOff;
+    use HasFixedTermPeriod;
+    use HasPlacement;
 
     /** @var array<string, string> */
     protected array $casts = [
@@ -338,65 +344,6 @@ class CommunityProgramDeclaration extends Model
 
     // ==================== Placement ====================
 
-    public function getPlacementDate(): ?string
-    {
-        return $this->get('f_date_proslipsis');
-    }
-
-    public function setPlacementDate(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_proslipsis', $date);
-    }
-
-    public function getPlacementTime(): ?string
-    {
-        return $this->get('f_date_time_proslipsis');
-    }
-
-    /**
-     * Work start time on the first day (HH:MM).
-     */
-    public function setPlacementTime(string $value): static
-    {
-        return $this->set('f_date_time_proslipsis', $value);
-    }
-
-    public function getWeeklyHours(): ?string
-    {
-        return $this->get('f_week_hours');
-    }
-
-    /**
-     * Weekly working hours as free text (e.g. "40").
-     */
-    public function setWeeklyHours(int|string $value): static
-    {
-        return $this->set('f_week_hours', (string) $value);
-    }
-
-    public function getScheduleAttached(): ?string
-    {
-        return $this->get('f_wres_external');
-    }
-
-    /**
-     * Whether the working days and hours are given in an attached file.
-     *
-     * @param string|bool $value 0=No, 1=Yes (or boolean)
-     */
-    public function setScheduleAttached(string|bool $value): static
-    {
-        if (is_bool($value)) {
-            $value = $value ? '1' : '0';
-        }
-
-        return $this->set('f_wres_external', $value);
-    }
-
     public function getProgramSpecialtyCode(): ?string
     {
         return $this->get('f_eidikothta_programma');
@@ -484,40 +431,6 @@ class CommunityProgramDeclaration extends Model
         }
 
         return $this->set('f_sxesh_apasxolhshs', (string) $value);
-    }
-
-    public function getStartDate(): ?string
-    {
-        return $this->get('f_orismenou_apo');
-    }
-
-    /**
-     * Fixed-term contract start date.
-     */
-    public function setStartDate(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_apo', $date);
-    }
-
-    public function getEndDate(): ?string
-    {
-        return $this->get('f_orismenou_ews');
-    }
-
-    /**
-     * Fixed-term contract end date.
-     */
-    public function setEndDate(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_orismenou_ews', $date);
     }
 
     public function getEmploymentStatus(): ?string
@@ -638,58 +551,6 @@ class CommunityProgramDeclaration extends Model
         return $this->set('f_ypiresia_oaed_anergeias', $value);
     }
 
-    // ==================== Certifier ====================
-
-    public function getCertifierLastName(): ?string
-    {
-        return $this->get('f_eponymo');
-    }
-
-    public function setCertifierLastName(string $value): static
-    {
-        return $this->set('f_eponymo', $value);
-    }
-
-    public function getCertifierFirstName(): ?string
-    {
-        return $this->get('f_onoma');
-    }
-
-    public function setCertifierFirstName(string $value): static
-    {
-        return $this->set('f_onoma', $value);
-    }
-
-    public function getCertifierCapacity(): ?string
-    {
-        return $this->get('f_idiotita');
-    }
-
-    public function setCertifierCapacity(string $value): static
-    {
-        return $this->set('f_idiotita', $value);
-    }
-
-    public function getCertifierAddress(): ?string
-    {
-        return $this->get('f_dieythinsi');
-    }
-
-    public function setCertifierAddress(string $value): static
-    {
-        return $this->set('f_dieythinsi', $value);
-    }
-
-    public function getCertifierAfm(): ?string
-    {
-        return $this->get('f_afm_bebaiwn');
-    }
-
-    public function setCertifierAfm(string $value): static
-    {
-        return $this->set('f_afm_bebaiwn', $value);
-    }
-
     /**
      * Set the foreign language codes (up to four, see ParameterLookup::LANGUAGE).
      *
@@ -726,14 +587,6 @@ class CommunityProgramDeclaration extends Model
     public function setTrainingPeriod(DateTime|string $from, DateTime|string $to): static
     {
         return $this->setTrainingDateFrom($from)->setTrainingDateTo($to);
-    }
-
-    /**
-     * Set the fixed-term period in one call.
-     */
-    public function setFixedTermPeriod(DateTime|string $from, DateTime|string $to): static
-    {
-        return $this->setStartDate($from)->setEndDate($to);
     }
 
     /**

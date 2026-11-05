@@ -44,7 +44,7 @@ if ($success) {
 |-----------|------|-------------|
 | `$documentType` | string | The document type code (action code from submission) |
 | `$protocol` | string | Protocol number received from original submission |
-| `$submissionDate` | DateTime\|int\|string | Submission date in `yyyymmdd` format |
+| `$submissionDate` | DateTimeInterface\|int\|string | Submission date (`yyyymmdd` when given as string/int) |
 
 ## Date Formats
 
@@ -56,9 +56,10 @@ use DateTime;
 // String format (recommended)
 $cancel->handle('WTD', 'ΟΧΕ123456', '20250115');
 
-// DateTime object (automatically formatted)
+// Any DateTimeInterface (automatically formatted), e.g. the response's submissionDate
 $date = new DateTime('2025-01-15');
 $cancel->handle('WTD', 'ΟΧΕ123456', $date);
+$cancel->handle('WTD', $response[0]->protocol, $response[0]->submissionDate);
 
 // Integer format
 $cancel->handle('WTD', 'ΟΧΕ123456', 20250115);
@@ -82,7 +83,7 @@ $response = (new DailyWorkTime())->handle($workTime);
 // Store these for potential cancellation
 foreach ($response as $result) {
     $protocol = $result->protocol;           // e.g., 'ΟΧΕ123456'
-    $submissionDate = $result->submissionDate; // DateTime object
+    $submissionDate = $result->submissionDate; // DateTimeImmutable
 
     // Save to database for later reference
     saveSubmission([

@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **E3.1 follow-up forms** (ERGANI help files v6) - `CommunityProgramExtension` (WebE31E) with `CommunityProgramExtensionDeclaration` and `CommunityProgramInterruption` (WebE31D) with `CommunityProgramInterruptionDeclaration`, plus factories and `Ergani::sendCommunityProgramExtension()` / `sendCommunityProgramInterruption()`
+- **E3.2 follow-up forms** - `TheoreticalTrainingEmployerChange` (WebE32T) with `TheoreticalTrainingEmployerChangeDeclaration` and `TheoreticalTrainingInterruption` (WebE32D) with `TheoreticalTrainingInterruptionDeclaration`, plus factories and `Ergani::sendTheoreticalTrainingEmployerChange()` / `sendTheoreticalTrainingInterruption()`
+- **E3.3 Practical Training** - `PracticalTraining` (WebE33) and `PracticalTrainingCorrection` (WebE33C) with `PracticalTrainingDeclaration`, factory and `Ergani::sendPracticalTraining()` / `sendPracticalTrainingCorrection()`
+- **E3.4 Apprenticeship** - `Apprenticeship` (WebE34) and `ApprenticeshipCorrection` (WebE34C) with `ApprenticeshipDeclaration`, factory and `Ergani::sendApprenticeship()` / `sendApprenticeshipCorrection()`
+- Add `setRelatedSubmission()` to all E3.1 - E3.4 models, and `setCertifier()` to every model with `f_eponymo` / `f_afm_bebaiwn` certifier fields (E3.1, E3.1 extension/interruption, E3.4 and E3.5 termination)
+- Add a `--keep-branch` option to `composer submit:check` that keeps the generated branch so ERGANI rejects the invalid AFM instead of the branch; documents with fewer than two invalid AFM/AMKA values are skipped in that mode
+
+### Changed
+
+- Accept any `DateTimeInterface` (including the `DateTimeImmutable` in `SubmissionResponse::$submissionDate`) in every `setRelatedDate()`, `CancelSubmittedDocument::handle()`, `Documents::pdf()`, `Ergani::cancelDocument()` and `Ergani::getDocumentPdf()`, so a response date can be passed straight back
+- Type `Factory::fake()` as `Generator&GreekFaker` so static analysis sees the `GreekProvider` methods, and mark `Factory` with `@phpstan-consistent-constructor`; PHPStan now passes with no baseline (`phpstan-baseline.neon` removed)
+- Split the shared E3.1/E3.2 model traits so the new forms can reuse them: `HasProgramReference` (branch and related submission), `HasProgramAttachments` (legal representative and files), `HasProgramCertifier`, `HasBeneficiaryAfm`, `HasMinorBookNumber`, `HasMinorFile`, `HasProgramFiles`, `HasPlacement`, `HasFixedTermPeriod`, and `Training\Concerns\HasPracticeBusiness` / `HasTrainingBeneficiaryDetails`. `InternshipTerminationDeclaration` now uses `HasProgramCertifier` and `HasInternshipFiles` composes `HasProgramFiles` + `HasMinorFile` (public API unchanged)
+
+### Fixed
+
+- `setRelatedDate()`, document cancellation and PDF retrieval threw a `TypeError` when given the `DateTimeImmutable` from a previous submission's response
+
 ## [2.2.0] - 2026-10-15
 
 ### Added

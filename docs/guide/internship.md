@@ -328,7 +328,7 @@ use OxygenSuite\OxygenErgani\Http\Documents\Internship\InternshipCorrection;
 
 $declaration
     ->setRelatedProtocol($original->protocol)
-    ->setRelatedDate($original->submissionDate->format('d/m/Y'));
+    ->setRelatedDate($original->submissionDate);
 
 $response = (new InternshipCorrection())->handle($declaration);
 

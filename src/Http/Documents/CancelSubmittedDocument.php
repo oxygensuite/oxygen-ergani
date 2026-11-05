@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Http\Documents;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Client;
 
@@ -19,17 +19,17 @@ class CancelSubmittedDocument extends Client
      *
      * @param string $documentType Ο τύπος της δήλωσης (κωδικός ενεργής υποβολής)
      * @param string $protocol Ο αριθμός πρωτοκόλλου της δήλωσης
-     * @param DateTime|int|string $submissionDate Η ημερομηνία υποβολής της δήλωσης yyyymmdd
+     * @param DateTimeInterface|int|string $submissionDate Η ημερομηνία υποβολής της δήλωσης yyyymmdd
      *
      * @return bool Επιστρέφει true αν η ανάκληση ήταν επιτυχής
      * @throws ErganiException
      */
-    public function handle(string $documentType, string $protocol, DateTime|int|string $submissionDate): bool
+    public function handle(string $documentType, string $protocol, DateTimeInterface|int|string $submissionDate): bool
     {
         return $this->post(self::URI, [
             'TypeOfDocument' => $documentType,
             'Protocol' => $protocol,
-            'SubmittedDate' => $submissionDate instanceof DateTime ? $submissionDate->format('Ymd') : $submissionDate,
+            'SubmittedDate' => $submissionDate instanceof DateTimeInterface ? $submissionDate->format('Ymd') : $submissionDate,
         ])->isSuccessful();
     }
 }

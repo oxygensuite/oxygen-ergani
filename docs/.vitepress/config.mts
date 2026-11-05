@@ -112,9 +112,11 @@ export default defineConfig({
             { text: 'Motorcycle Use (E13)', link: '/guide/motorcycle' },
             { text: 'Sixth Day', link: '/guide/sixth-day' },
             { text: 'Pre-Announcement', link: '/guide/pre-announcement' },
-            { text: 'Internship (E3.5)', link: '/guide/internship' },
             { text: 'Community Programs (E3.1)', link: '/guide/community-program' },
             { text: 'Theoretical Training (E3.2)', link: '/guide/theoretical-training' },
+            { text: 'Practical Training (E3.3)', link: '/guide/practical-training' },
+            { text: 'Apprenticeship (E3.4)', link: '/guide/apprenticeship' },
+            { text: 'Internship (E3.5)', link: '/guide/internship' },
             { text: 'Parental Leave (E14)', link: '/guide/parental-leave' },
             { text: 'Urgent Hiring (FastAna)', link: '/guide/urgent-hiring' },
           ]

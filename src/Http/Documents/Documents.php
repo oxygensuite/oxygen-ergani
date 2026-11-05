@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Http\Documents;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Client;
 
@@ -33,16 +33,16 @@ abstract class Documents extends Client
      * Retrieve the PDF of a submitted document.
      *
      * @param string $protocol Protocol number from submission response
-     * @param DateTime|int|string $submittedDate Submission date (DateTime, Ymd integer, or Ymd string)
+     * @param DateTimeInterface|int|string $submittedDate Submission date (DateTimeInterface, Ymd integer, or Ymd string)
      *
      * @return string Base64-encoded PDF content
      * @throws ErganiException
      */
-    public function pdf(string $protocol, DateTime|int|string $submittedDate): string
+    public function pdf(string $protocol, DateTimeInterface|int|string $submittedDate): string
     {
         return $this->get($this->uri(), [
             'protocol' => $protocol,
-            'submittedDate' => $submittedDate instanceof DateTime ? $submittedDate->format('Ymd') : $submittedDate,
+            'submittedDate' => $submittedDate instanceof DateTimeInterface ? $submittedDate->format('Ymd') : $submittedDate,
         ])->contents();
     }
 

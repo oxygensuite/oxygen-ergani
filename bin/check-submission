@@ -17,9 +17,14 @@
  *   - "Type ... not valid" / "XSD File not found" = form not available in that environment
  * Documents with fewer than two replaceable values are skipped. Anything accepted is cancelled at once.
  *
+ * With --keep-branch the branch stays as generated (0, the head office) so ERGANI gets past the branch
+ * check and rejects the invalid AFM instead; this exercises more of the server-side validation.
+ * Because the branch is real, documents with fewer than two invalid AFM/AMKA values are skipped.
+ *
  * Usage:
  *   composer submit:check                         (trial environment)
  *   composer submit:check -- --production         (production environment)
+ *   composer submit:check -- --keep-branch        (keep branch 0; expect an AFM rejection)
  *   composer submit:check -- --only=E14,FastAna   (document names from composer schema:check -- --list)
  *   composer submit:check -- --list
  *
@@ -56,7 +61,7 @@ foreach ($schemaMap as $group) {
 }
 
 if (in_array('--help', $args, true) || in_array('-h', $args, true)) {
-    echo "Usage: composer submit:check -- [--production] [--only=Name,Name] [--list]\n";
+    echo "Usage: composer submit:check -- [--production] [--keep-branch] [--only=Name,Name] [--list]\n";
     exit(0);
 }
 
@@ -96,6 +101,7 @@ if ((($afmSum % 11) % 10) === (int) BAD_AFM[8] || $luhn % 10 === 0) {
 }
 
 $environment = in_array('--production', $args, true) ? Environment::PRODUCTION : Environment::TEST;
+define('KEEP_BRANCH', in_array('--keep-branch', $args, true));
 
 $envFile = loadEnvFile(dirname(__DIR__) . '/.env');
 $username = getConfig($envFile, 'ERGANI_USERNAME');
@@ -110,10 +116,14 @@ ClientConfig::setDefault((new ClientConfig())->setTimeout(90));
 
 $color = $environment === Environment::PRODUCTION ? "\033[1;31m" : "\033[1;32m";
 echo "Environment: {$color}{$environment->name}\033[0m -> {$environment->getApiUrl()}\n";
-echo "Payloads carry invalid AFM/AMKA/branch/service values; nothing can be filed.\n\n";
+echo 'Payloads carry invalid AFM/AMKA' . (KEEP_BRANCH ? '' : '/branch') . "/service values; nothing can be filed.\n\n";
 
 /**
  * Replace business identifiers with invalid-but-well-formed values.
+ *
+ * $replaced counts only replacements that guarantee a rejection: invalid AFM/AMKA always, and
+ * branch/service codes only when the branch is invalid too (with --keep-branch the payload targets a
+ * real branch, so a fake service code alone must not count as protection).
  */
 function sabotage(mixed $value, string $key, int &$replaced): mixed
 {
@@ -128,14 +138,14 @@ function sabotage(mixed $value, string $key, int &$replaced): mixed
 
     $k = strtolower($key);
     $new = match (true) {
-        $k === 'f_aa_pararthmatos' => '999',
+        $k === 'f_aa_pararthmatos' && ! KEEP_BRANCH => '999',
         $k === 'f_ypiresia_sepe' => '99999',
         $k === 'f_ypiresia_oaed' => '999999',
         str_contains($k, 'amka') && $value !== '' && $value !== null => BAD_AMKA,
         str_contains($k, 'afm') && $value !== '' && $value !== null => BAD_AFM,
         default => $value,
     };
-    if ($new !== $value) {
+    if ($new !== $value && (! KEEP_BRANCH || $new === BAD_AFM || $new === BAD_AMKA)) {
         $replaced++;
     }
 
@@ -204,7 +214,8 @@ foreach ($documents as $name => $documentClass) {
 
     if ($replaced < 2) {
         $results['skipped']++;
-        echo "{$label} \033[33mSKIPPED\033[0m only {$replaced} value(s) could be made invalid; not safe to send\n";
+        $what = KEEP_BRANCH ? 'invalid AFM/AMKA value(s)' : 'value(s) could be made invalid';
+        echo "{$label} \033[33mSKIPPED\033[0m only {$replaced} {$what}; not safe to send\n";
         continue;
     }
 

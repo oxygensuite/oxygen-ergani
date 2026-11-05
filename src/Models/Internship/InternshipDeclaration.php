@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
@@ -172,9 +173,9 @@ class InternshipDeclaration extends Model
         return $this->get('f_rel_date');
     }
 
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

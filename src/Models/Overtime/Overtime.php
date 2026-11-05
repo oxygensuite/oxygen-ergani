@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Overtime;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 
@@ -57,9 +57,9 @@ class Overtime extends Model
         return $this->get('f_rel_date');
     }
 
-    public function setRelatedDate(DateTime|string $relatedDate): static
+    public function setRelatedDate(DateTimeInterface|string $relatedDate): static
     {
-        if ($relatedDate instanceof DateTime) {
+        if ($relatedDate instanceof DateTimeInterface) {
             $relatedDate = $relatedDate->format('d/m/Y');
         }
 

@@ -2,54 +2,14 @@
 
 namespace OxygenSuite\OxygenErgani\Models\Programs\Concerns;
 
-use DateTime;
-
 /**
- * Submission header and training-provider fields shared by the E3.1 and E3.2 forms.
+ * Submission header and provider fields shared by the E3.1 - E3.4 program forms.
  */
 trait HasProgramProvider
 {
-    // ==================== Submission ====================
+    use HasProgramReference;
 
-    public function getBranchCode(): int|string|null
-    {
-        return $this->get('f_aa_pararthmatos');
-    }
-
-    public function setBranchCode(int|string $branchCode): static
-    {
-        return $this->set('f_aa_pararthmatos', $branchCode);
-    }
-
-    public function getRelatedProtocol(): ?string
-    {
-        return $this->get('f_protocol_sx');
-    }
-
-    /**
-     * Protocol of the original declaration (corrections only).
-     */
-    public function setRelatedProtocol(string $value): static
-    {
-        return $this->set('f_protocol_sx', $value);
-    }
-
-    public function getRelatedDate(): ?string
-    {
-        return $this->get('f_date_ypovolis_sx');
-    }
-
-    /**
-     * Submission date of the original declaration (corrections only).
-     */
-    public function setRelatedDate(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_date_ypovolis_sx', $date);
-    }
+    // ==================== Services ====================
 
     public function getDypaServiceCode(): ?string
     {

@@ -1006,6 +1006,30 @@ public function sendCommunityProgramEmploymentCorrection(CommunityProgramDeclara
 
 ---
 
+### sendCommunityProgramExtension()
+
+Submit an extension of a beneficiary's employment declared with a previous E3.1 (WebE31E). Reference the **original E3.1** with `setRelatedProtocol()` / `setRelatedDate()` or `setRelatedSubmission()`.
+
+```php
+public function sendCommunityProgramExtension(CommunityProgramExtensionDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendCommunityProgramInterruption()
+
+Submit an interruption of a beneficiary's employment declared with a previous E3.1 (WebE31D). Reference the **original E3.1**; the reason is a 3-digit code.
+
+```php
+public function sendCommunityProgramInterruption(CommunityProgramInterruptionDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
 ## Training Documents (E3.2)
 
 ### sendTheoreticalTraining()
@@ -1026,6 +1050,82 @@ Submit a correction of a previous E3.2 declaration (WebE32C). Reference the orig
 
 ```php
 public function sendTheoreticalTrainingCorrection(TheoreticalTrainingDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendTheoreticalTrainingEmployerChange()
+
+Submit a change of the practical training business for a previous E3.2 (WebE32T). Reference the **original E3.2**; the new business is set with the `setPractice*()` setters (written to `f_cpractice_*`).
+
+```php
+public function sendTheoreticalTrainingEmployerChange(TheoreticalTrainingEmployerChangeDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendTheoreticalTrainingInterruption()
+
+Submit an interruption of a training declared with a previous E3.2 (WebE32D). Reference the **original E3.2**; the reason is free text.
+
+```php
+public function sendTheoreticalTrainingInterruption(TheoreticalTrainingInterruptionDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Practical Training Documents (E3.3)
+
+### sendPracticalTraining()
+
+Submit practical training start declaration (WebE33).
+
+```php
+public function sendPracticalTraining(PracticalTrainingDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendPracticalTrainingCorrection()
+
+Submit a correction of a previous E3.3 declaration (WebE33C). Reference the original with `setRelatedProtocol()` / `setRelatedDate()` or `setRelatedSubmission()`.
+
+```php
+public function sendPracticalTrainingCorrection(PracticalTrainingDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+## Apprenticeship Documents (E3.4)
+
+### sendApprenticeship()
+
+Submit apprenticeship start declaration (WebE34).
+
+```php
+public function sendApprenticeship(ApprenticeshipDeclaration|array $declarations): array
+```
+
+**Returns:** `array<int, SubmissionResponse>`
+
+---
+
+### sendApprenticeshipCorrection()
+
+Submit a correction of a previous E3.4 declaration (WebE34C). Reference the original with `setRelatedProtocol()` / `setRelatedDate()` or `setRelatedSubmission()`.
+
+```php
+public function sendApprenticeshipCorrection(ApprenticeshipDeclaration|array $declarations): array
 ```
 
 **Returns:** `array<int, SubmissionResponse>`
@@ -1454,8 +1554,16 @@ $responses = $ergani->sendHiringNew($declarations);
 | | `sendConstructionWorkCensus()` | WebE12Ap | Construction census |
 | **Community Program** | `sendCommunityProgramEmployment()` | WebE31 | Community-benefit program employment (E3.1) |
 | | `sendCommunityProgramEmploymentCorrection()` | WebE31C | E3.1 correction |
+| | `sendCommunityProgramExtension()` | WebE31E | E3.1 employment extension |
+| | `sendCommunityProgramInterruption()` | WebE31D | E3.1 employment interruption |
 | **Training** | `sendTheoreticalTraining()` | WebE32 | Theoretical training start (E3.2) |
 | | `sendTheoreticalTrainingCorrection()` | WebE32C | E3.2 correction |
+| | `sendTheoreticalTrainingEmployerChange()` | WebE32T | E3.2 practical training employer change |
+| | `sendTheoreticalTrainingInterruption()` | WebE32D | E3.2 training interruption |
+| | `sendPracticalTraining()` | WebE33 | Practical training start (E3.3) |
+| | `sendPracticalTrainingCorrection()` | WebE33C | E3.3 correction |
+| **Apprenticeship** | `sendApprenticeship()` | WebE34 | Apprenticeship start (E3.4) |
+| | `sendApprenticeshipCorrection()` | WebE34C | E3.4 correction |
 | **Motorcycle** | `sendMotorcycleUse()` | WebE13 | Moped/motorcycle use by employees |
 | **Internship** | `sendInternshipDeclaration()` | WebE35 | Internship (E3.5) |
 | | `sendInternshipCorrection()` | WebE35C | Internship correction |
@@ -1482,8 +1590,10 @@ $responses = $ergani->sendHiringNew($declarations);
 - [Termination](/guide/termination/) - E5 termination declarations
 - [Dismissal](/guide/dismissal/) - E6 dismissal declarations
 - [Construction](/guide/construction) - E12 construction declarations
-- [Community Programs](/guide/community-program) - E3.1 community-benefit program employment
-- [Theoretical Training](/guide/theoretical-training) - E3.2 theoretical training start
+- [Community Programs](/guide/community-program) - E3.1 community-benefit program employment, correction, extension and interruption
+- [Theoretical Training](/guide/theoretical-training) - E3.2 theoretical training start, correction, employer change and interruption
+- [Practical Training](/guide/practical-training) - E3.3 practical training start and correction
+- [Apprenticeship](/guide/apprenticeship) - E3.4 apprenticeship start and correction
 - [Motorcycle Use](/guide/motorcycle) - E13 motorcycle use declarations
 - [Sixth Day](/guide/sixth-day) - Extra shift declarations
 - [Pre-Announcement](/guide/pre-announcement) - Pre-announcement exemptions

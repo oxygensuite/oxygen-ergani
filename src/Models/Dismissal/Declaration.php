@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\Dismissal;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 use OxygenSuite\OxygenErgani\Models\Model;
@@ -67,11 +68,11 @@ abstract class Declaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Date in DD/MM/YYYY format
+     * @param DateTimeInterface|string $date Date in DD/MM/YYYY format
      */
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

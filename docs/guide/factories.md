@@ -104,6 +104,9 @@ Factories mirror the model namespace structure:
 | Construction (E12) | `ConstructionWork`, `ConstructionEmployee`, `ConstructionCensus`, `ConstructionCensusEmployee` |
 | Sixth Day | `SixthDayDeclaration` |
 | Pre-Announcement | `ExemptionDeclaration` |
+| Community Programs (E3.1) | `CommunityProgramDeclaration`, `CommunityProgramExtensionDeclaration`, `CommunityProgramInterruptionDeclaration` |
+| Training (E3.2/E3.3) | `TheoreticalTrainingDeclaration`, `TheoreticalTrainingEmployerChangeDeclaration`, `TheoreticalTrainingInterruptionDeclaration`, `PracticalTrainingDeclaration` |
+| Apprenticeship (E3.4) | `ApprenticeshipDeclaration` |
 | Internship (E3.5) | `InternshipDeclaration` |
 
 ## Greek Data Provider

@@ -1,15 +1,26 @@
 # Theoretical Training Start (E3.2)
 
-The E3.2 form announces the start of theoretical training (θεωρητική κατάρτιση) for a program beneficiary, optionally followed by practical training at a business.
+The E3.2 form announces the start of theoretical training (θεωρητική κατάρτιση) for a program beneficiary, optionally followed by practical training at a business. Two follow-up forms change the practical training business or interrupt the training. The start of the practical training itself is declared by the host business with [E3.3](/guide/practical-training).
 
 ## Overview
 
-| Property | Value |
-|----------|-------|
-| Document Classes | `TheoreticalTraining`, `TheoreticalTrainingCorrection` |
-| Action Codes | `WebE32` (declaration), `WebE32C` (correction) |
-| Declaration Model | `TheoreticalTrainingDeclaration` |
-| Schema | `E32_v1.xsd` (root `AnaggeliesE32` / `AnaggeliaE32`) |
+| Form | Action Code | Document Class | Model | Schema |
+|------|-------------|----------------|-------|--------|
+| E3.2 | `WebE32` | `TheoreticalTraining` | `TheoreticalTrainingDeclaration` | `E32_v1.xsd` (root `AnaggeliesE32` / `AnaggeliaE32`) |
+| E3.2 Correction | `WebE32C` | `TheoreticalTrainingCorrection` | `TheoreticalTrainingDeclaration` | `E32_v1.xsd` |
+| E3.2 Employer Change (Αλλαγή Εργοδότη Θεωρητικής Κατάρτισης) | `WebE32T` | `TheoreticalTrainingEmployerChange` | `TheoreticalTrainingEmployerChangeDeclaration` | `E32T_v1.xsd` (root `AnaggeliesE32T` / `AnaggeliaE32T`) |
+| E3.2 Interruption (Διακοπή Θεωρητικής Κατάρτισης) | `WebE32D` | `TheoreticalTrainingInterruption` | `TheoreticalTrainingInterruptionDeclaration` | `E32D_v1.xsd` (root `AnaggeliesE32D` / `AnaggeliaE32D`) |
+
+| Ergani Method | Form |
+|---------------|------|
+| `sendTheoreticalTraining()` | E3.2 |
+| `sendTheoreticalTrainingCorrection()` | E3.2 Correction |
+| `sendTheoreticalTrainingEmployerChange()` | E3.2 Employer Change |
+| `sendTheoreticalTrainingInterruption()` | E3.2 Interruption |
+
+::: warning Availability
+As of November 2026 all E3.2 action codes are accepted by **production**. The **trial** environment does not have them deployed yet and rejects them with `XSD File not found` / `Type: ... not valid`.
+:::
 
 ## Basic Usage
 
@@ -101,8 +112,11 @@ $declaration
 use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingCorrection;
 
 $declaration
-    ->setRelatedProtocol($original[0]->protocol)        // f_protocol_sx
-    ->setRelatedDate($original[0]->submissionDate);     // f_date_ypovolis_sx
+    ->setRelatedProtocol($original[0]->protocol)                        // f_protocol_sx
+    ->setRelatedDate($original[0]->submissionDate);    // f_date_ypovolis_sx
+
+// or in one call
+$declaration->setRelatedSubmission($original[0]->protocol, $original[0]->submissionDate);
 
 $response = (new TheoreticalTrainingCorrection())->handle($declaration);
 
@@ -205,6 +219,116 @@ $responses = $ergani->sendTheoreticalTrainingCorrection($declaration);
 | `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
 | `setMinorFile()` | `f_young_file` | string | No | Minor worker book (base64-encoded PDF). |
 
+## Employer Change (WebE32T)
+
+Changes the practical training business of a beneficiary declared with a previous E3.2. `setRelatedProtocol()` / `setRelatedDate()` (or `setRelatedSubmission()`) reference the **original E3.2 declaration**.
+
+The new business uses the same setters as the E3.2 practice block (`setPracticeCompanyName()`, `setPracticeCompanyAfm()`, ..., `setPracticePeriod()`), but on this model they write the `f_cpractice_*` fields instead of `f_practice_*`.
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingEmployerChange;
+use OxygenSuite\OxygenErgani\Models\Training\TheoreticalTrainingEmployerChangeDeclaration;
+
+$change = TheoreticalTrainingEmployerChangeDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedSubmission('ΠΠ65', '09/09/2025')   // original E3.2 protocol & submission date
+    ->setAfm('123456789')                          // beneficiary AFM
+    ->setChangeDate('01/11/2025')                  // f_cpractice_date
+    // New practical training business (f_cpractice_*)
+    ->setPracticeCompanyName('ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ Α.Ε.')
+    ->setPracticeCompanyAfm('999999999')
+    ->setPracticeCompanyTaxOffice('1190')
+    ->setPracticeCompanyAme('1234567')
+    ->setPracticeCompanyWithoutAme(false)
+    ->setPracticeBranchAddress('ΠΑΤΗΣΙΩΝ 12')
+    ->setPracticeBranchMunicipalityCode('91860101')
+    ->setPracticeBranchPostalCode('10434')
+    ->setPracticeBranchEmail('info@example.gr')
+    ->setPracticePeriod('01/11/2025', '31/12/2025')
+    ->setLegalRepresentativeAfm('078776545')
+    ->withDefaults();                              // empty phone, fax and files
+
+$response = (new TheoreticalTrainingEmployerChange())->handle($change);
+
+// or
+$responses = $ergani->sendTheoreticalTrainingEmployerChange($change);
+```
+
+### Employer Change Field Reference
+
+Every element must be present in the payload; "Required" marks the elements whose XSD pattern does not accept an empty value.
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
+| `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.2 declaration. |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
+| `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
+| `setChangeDate()` | `f_cpractice_date` | DateTime\|string | No | Date of the employer change (DD/MM/YYYY). |
+| `setPracticeCompanyName()` | `f_cpractice_mer_eponimia` | string | No | Name of the new practical training business. |
+| `setPracticeCompanyAfm()` | `f_cpractice_mer_afm` | string | Yes | AFM of the new business. |
+| `setPracticeCompanyTaxOffice()` | `f_cpractice_mer_doy` | string | No | Tax office code of the new business (4 digits). |
+| `setPracticeCompanyAme()` | `f_cpractice_mer_ame` | string | No | Employer registry number (AME) of the new business. |
+| `setPracticeCompanyWithoutAme()` | `f_cpractice_mer_no_ame` | string\|bool | Yes | Whether the new business has no AME (0=No, 1=Yes or boolean). |
+| `setPracticeBranchAddress()` | `f_cpractice_mpa_address` | string | No | Branch address of the new business. |
+| `setPracticeBranchMunicipalityCode()` | `f_cpractice_mpa_kallikratis` | string | No | Kallikratis code of the new business branch (8 digits). |
+| `setPracticeBranchPostalCode()` | `f_cpractice_mpa_tk` | string | No | Branch postal code. |
+| `setPracticeBranchPhone()` | `f_cpractice_mpa_til` | string | No | Branch phone. |
+| `setPracticeBranchFax()` | `f_cpractice_mpa_fax` | string | No | Branch fax. |
+| `setPracticeBranchEmail()` | `f_cpractice_mpa_email` | string | No | Branch e-mail. |
+| `setPracticeDateFrom()` | `f_cpractice_date_from` | DateTime\|string | Yes | Practical training start date at the new business (DD/MM/YYYY). |
+| `setPracticeDateTo()` | `f_cpractice_date_to` | DateTime\|string | Yes | Practical training end date at the new business (DD/MM/YYYY). |
+| `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
+| `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
+| `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
+| `setMinorFile()` | `f_young_file` | string | No | Minor worker book (base64-encoded PDF). |
+
+## Interruption (WebE32D)
+
+Reports the interruption of a training declared with a previous E3.2 (related protocol/date reference the **original E3.2 declaration**), together with the hours and insurance days completed. Unlike E3.1, the interruption reason (`f_diakoph_aitiologia_other`) is **free text** (max 200 characters).
+
+```php
+use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingInterruption;
+use OxygenSuite\OxygenErgani\Models\Training\TheoreticalTrainingInterruptionDeclaration;
+
+$interruption = TheoreticalTrainingInterruptionDeclaration::make()
+    ->setBranchCode(0)
+    ->setRelatedSubmission('ΠΠ65', '09/09/2025')   // original E3.2 protocol & submission date
+    ->setAfm('123456789')                          // beneficiary AFM
+    ->setInterruptionDate('30/09/2025')
+    ->setTheoryHours(140)                          // theory hours completed
+    ->setPracticeHours(50)                         // practice hours completed (may be empty)
+    ->setInsuranceDays(30)                         // insurance days completed (may be empty)
+    ->setInterruptionReason('ΑΠΟΧΩΡΗΣΗ ΩΦΕΛΟΥΜΕΝΟΥ') // free text, max 200 characters
+    ->setLegalRepresentativeAfm('078776545')
+    ->withDefaults();
+
+$response = (new TheoreticalTrainingInterruption())->handle($interruption);
+
+// or
+$responses = $ergani->sendTheoreticalTrainingInterruption($interruption);
+```
+
+### Interruption Field Reference
+
+Every element must be present in the payload; "Required" marks the elements whose XSD pattern does not accept an empty value.
+
+| Method | API Field | Type | Required | Description |
+|--------|-----------|------|----------|-------------|
+| `setBranchCode()` | `f_aa_pararthmatos` | int\|string | Yes | Branch sequence number (0 for HQ) |
+| `setRelatedProtocol()` | `f_protocol_sx` | string | No | Protocol of the original E3.2 declaration. |
+| `setRelatedDate()` | `f_date_ypovolis_sx` | DateTime\|string | No | Submission date of the original E3.2 declaration (DD/MM/YYYY). |
+| `setAfm()` | `f_mea_afm` | string | Yes | AFM of the beneficiary. |
+| `setInterruptionDate()` | `f_diakoph_date` | DateTime\|string | No | Interruption date (DD/MM/YYYY). |
+| `setTheoryHours()` | `f_diakoph_total_hours_theory` | int\|string | No | Theoretical training hours completed until the interruption (up to 3 digits). |
+| `setPracticeHours()` | `f_diakoph_total_hours_practice` | int\|string | No | Practical training hours completed until the interruption (up to 3 digits, may be empty). |
+| `setInsuranceDays()` | `f_diakoph_total_insurance_days` | int\|string | No | Insurance days completed until the interruption (up to 3 digits, may be empty). |
+| `setInterruptionReason()` | `f_diakoph_aitiologia_other` | string | No | Interruption reason as free text (max 200 characters). |
+| `setLegalRepresentativeAfm()` | `f_mek_afm` | string | Yes | AFM of the responsible provider / legal representative. |
+| `setFormFile()` | `f_file` | string | No | Signed form (base64-encoded PDF). |
+| `setForeignFile()` | `f_foreign_file` | string | No | Third-country national labour-market access documents (base64-encoded PDF). |
+| `setMinorFile()` | `f_young_file` | string | No | Minor worker book (base64-encoded PDF). |
+
 ## Response Handling
 
 ```php
@@ -232,6 +356,8 @@ file_put_contents('theoretical-training.pdf', base64_decode($pdfBase64));
 
 ```php
 use OxygenSuite\OxygenErgani\Models\Training\TheoreticalTrainingDeclaration;
+use OxygenSuite\OxygenErgani\Models\Training\TheoreticalTrainingEmployerChangeDeclaration;
+use OxygenSuite\OxygenErgani\Models\Training\TheoreticalTrainingInterruptionDeclaration;
 
 $declaration = TheoreticalTrainingDeclaration::factory()->make();
 
@@ -240,10 +366,25 @@ $declaration = TheoreticalTrainingDeclaration::factory()
     ->withPractice(hours: 240, dailyAllowance: 32.50)
     ->asCorrection('ΑΚ123', '01/10/2026')
     ->make();
+
+// Employer change
+$change = TheoreticalTrainingEmployerChangeDeclaration::factory()
+    ->forDeclaration('ΑΚ123', '01/10/2026')     // original E3.2
+    ->withoutAme()
+    ->make();
+
+// Interruption
+$interruption = TheoreticalTrainingInterruptionDeclaration::factory()
+    ->forBranch(1)
+    ->forDeclaration('ΑΚ123', '01/10/2026')
+    ->withPractice(hours: 50, insuranceDays: 7)
+    ->make();
 ```
 
 ## See Also
 
 - [Community-Benefit Program Employment (E3.1)](/guide/community-program) - Shares the beneficiary and provider fields
+- [Practical Training (E3.3)](/guide/practical-training) - Practical training start at the host business
+- [Apprenticeship (E3.4)](/guide/apprenticeship)
 - [Internship (E3.5)](/guide/internship)
 - [Services & Queries](/guide/services) - Parameter lookups

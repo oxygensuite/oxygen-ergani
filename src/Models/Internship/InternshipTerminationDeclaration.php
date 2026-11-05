@@ -3,10 +3,12 @@
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasLegalRepresentative;
 use OxygenSuite\OxygenErgani\Models\Model;
+use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramCertifier;
 
 /**
  * Internship termination (interruption) declaration model for E35D_v1 schema.
@@ -21,6 +23,7 @@ class InternshipTerminationDeclaration extends Model
     use HasFactory;
     use HasInternshipFiles;
     use HasLegalRepresentative;
+    use HasProgramCertifier;
 
     /** @var array<int, string> */
     protected array $expectedOrder = [
@@ -70,11 +73,11 @@ class InternshipTerminationDeclaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Submission date of the original E3.5 declaration
+     * @param DateTimeInterface|string $date Submission date of the original E3.5 declaration
      */
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 
@@ -119,55 +122,5 @@ class InternshipTerminationDeclaration extends Model
     public function setTerminationReason(string $code): static
     {
         return $this->set('f_diakoph_aitiologia', $code);
-    }
-
-    public function getCertifierLastName(): ?string
-    {
-        return $this->get('f_eponymo');
-    }
-
-    public function setCertifierLastName(string $lastName): static
-    {
-        return $this->set('f_eponymo', $lastName);
-    }
-
-    public function getCertifierFirstName(): ?string
-    {
-        return $this->get('f_onoma');
-    }
-
-    public function setCertifierFirstName(string $firstName): static
-    {
-        return $this->set('f_onoma', $firstName);
-    }
-
-    public function getCertifierCapacity(): ?string
-    {
-        return $this->get('f_idiotita');
-    }
-
-    public function setCertifierCapacity(string $capacity): static
-    {
-        return $this->set('f_idiotita', $capacity);
-    }
-
-    public function getCertifierAddress(): ?string
-    {
-        return $this->get('f_dieythinsi');
-    }
-
-    public function setCertifierAddress(string $address): static
-    {
-        return $this->set('f_dieythinsi', $address);
-    }
-
-    public function getCertifierAfm(): ?string
-    {
-        return $this->get('f_afm_bebaiwn');
-    }
-
-    public function setCertifierAfm(string $afm): static
-    {
-        return $this->set('f_afm_bebaiwn', $afm);
     }
 }

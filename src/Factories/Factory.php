@@ -12,11 +12,11 @@ use OxygenSuite\OxygenErgani\Models\Model;
  *
  * @template TModel of Model
  *
- * @mixin GreekProvider
+ * @phpstan-consistent-constructor
  */
 abstract class Factory
 {
-    /** @var (Generator&GreekProvider)|null */
+    /** @var Generator|null */
     private static ?Generator $faker = null;
 
     /** @var class-string<TModel>|null */
@@ -32,12 +32,12 @@ abstract class Factory
 
     /**
      * Create a new factory instance.
-     *
-     * @return static
      */
     public static function new(): static
     {
-        return new static();
+        // PHPStan cannot bind the class-level TModel inside a static constructor; each concrete
+        // factory fixes it through its @extends Factory<Model> tag.
+        return new static(); // @phpstan-ignore return.type
     }
 
     /**
@@ -159,7 +159,7 @@ abstract class Factory
     /**
      * Get the Faker generator instance with Greek-specific methods.
      *
-     * @phpstan-return Generator
+     * @phpstan-return Generator&GreekFaker
      */
     public static function fake(): Generator
     {
@@ -175,7 +175,9 @@ abstract class Factory
             self::$faker->addProvider(new GreekProvider(self::$faker));
         }
 
-        return self::$faker;
+        // GreekProvider was registered above, so its methods resolve through Generator::__call();
+        // GreekFaker only describes that to static analysis.
+        return self::$faker; // @phpstan-ignore return.type
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace OxygenSuite\OxygenErgani\Ergani\Concerns;
 
-use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Exceptions\ErganiException;
 use OxygenSuite\OxygenErgani\Http\Documents\CancelSubmittedDocument;
 use OxygenSuite\OxygenErgani\Http\Documents\Documents;
@@ -19,11 +19,11 @@ trait ManagesDocuments
      *
      * @param string $documentType The document type code (e.g., 'WTOLeave')
      * @param string $protocol Protocol number from submission response
-     * @param DateTime|int|string $submissionDate Submission date (DateTime, Ymd integer, or Ymd string)
+     * @param DateTimeInterface|int|string $submissionDate Submission date (DateTimeInterface, Ymd integer, or Ymd string)
      *
      * @throws ErganiException
      */
-    public function cancelDocument(string $documentType, string $protocol, DateTime|int|string $submissionDate): bool
+    public function cancelDocument(string $documentType, string $protocol, DateTimeInterface|int|string $submissionDate): bool
     {
         return (new CancelSubmittedDocument($this->accessToken, $this->environment, $this->config))
             ->handle($documentType, $protocol, $submissionDate);
@@ -62,12 +62,12 @@ trait ManagesDocuments
      *
      * @param class-string<Documents> $documentClass Fully qualified class name of the document
      * @param string $protocol Protocol number from submission response
-     * @param DateTime|int|string $submittedDate Submission date (DateTime, Ymd integer, or Ymd string)
+     * @param DateTimeInterface|int|string $submittedDate Submission date (DateTimeInterface, Ymd integer, or Ymd string)
      *
      * @return string Base64-encoded PDF content
      * @throws ErganiException
      */
-    public function getDocumentPdf(string $documentClass, string $protocol, DateTime|int|string $submittedDate): string
+    public function getDocumentPdf(string $documentClass, string $protocol, DateTimeInterface|int|string $submittedDate): string
     {
         /** @var Documents $document */
         $document = new $documentClass($this->accessToken, $this->environment, $this->config);

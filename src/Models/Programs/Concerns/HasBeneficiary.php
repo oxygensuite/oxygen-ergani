@@ -7,10 +7,12 @@ use OxygenSuite\OxygenErgani\Enums\MaritalStatus;
 use OxygenSuite\OxygenErgani\Enums\Sex;
 
 /**
- * Beneficiary (f_mea_*) personal, identity, insurance and contact fields shared by the E3.1 and E3.2 forms.
+ * Beneficiary (f_mea_*) personal, identity, insurance and contact fields shared by the E3.1 - E3.4 forms.
  */
 trait HasBeneficiary
 {
+    use HasBeneficiaryAfm;
+
     // ==================== Beneficiary ====================
 
     public function getLastName(): ?string
@@ -273,16 +275,6 @@ trait HasBeneficiary
     public function setNumberOfChildren(int|string $value): static
     {
         return $this->set('f_mea_ar_teknon', (string) $value);
-    }
-
-    public function getAfm(): ?string
-    {
-        return $this->get('f_mea_afm');
-    }
-
-    public function setAfm(string $value): static
-    {
-        return $this->set('f_mea_afm', $value);
     }
 
     public function getTaxOffice(): ?string

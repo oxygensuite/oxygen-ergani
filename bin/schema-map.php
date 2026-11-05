@@ -9,8 +9,12 @@
  * @return array<string, array{xsd: string, documents: array<string, class-string>}>
  */
 
+use OxygenSuite\OxygenErgani\Http\Documents\Apprenticeship\Apprenticeship;
+use OxygenSuite\OxygenErgani\Http\Documents\Apprenticeship\ApprenticeshipCorrection;
 use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramEmployment;
 use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramEmploymentCorrection;
+use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramExtension;
+use OxygenSuite\OxygenErgani\Http\Documents\CommunityProgram\CommunityProgramInterruption;
 use OxygenSuite\OxygenErgani\Http\Documents\Construction\ConstructionWorkCensus;
 use OxygenSuite\OxygenErgani\Http\Documents\Construction\ConstructionWorkDeclaration;
 use OxygenSuite\OxygenErgani\Http\Documents\Dismissal\DismissalWithNotice;
@@ -45,8 +49,12 @@ use OxygenSuite\OxygenErgani\Http\Documents\Termination\RetirementVoluntary;
 use OxygenSuite\OxygenErgani\Http\Documents\Termination\TerminationByDeath;
 use OxygenSuite\OxygenErgani\Http\Documents\Termination\VoluntaryExitCompensation;
 use OxygenSuite\OxygenErgani\Http\Documents\Termination\VoluntaryResignation;
+use OxygenSuite\OxygenErgani\Http\Documents\Training\PracticalTraining;
+use OxygenSuite\OxygenErgani\Http\Documents\Training\PracticalTrainingCorrection;
 use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTraining;
 use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingCorrection;
+use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingEmployerChange;
+use OxygenSuite\OxygenErgani\Http\Documents\Training\TheoreticalTrainingInterruption;
 use OxygenSuite\OxygenErgani\Http\Documents\UrgentHiring\UrgentHiring;
 use OxygenSuite\OxygenErgani\Http\Documents\UrgentHiring\UrgentHiringCorrection;
 use OxygenSuite\OxygenErgani\Http\Documents\WorkCard\WorkCard;
@@ -271,11 +279,49 @@ return [
             'E31C' => CommunityProgramEmploymentCorrection::class,
         ],
     ],
+    'E31E' => [
+        'xsd' => 'E31E_v1.xsd',
+        'documents' => [
+            'E31E' => CommunityProgramExtension::class,
+        ],
+    ],
+    'E31D' => [
+        'xsd' => 'E31D_v1.xsd',
+        'documents' => [
+            'E31D' => CommunityProgramInterruption::class,
+        ],
+    ],
     'E32' => [
         'xsd' => 'E32_v1.xsd',
         'documents' => [
             'E32' => TheoreticalTraining::class,
             'E32C' => TheoreticalTrainingCorrection::class,
+        ],
+    ],
+    'E32T' => [
+        'xsd' => 'E32T_v1.xsd',
+        'documents' => [
+            'E32T' => TheoreticalTrainingEmployerChange::class,
+        ],
+    ],
+    'E32D' => [
+        'xsd' => 'E32D_v1.xsd',
+        'documents' => [
+            'E32D' => TheoreticalTrainingInterruption::class,
+        ],
+    ],
+    'E33' => [
+        'xsd' => 'E33_v1.xsd',
+        'documents' => [
+            'E33' => PracticalTraining::class,
+            'E33C' => PracticalTrainingCorrection::class,
+        ],
+    ],
+    'E34' => [
+        'xsd' => 'E34_v1.xsd',
+        'documents' => [
+            'E34' => Apprenticeship::class,
+            'E34C' => ApprenticeshipCorrection::class,
         ],
     ],
     'E14' => [

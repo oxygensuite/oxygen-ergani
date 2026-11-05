@@ -2,15 +2,13 @@
 
 use Faker\Generator;
 use OxygenSuite\OxygenErgani\Factories\Factory;
-use OxygenSuite\OxygenErgani\Factories\GreekProvider;
+use OxygenSuite\OxygenErgani\Factories\GreekFaker;
 
 if (! function_exists('fake')) {
     /**
      * Get the Faker generator instance with Greek-specific methods.
      *
-     * @return Generator
-     *
-     * @mixin GreekProvider
+     * @return Generator&GreekFaker
      */
     function fake(): Generator
     {

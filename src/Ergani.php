@@ -5,6 +5,7 @@ namespace OxygenSuite\OxygenErgani;
 use OxygenSuite\OxygenErgani\Enums\Environment;
 use OxygenSuite\OxygenErgani\Enums\UserType;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\ManagesDocuments;
+use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsApprenticeshipDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsCommunityProgramDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsConstructionDocuments;
 use OxygenSuite\OxygenErgani\Ergani\Concerns\SendsDismissalDocuments;
@@ -54,6 +55,7 @@ use ReflectionClass;
 class Ergani
 {
     use ManagesDocuments;
+    use SendsApprenticeshipDocuments;
     use SendsCommunityProgramDocuments;
     use SendsConstructionDocuments;
     use SendsDismissalDocuments;

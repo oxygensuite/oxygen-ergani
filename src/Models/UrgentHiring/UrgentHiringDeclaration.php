@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\UrgentHiring;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Enums\WeekDays;
 use OxygenSuite\OxygenErgani\Enums\WorkerType;
 use OxygenSuite\OxygenErgani\Enums\WorkLocation;
@@ -97,11 +98,11 @@ class UrgentHiringDeclaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Submission date of the declaration being corrected (corrections only)
+     * @param DateTimeInterface|string $date Submission date of the declaration being corrected (corrections only)
      */
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 

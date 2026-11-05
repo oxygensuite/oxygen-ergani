@@ -18,11 +18,12 @@ OxygenSuite\OxygenErgani
 │   │   ├── Termination/            # E5/E7 termination forms
 │   │   ├── Dismissal/              # E6 dismissal forms
 │   │   ├── Modification/           # MA modification forms
+│   │   ├── Apprenticeship/         # E3.4 apprenticeship forms
 │   │   ├── CommunityProgram/       # E3.1 community-benefit program forms
 │   │   ├── Construction/           # E12 construction forms
 │   │   ├── Motorcycle/             # E13 motorcycle use forms
 │   │   ├── ParentalLeave/          # E14 parental leave forms
-│   │   ├── Training/               # E3.2 theoretical training forms
+│   │   ├── Training/               # E3.2 theoretical / E3.3 practical training forms
 │   │   ├── UrgentHiring/           # FastAna urgent hiring forms
 │   │   ├── SixthDay/              # Sixth day declarations
 │   │   ├── PreAnnouncement/       # Pre-announcement exemptions
@@ -119,13 +120,26 @@ Documents handle submissions to the ERGANI API:
 |-------|--------|-------------|
 | `CommunityProgramEmployment` | WebE31 | Community-benefit program employment |
 | `CommunityProgramEmploymentCorrection` | WebE31C | E3.1 correction |
+| `CommunityProgramExtension` | WebE31E | E3.1 employment extension |
+| `CommunityProgramInterruption` | WebE31D | E3.1 employment interruption |
 
-### Training Documents (E3.2)
+### Training Documents (E3.2 / E3.3)
 
 | Class | Action | Description |
 |-------|--------|-------------|
 | `TheoreticalTraining` | WebE32 | Theoretical training start |
 | `TheoreticalTrainingCorrection` | WebE32C | E3.2 correction |
+| `TheoreticalTrainingEmployerChange` | WebE32T | E3.2 practical training employer change |
+| `TheoreticalTrainingInterruption` | WebE32D | E3.2 training interruption |
+| `PracticalTraining` | WebE33 | Practical training start (E3.3) |
+| `PracticalTrainingCorrection` | WebE33C | E3.3 correction |
+
+### Apprenticeship Documents (E3.4)
+
+| Class | Action | Description |
+|-------|--------|-------------|
+| `Apprenticeship` | WebE34 | Apprenticeship start |
+| `ApprenticeshipCorrection` | WebE34C | E3.4 correction |
 
 ### Motorcycle Documents (E13)
 

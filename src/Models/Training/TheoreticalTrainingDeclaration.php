@@ -6,8 +6,11 @@ use DateTime;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Model;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasBeneficiary;
+use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasMinorFile;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramProvider;
 use OxygenSuite\OxygenErgani\Models\Programs\Concerns\HasProgramSignOff;
+use OxygenSuite\OxygenErgani\Models\Training\Concerns\HasPracticeBusiness;
+use OxygenSuite\OxygenErgani\Models\Training\Concerns\HasTrainingBeneficiaryDetails;
 
 /**
  * Theoretical training start declaration model for E32_v1 schema.
@@ -23,6 +26,9 @@ class TheoreticalTrainingDeclaration extends Model
     use HasBeneficiary;
     use HasProgramProvider;
     use HasProgramSignOff;
+    use HasMinorFile;
+    use HasPracticeBusiness;
+    use HasTrainingBeneficiaryDetails;
 
     /** @var array<string, string> */
     protected array $casts = [
@@ -134,19 +140,6 @@ class TheoreticalTrainingDeclaration extends Model
         return $this->set('f_programma_voucher_code', $value);
     }
 
-    public function getInvitationCode(): ?string
-    {
-        return $this->get('f_programma_voucher');
-    }
-
-    /**
-     * Invitation (call) code (3 digits).
-     */
-    public function setInvitationCode(string $value): static
-    {
-        return $this->set('f_programma_voucher', $value);
-    }
-
     public function getEopepCode(): ?string
     {
         return $this->get('f_eopep_code');
@@ -171,63 +164,6 @@ class TheoreticalTrainingDeclaration extends Model
     public function setTrainingProviderCategory(string $value): static
     {
         return $this->set('f_edu_agency_category', $value);
-    }
-
-    // ==================== Beneficiary ====================
-
-    public function getMinorBookNumber(): ?string
-    {
-        return $this->get('f_mea_ar_vivliou_anilikou');
-    }
-
-    public function setMinorBookNumber(string $value): static
-    {
-        return $this->set('f_mea_ar_vivliou_anilikou', $value);
-    }
-
-    public function getVocationalTrainingSubject(): ?string
-    {
-        return $this->get('f_mea_practical_education');
-    }
-
-    /**
-     * Vocational training subject code (3 digits).
-     */
-    public function setVocationalTrainingSubject(string $value): static
-    {
-        return $this->set('f_mea_practical_education', $value);
-    }
-
-    public function getVoucherProgram(): ?string
-    {
-        return $this->get('f_mea_voucher');
-    }
-
-    /**
-     * Whether this is a voucher program.
-     *
-     * @param string|bool $value 0=No, 1=Yes (or boolean)
-     */
-    public function setVoucherProgram(string|bool $value): static
-    {
-        if (is_bool($value)) {
-            $value = $value ? '1' : '0';
-        }
-
-        return $this->set('f_mea_voucher', $value);
-    }
-
-    public function getKayasCode(): ?string
-    {
-        return $this->get('f_mea_kayas');
-    }
-
-    /**
-     * K.A.Y.A.S. code.
-     */
-    public function setKayasCode(string $value): static
-    {
-        return $this->set('f_mea_kayas', $value);
     }
 
     // ==================== Theoretical Training ====================
@@ -394,186 +330,11 @@ class TheoreticalTrainingDeclaration extends Model
         return $this->set('f_benefiter_status_before', $value);
     }
 
-    // ==================== Practical Training Business ====================
-
-    public function getPracticeCompanyName(): ?string
-    {
-        return $this->get('f_practice_mer_eponimia');
-    }
-
-    public function setPracticeCompanyName(string $value): static
-    {
-        return $this->set('f_practice_mer_eponimia', $value);
-    }
-
-    public function getPracticeCompanyAfm(): ?string
-    {
-        return $this->get('f_practice_mer_afm');
-    }
-
-    public function setPracticeCompanyAfm(string $value): static
-    {
-        return $this->set('f_practice_mer_afm', $value);
-    }
-
-    public function getPracticeCompanyTaxOffice(): ?string
-    {
-        return $this->get('f_practice_mer_doy');
-    }
-
-    public function setPracticeCompanyTaxOffice(string $value): static
-    {
-        return $this->set('f_practice_mer_doy', $value);
-    }
-
-    public function getPracticeCompanyAme(): ?string
-    {
-        return $this->get('f_practice_mer_ame');
-    }
-
-    /**
-     * Employer registry number (AME) of the business.
-     */
-    public function setPracticeCompanyAme(string $value): static
-    {
-        return $this->set('f_practice_mer_ame', $value);
-    }
-
-    public function getPracticeCompanyWithoutAme(): ?string
-    {
-        return $this->get('f_practice_mer_no_ame');
-    }
-
-    /**
-     * Whether the business has no AME.
-     *
-     * @param string|bool $value 0=No, 1=Yes (or boolean)
-     */
-    public function setPracticeCompanyWithoutAme(string|bool $value): static
-    {
-        if (is_bool($value)) {
-            $value = $value ? '1' : '0';
-        }
-
-        return $this->set('f_practice_mer_no_ame', $value);
-    }
-
-    public function getPracticeBranchAddress(): ?string
-    {
-        return $this->get('f_practice_mpa_address');
-    }
-
-    public function setPracticeBranchAddress(string $value): static
-    {
-        return $this->set('f_practice_mpa_address', $value);
-    }
-
-    public function getPracticeBranchMunicipalityCode(): ?string
-    {
-        return $this->get('f_practice_mpa_kallikratis');
-    }
-
-    public function setPracticeBranchMunicipalityCode(string $value): static
-    {
-        return $this->set('f_practice_mpa_kallikratis', $value);
-    }
-
-    public function getPracticeBranchPostalCode(): ?string
-    {
-        return $this->get('f_practice_mpa_tk');
-    }
-
-    public function setPracticeBranchPostalCode(string $value): static
-    {
-        return $this->set('f_practice_mpa_tk', $value);
-    }
-
-    public function getPracticeBranchPhone(): ?string
-    {
-        return $this->get('f_practice_mpa_til');
-    }
-
-    public function setPracticeBranchPhone(string $value): static
-    {
-        return $this->set('f_practice_mpa_til', $value);
-    }
-
-    public function getPracticeBranchFax(): ?string
-    {
-        return $this->get('f_practice_mpa_fax');
-    }
-
-    public function setPracticeBranchFax(string $value): static
-    {
-        return $this->set('f_practice_mpa_fax', $value);
-    }
-
-    public function getPracticeBranchEmail(): ?string
-    {
-        return $this->get('f_practice_mpa_email');
-    }
-
-    public function setPracticeBranchEmail(string $value): static
-    {
-        return $this->set('f_practice_mpa_email', $value);
-    }
-
-    public function getPracticeDateFrom(): ?string
-    {
-        return $this->get('f_practice_date_from');
-    }
-
-    public function setPracticeDateFrom(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_practice_date_from', $date);
-    }
-
-    public function getPracticeDateTo(): ?string
-    {
-        return $this->get('f_practice_date_to');
-    }
-
-    public function setPracticeDateTo(DateTime|string $date): static
-    {
-        if ($date instanceof DateTime) {
-            $date = $date->format('d/m/Y');
-        }
-
-        return $this->set('f_practice_date_to', $date);
-    }
-
-    // ==================== Attachments ====================
-
-    public function getMinorFile(): ?string
-    {
-        return $this->get('f_young_file');
-    }
-
-    /**
-     * Minor worker book (base64-encoded PDF).
-     */
-    public function setMinorFile(string $value): static
-    {
-        return $this->set('f_young_file', $value);
-    }
-
     /**
      * Set the theoretical training period in one call.
      */
     public function setTrainingPeriod(DateTime|string $from, DateTime|string $to): static
     {
         return $this->setTrainingStartDate($from)->setTrainingEndDate($to);
-    }
-
-    /**
-     * Set the practical training period in one call.
-     */
-    public function setPracticePeriod(DateTime|string $from, DateTime|string $to): static
-    {
-        return $this->setPracticeDateFrom($from)->setPracticeDateTo($to);
     }
 }

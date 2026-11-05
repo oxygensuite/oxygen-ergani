@@ -3,6 +3,7 @@
 namespace OxygenSuite\OxygenErgani\Models\Internship;
 
 use DateTime;
+use DateTimeInterface;
 use OxygenSuite\OxygenErgani\Models\Concerns\HasFactory;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasCertifier;
 use OxygenSuite\OxygenErgani\Models\Internship\Concerns\HasInternshipFiles;
@@ -115,11 +116,11 @@ class InternshipScheduleChangeDeclaration extends Model
     }
 
     /**
-     * @param DateTime|string $date Submission date of the original E3.5 declaration
+     * @param DateTimeInterface|string $date Submission date of the original E3.5 declaration
      */
-    public function setRelatedDate(DateTime|string $date): static
+    public function setRelatedDate(DateTimeInterface|string $date): static
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof DateTimeInterface) {
             $date = $date->format('d/m/Y');
         }
 
